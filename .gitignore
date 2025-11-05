@@ -1,0 +1,11 @@
+*.tsbuildinfo
+node_modules/
+bun.lockb
+dist/
+.env
+.env.*
+
+# Generated TypeScript declaration and JavaScript files
+**/*.d.ts
+**/*.js
+!node_modules/**/*.js
