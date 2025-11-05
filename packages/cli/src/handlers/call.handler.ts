@@ -9,6 +9,7 @@ export interface CallOptions {
   data?: string;
   apiKeyName?: string;
   timeout?: number;
+  output?: string;
 }
 
 export const callHandler = async (opts: CallOptions) => {
@@ -38,6 +39,16 @@ export const callHandler = async (opts: CallOptions) => {
 
   const wf = new CallExternalWorkflow(new FetchHttpAdapter());
   const res = await wf.execute(dto);
-  console.log(JSON.stringify(res, null, 2));
+  
+  const responseJson = JSON.stringify(res, null, 2);
+  
+  if (opts.output) {
+    // Write response to file
+    await Bun.write(opts.output, responseJson);
+    console.log(`Response saved to: ${opts.output}`);
+  } else {
+    // Print to console if no output file specified
+    console.log(responseJson);
+  }
 };
 

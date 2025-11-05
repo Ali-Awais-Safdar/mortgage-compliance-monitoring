@@ -11,6 +11,7 @@ export function buildCallCommand() {
     .option("-d, --data <json>", "JSON body")
     .option("--api-key-name <ENV_VAR>", "ENV var that holds an API key (e.g., FOO_API_KEY)")
     .option("--timeout <ms>", "request timeout in ms", (v) => parseInt(v, 10))
+    .option("-o, --output <file>", "output file path to save response as JSON")
     .action(callHandler);
 
   return cmd;
