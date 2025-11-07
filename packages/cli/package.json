@@ -7,8 +7,10 @@
     "dev": "bun src/index.ts --help"
   },
   "dependencies": {
+    "@carbonteq/fp": "latest",
     "@poc/core": "workspace:*",
     "@poc/infra": "workspace:*",
-    "commander": "^12.1.0"
+    "commander": "^12.1.0",
+    "zod": "^3.23.8"
   }
 }

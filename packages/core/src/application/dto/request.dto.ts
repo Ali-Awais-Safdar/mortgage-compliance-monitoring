@@ -7,7 +7,6 @@ export interface ApiRequestDTO {
   query?: Record<string, string | number | boolean>;
   body?: unknown;
   timeoutMs?: number;
-  apiKeyName?: string;
 }
 
 export interface ApiResponseDTO<T = unknown> {

@@ -22,14 +22,19 @@
         "poc": "src/index.ts",
       },
       "dependencies": {
+        "@carbonteq/fp": "latest",
         "@poc/core": "workspace:*",
         "@poc/infra": "workspace:*",
         "commander": "^12.1.0",
+        "zod": "^3.23.8",
       },
     },
     "packages/core": {
       "name": "@poc/core",
       "version": "0.0.0",
+      "dependencies": {
+        "@carbonteq/fp": "latest",
+      },
     },
     "packages/infra": {
       "name": "@poc/infra",
@@ -40,6 +45,8 @@
     },
   },
   "packages": {
+    "@carbonteq/fp": ["@carbonteq/fp@0.8.2", "", {}, "sha512-TgygpDhBb0D05xskb1GWpjE0gDioq7nfD1unSu2/DQatq5iq6LnSLt/+3CmdmcZ/6BMI1ehDrvJTt+T9c/ThOA=="],
+
     "@eslint-community/eslint-utils": ["@eslint-community/eslint-utils@4.9.0", "", { "dependencies": { "eslint-visitor-keys": "^3.4.3" }, "peerDependencies": { "eslint": "^6.0.0 || ^7.0.0 || >=8.0.0" } }, "sha512-ayVFHdtZ+hsq1t2Dy24wCmGXGe4q9Gu3smhLYALJrr473ZH27MsnSL+LKUlimp4BWJqMDMLmPpx/Q9R3OAlL4g=="],
 
     "@eslint-community/regexpp": ["@eslint-community/regexpp@4.12.2", "", {}, "sha512-EriSTlt5OC9/7SXkRSCAhfSxxoSUgBm33OH+IkwbdpgoqsSsUg7y3uh+IICI/Qg4BBWr3U2i39RpmycbxMq4ew=="],
@@ -287,6 +294,8 @@
     "word-wrap": ["word-wrap@1.2.5", "", {}, "sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA=="],
 
     "yocto-queue": ["yocto-queue@0.1.0", "", {}, "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="],
+
+    "zod": ["zod@3.25.76", "", {}, "sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ=="],
 
     "@eslint-community/eslint-utils/eslint-visitor-keys": ["eslint-visitor-keys@3.4.3", "", {}, "sha512-wpc+LXeiyiisxPlEkUzU6svyS1frIO3Mgxj1fdy7Pm8Ygzguax2N3Fa/D/ag1WqbOprdI+uY6wMUl8/a2G+iag=="],
 

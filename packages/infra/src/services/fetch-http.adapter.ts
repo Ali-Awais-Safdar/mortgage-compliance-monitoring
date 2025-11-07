@@ -1,6 +1,5 @@
 import { type HttpPort } from "@poc/core";
 import type { ApiRequestDTO, ApiResponseDTO } from "@poc/core";
-import { readEnv } from "../config/env";
 
 export class FetchHttpAdapter implements HttpPort {
   async request<T = unknown>(input: ApiRequestDTO): Promise<ApiResponseDTO<T>> {
@@ -9,12 +8,6 @@ export class FetchHttpAdapter implements HttpPort {
 
     const headers = new Headers();
     input.headers?.forEach((h: { name: string; value: string }) => headers.set(h.name, h.value));
-
-    // inject API key from env if requested
-    if (input.apiKeyName) {
-      const key = readEnv(input.apiKeyName);
-      if (key) headers.set("Authorization", headers.get("Authorization") ?? `Bearer ${key}`);
-    }
 
     const controller = new AbortController();
     const timeout = input.timeoutMs ? setTimeout(() => controller.abort(), input.timeoutMs) : undefined;
