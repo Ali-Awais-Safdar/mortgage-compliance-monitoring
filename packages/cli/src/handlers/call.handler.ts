@@ -200,6 +200,170 @@ function applyBodyOverride(body: any, path: string, value: any): void {
   setAtPath(body, path, finalValue);
 }
 
+function applyBaselineOverrides(body: any, opts: CallOptions): void {
+  // Ensure body structure exists
+  if (!body.variables) {
+    body.variables = {};
+  }
+  if (!body.variables.staysSearchRequest) {
+    body.variables.staysSearchRequest = {};
+  }
+  if (!body.variables.staysMapSearchRequestV2) {
+    body.variables.staysMapSearchRequestV2 = {};
+  }
+
+  // Parse and set bbox if provided
+  if (opts.bbox) {
+    const parts = opts.bbox.split(",").map(p => p.trim()).filter(p => p.length > 0);
+    if (parts.length === 4) {
+      const neLat = parts[0]!;
+      const neLng = parts[1]!;
+      const swLat = parts[2]!;
+      const swLng = parts[3]!;
+      patchRawParams(body, "neLat", parseFloat(neLat));
+      patchRawParams(body, "neLng", parseFloat(neLng));
+      patchRawParams(body, "swLat", parseFloat(swLat));
+      patchRawParams(body, "swLng", parseFloat(swLng));
+    } else {
+      throw new Error(`Invalid bbox format. Expected "neLat,neLng,swLat,swLng", got: ${opts.bbox}`);
+    }
+  }
+
+  // Set placeId and acpId if provided
+  if (opts.poiPlace) {
+    patchRawParams(body, "placeId", opts.poiPlace);
+  }
+  if (opts.poiAcp) {
+    patchRawParams(body, "acpId", opts.poiAcp);
+  }
+
+  // Set query if queryAddress provided
+  if (opts.queryAddress) {
+    patchRawParams(body, "query", opts.queryAddress);
+  }
+
+  // Always set baseline values
+  patchRawParams(body, "refinementPaths", opts.refinementPath ?? "/homes");
+  patchRawParams(body, "searchByMap", opts.searchByMap ?? true);
+  patchRawParams(body, "searchType", "user_map_move");
+  patchRawParams(body, "zoomLevel", opts.zoomLevel ?? 16);
+
+  // Set non-rawParams values (must be set on each path separately)
+  body.variables.staysSearchRequest.maxMapItems = 9999;
+  body.variables.staysSearchRequest.skipHydrationListingIds = [];
+  body.variables.staysMapSearchRequestV2.skipHydrationListingIds = [];
+}
+
+type AnyJson = unknown;
+
+function* walkJson(node: AnyJson): Generator<AnyJson> {
+  if (node === null || node === undefined) return;
+  if (Array.isArray(node)) {
+    for (const it of node) yield* walkJson(it);
+    return;
+  }
+  if (typeof node === "object") {
+    yield node;
+    for (const v of Object.values(node as Record<string, AnyJson>)) {
+      yield* walkJson(v);
+    }
+  }
+}
+
+function collectHtmlText(root: AnyJson): string[] {
+  const out: string[] = [];
+  for (const obj of walkJson(root)) {
+    if (obj && typeof obj === "object" && !Array.isArray(obj)) {
+      const val = (obj as Record<string, unknown>)["htmlText"];
+      if (typeof val === "string") out.push(val);
+    }
+  }
+  return Array.from(new Set(out));
+}
+
+interface PdpSbuiBasicListItem {
+  __typename?: string;
+  title?: string;
+  action?: unknown;
+}
+
+function collectPdpSbuiBasicListItems(root: AnyJson): PdpSbuiBasicListItem[] {
+  const out: PdpSbuiBasicListItem[] = [];
+  for (const obj of walkJson(root)) {
+    if (obj && typeof obj === "object" && !Array.isArray(obj)) {
+      const typename = (obj as Record<string, unknown>)["__typename"];
+      if (typename === "PdpSbuiBasicListItem") {
+        const item: PdpSbuiBasicListItem = {
+          __typename: typeof typename === "string" ? typename : undefined,
+          title: typeof (obj as Record<string, unknown>)["title"] === "string" 
+            ? (obj as Record<string, unknown>)["title"] as string 
+            : undefined,
+          action: (obj as Record<string, unknown>)["action"]
+        };
+        out.push(item);
+      }
+    }
+  }
+  return out;
+}
+
+function formatPdpSbuiBasicListItems(items: PdpSbuiBasicListItem[]): string {
+  if (items.length === 0) return "";
+  
+  const lines: string[] = ["=== PdpSbuiBasicListItem Details ==="];
+  for (const item of items) {
+    if (item.title) {
+      lines.push(`• ${item.title}`);
+      if (item.action !== null && item.action !== undefined) {
+        lines.push(`  Action: ${JSON.stringify(item.action)}`);
+      }
+    }
+  }
+  return lines.join("\n");
+}
+
+// Very lightweight cleaner: line breaks, strip tags, decode common entities, normalize whitespace
+function cleanHtml(input: string): string {
+  let s = input;
+
+  // Line breaks for common tags
+  s = s.replace(/<\s*br\s*\/?>/gi, "\n");
+  s = s.replace(/<\s*\/\s*(p|div|h[1-6]|li|ul|ol|table|tr|th|td)\s*>/gi, "\n");
+  s = s.replace(/<\s*(p|div|h[1-6]|li|ul|ol|table|tr)\b[^>]*>/gi, "\n");
+
+  // Remove tags
+  s = s.replace(/<\/?[^>]+>/g, "");
+
+  // Decode entities
+  const entities: Record<string, string> = {
+    "&nbsp;": " ",
+    "&amp;": "&",
+    "&lt;": "<",
+    "&gt;": ">",
+    "&quot;": "\"",
+    "&#39;": "'",
+    "&#x27;": "'",
+    "&#x2F;": "/",
+    "&#47;": "/"
+  };
+  s = s.replace(/&[a-zA-Z#0-9]+;?/g, (m) => entities[m] ?? m);
+
+  // Normalize whitespace
+  s = s.replace(/[ \t]+\n/g, "\n");
+  s = s.replace(/\n{3,}/g, "\n\n");
+  s = s.replace(/[ \t]{2,}/g, " ");
+  s = s.trim();
+
+  return s;
+}
+
+function deriveHtmlTextBase(outputPath?: string, overrideBase?: string, listingId?: string): string | null {
+  if (overrideBase) return overrideBase;
+  if (outputPath) return outputPath.endsWith(".json") ? outputPath.slice(0, -5) : outputPath;
+  if (listingId) return `responses/pdp_${listingId}`; // sensible default if -o not provided
+  return null;
+}
+
 export interface CallOptions {
   url: string;
   method?: string;
@@ -209,8 +373,17 @@ export interface CallOptions {
   apiKeyName?: string;
   timeout?: number;
   output?: string;
+  htmltextOutput?: string;
   bodyOverride?: string[];
   listingId?: string;
+  bbox?: string;
+  poiPlace?: string;
+  poiAcp?: string;
+  queryAddress?: string;
+  zoomLevel?: number;
+  itemsPerGrid?: number;
+  refinementPath?: string;
+  searchByMap?: boolean;
 }
 
 export const callHandler = async (opts: CallOptions) => {
@@ -249,6 +422,9 @@ export const callHandler = async (opts: CallOptions) => {
       throw new Error(`Failed to parse --data JSON. Snippet: ${snippet}`);
     }
 
+    // Apply baseline overrides from flags (before body overrides so they can override if needed)
+    applyBaselineOverrides(bodyObj, opts);
+
     // Apply body overrides
     for (const override of opts.bodyOverride ?? []) {
       try {
@@ -263,6 +439,8 @@ export const callHandler = async (opts: CallOptions) => {
     }
   }
 
+  const wf = new CallExternalWorkflow(new FetchHttpAdapter());
+
   const dto: ApiRequestDTO = {
     url: url.toString(),
     method,
@@ -273,7 +451,6 @@ export const callHandler = async (opts: CallOptions) => {
     timeoutMs: opts.timeout
   };
 
-  const wf = new CallExternalWorkflow(new FetchHttpAdapter());
   const res = await wf.execute(dto);
   
   const responseJson = JSON.stringify(res, null, 2);
@@ -285,6 +462,32 @@ export const callHandler = async (opts: CallOptions) => {
   } else {
     // Print to console if no output file specified
     console.log(responseJson);
+  }
+
+  // After writing the full response JSON (single-page branch)
+  if (opts.listingId) {
+    const base = deriveHtmlTextBase(opts.output, opts.htmltextOutput, opts.listingId);
+    if (base) {
+      const htmls = collectHtmlText(res?.data);
+      const cleaned = htmls.map(cleanHtml);
+      const listItems = collectPdpSbuiBasicListItems(res?.data);
+      const formattedItems = formatPdpSbuiBasicListItems(listItems);
+      
+      const outputParts: string[] = [];
+      if (formattedItems) {
+        outputParts.push(formattedItems);
+      }
+      if (cleaned.length > 0) {
+        outputParts.push(cleaned.join("\n\n---\n\n"));
+      }
+      
+      await Bun.write(`${base}_html.clean.txt`, outputParts.join("\n\n\n"));
+      console.log(`htmlText extracted: ${htmls.length}`);
+      console.log(`PdpSbuiBasicListItem items: ${listItems.length}`);
+      console.log(`Clean: ${base}_html.clean.txt`);
+    } else {
+      console.warn("Could not resolve htmlText output base. Provide -o/--output or --htmltext-output.");
+    }
   }
 };
 
