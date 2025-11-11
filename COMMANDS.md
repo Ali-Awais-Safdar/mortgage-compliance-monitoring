@@ -30,7 +30,7 @@ bun packages/cli/src/index.ts call -X POST -u "$AIRBNB_SEARCH_URL" -q currency=U
 
 **--bbox flag patches rawParams.neLat/neLng/swLat/swLng in both request blocks**
 
-### White Haven USA
+### White Haven USA (12 Polonia Ct, White Haven, PA 18661, USA)
 
 bun packages/cli/src/index.ts call -X POST -u "$AIRBNB_SEARCH_URL" \
   --bbox "41.014581780039535,-75.81544190595048,41.01436674658937,-75.81554452140006" \
@@ -44,18 +44,3 @@ bun packages/cli/src/index.ts call -X POST -u "$AIRBNB_SEARCH_URL" \
   -H "content-type: application/json" \
   -d "$AIRBNB_SEARCH_BODY" \
   -o responses/stays_whitehaven_single.json
-
-### PentaSquare DHA Lahore
-bun packages/cli/src/index.ts call -X POST -u "$AIRBNB_SEARCH_URL"
---bbox "31.46492671909339,74.42020987988332,31.458494363378872,74.41008344996672"
---poi-place "ChIJIbo3l6IIGTkRR_Z94J35QiI"
---poi-acp "t-g-ChIJIbo3l6IIGTkRR_Z94J35QiI"
---query-address "PENTA SQUARE Phase 5 D.H.A, Lahore"
---zoom-level 16
---refinement-path "/homes"
---search-by-map
--q currency=EGP
--H "x-airbnb-api-key: $AIRBNB_API_KEY"
--H "content-type: application/json"
--d "$AIRBNB_SEARCH_BODY"
--o responses/stays_pentasquare_single.json

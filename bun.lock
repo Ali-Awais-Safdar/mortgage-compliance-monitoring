@@ -40,6 +40,7 @@
       "name": "@poc/infra",
       "version": "0.0.0",
       "dependencies": {
+        "@carbonteq/fp": "latest",
         "@poc/core": "workspace:*",
       },
     },

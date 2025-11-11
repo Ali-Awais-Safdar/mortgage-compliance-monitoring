@@ -238,8 +238,6 @@ export const CallOptionsSchema = RawCallOptionsSchema.transform((raw: RawCallOpt
   };
 });
 
-export type CallOptionsSchemaOutput = z.infer<typeof CallOptionsSchema>;
-
 function parseOverrideValue(rawValue: string): unknown {
   const trimmed = rawValue.trim();
 

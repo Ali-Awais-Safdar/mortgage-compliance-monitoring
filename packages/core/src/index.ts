@@ -7,3 +7,4 @@ export * from "./application/ports/http.port";
 export * from "./application/ports/encoding.port";
 export * from "./application/workflows/call-external.workflow";
 export * from "./application/errors/app-error";
+export * from "./application/services/validation.service";

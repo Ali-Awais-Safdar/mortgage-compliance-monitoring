@@ -1,9 +1,4 @@
-import {
-  BodyPatchService,
-  CallExternalWorkflow,
-  ResponsePostprocessService,
-  UrlPatchService,
-} from "@poc/core";
+import { BodyPatchService, CallExternalWorkflow, ResponsePostprocessService, UrlPatchService } from "@poc/core";
 import { matchRes } from "@carbonteq/fp";
 import { FetchHttpAdapter, NodeEncodingAdapter } from "@poc/infra";
 import { CallOptionsSchema } from "../schemas/call.schema";
@@ -15,24 +10,28 @@ function deriveHtmlTextBase(outputPath?: string, overrideBase?: string, listingI
   return null;
 }
 
-function formatPdpSbuiBasicListItems(items: Array<{ title?: string; action?: unknown }>): string {
-  if (items.length === 0) {
-    return "";
-  }
+function formatPdpItems(items: Array<{ title?: string; action?: unknown }>): string {
+  if (!items || items.length === 0) return "";
 
   const lines = ["=== PdpSbuiBasicListItem Details ==="];
-  for (const item of items) {
-    if (!item.title) {
-      continue;
-    }
 
-    lines.push(`• ${item.title}`);
+  for (const item of items) {
+    if (!item?.title) continue;
+
+    lines.push(`- ${item.title}`);
+
     if (item.action !== null && item.action !== undefined) {
       lines.push(`  Action: ${JSON.stringify(item.action)}`);
     }
   }
 
   return lines.join("\n");
+}
+
+function joinCleanHtml(chunks: string[]): string {
+  if (!chunks || chunks.length === 0) return "";
+
+  return chunks.join("\n\n---\n\n");
 }
 
 export const callHandler = async (opts: Record<string, unknown>) => {
@@ -92,14 +91,14 @@ export const callHandler = async (opts: Record<string, unknown>) => {
         const base = deriveHtmlTextBase(output, htmltextOutput, listingId);
         if (base) {
           const cleanedHtml = (result.derived.htmlTexts ?? []).map((html) => postprocess.cleanHtml(html));
-          const formattedItems = formatPdpSbuiBasicListItems(result.derived.pdpItems ?? []);
+          const formattedItems = formatPdpItems(result.derived.pdpItems ?? []);
 
           const outputParts: string[] = [];
           if (formattedItems) {
             outputParts.push(formattedItems);
           }
           if (cleanedHtml.length > 0) {
-            outputParts.push(cleanedHtml.join("\n\n---\n\n"));
+            outputParts.push(joinCleanHtml(cleanedHtml));
           }
 
           if (outputParts.length > 0) {
