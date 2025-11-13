@@ -1,20 +1,42 @@
+import {
+  GetPdpFromAddressWorkflow,
+  PdpOutputComposer,
+} from "@poc/core";
+import {
+  StaticAddressResolverAdapter,
+  createCoreWorkflow,
+} from "@poc/infra";
 import { loadConfig } from "./config/env.config";
-import { createContainer } from "./container";
 import { registerPdpRoutes, type ServerContext } from "./routes/pdp.routes";
 
 // Load configuration (validates env vars and fails fast if missing)
 const config = loadConfig();
 
-// Create dependency container
-const container = createContainer(config);
+// Build dependencies using factory
+const { callWorkflow, postprocess } = createCoreWorkflow();
+const addressResolver = new StaticAddressResolverAdapter();
+
+const workflow = new GetPdpFromAddressWorkflow(
+  callWorkflow,
+  addressResolver,
+  {
+    airbnbSearchUrl: config.airbnbSearchUrl,
+    airbnbUrl: config.airbnbUrl,
+    airbnbSearchBody: config.airbnbSearchBody,
+    apiKey: config.apiKey,
+    defaultTimeoutMs: config.defaultTimeoutMs,
+  }
+);
+
+const composer = new PdpOutputComposer();
 
 // Create server context
 const serverContext: ServerContext = {
   pdpController: {
-    workflow: container.workflow,
-    composer: container.composer,
-    postprocess: container.postprocess,
-    defaultTimeoutMs: container.defaultTimeoutMs,
+    workflow,
+    composer,
+    postprocess,
+    defaultTimeoutMs: config.defaultTimeoutMs,
   },
 };
 
