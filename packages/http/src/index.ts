@@ -1,13 +1,18 @@
 import {
   GetPdpFromAddressWorkflow,
   PdpOutputComposer,
+  SaveRedfinJsonFromAddressWorkflow,
+  RedfinUrlFinderService,
 } from "@poc/core";
 import {
   StaticAddressResolverAdapter,
   createCoreWorkflow,
+  ExaAdapter,
+  FileStorageAdapter,
+  FetchHttpAdapter,
 } from "@poc/infra";
 import { loadConfig } from "./config/env.config";
-import { registerPdpRoutes, type ServerContext } from "./routes/pdp.routes";
+import { registerRoutes, type ServerContext } from "./routes/routes";
 
 // Load configuration (validates env vars and fails fast if missing)
 const config = loadConfig();
@@ -16,6 +21,7 @@ const config = loadConfig();
 const { callWorkflow, postprocess } = createCoreWorkflow();
 const addressResolver = new StaticAddressResolverAdapter();
 
+// Keep existing Airbnb wiring
 const workflow = new GetPdpFromAddressWorkflow(
   callWorkflow,
   addressResolver,
@@ -30,12 +36,35 @@ const workflow = new GetPdpFromAddressWorkflow(
 
 const composer = new PdpOutputComposer();
 
+// Build Redfin workflow dependencies
+const exaHttp = new FetchHttpAdapter();
+const exa = new ExaAdapter(
+  { baseUrl: config.exaBase, apiKey: config.exaApiKey },
+  exaHttp
+);
+const storage = new FileStorageAdapter(config.responsesDir);
+const redfinFinder = new RedfinUrlFinderService(exa);
+const redfinWorkflow = new SaveRedfinJsonFromAddressWorkflow(
+  callWorkflow, // reused from createCoreWorkflow()
+  redfinFinder,
+  storage,
+  {
+    hasDataBase: config.hasDataBase,
+    hasDataApiKey: config.hasDataApiKey,
+    defaultTimeoutMs: config.defaultTimeoutMs,
+  }
+);
+
 // Create server context
 const serverContext: ServerContext = {
   pdpController: {
     workflow,
     composer,
     postprocess,
+    defaultTimeoutMs: config.defaultTimeoutMs,
+  },
+  redfinController: {
+    workflow: redfinWorkflow,
     defaultTimeoutMs: config.defaultTimeoutMs,
   },
 };
@@ -46,7 +75,7 @@ console.log(`Starting server on port ${config.port}...`);
 Bun.serve({
   port: config.port,
   async fetch(req: Request): Promise<Response> {
-    const response = await registerPdpRoutes(req, serverContext);
+    const response = await registerRoutes(req, serverContext);
     if (response) {
       return response;
     }

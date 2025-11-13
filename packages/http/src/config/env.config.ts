@@ -7,6 +7,11 @@ export interface HttpServerConfig {
   apiKey: string;
   defaultTimeoutMs?: number;
   port: number;
+  exaApiKey: string;
+  exaBase: string;
+  hasDataApiKey: string;
+  hasDataBase: string;
+  responsesDir: string;
 }
 
 function requireEnv(name: string): string {
@@ -43,6 +48,17 @@ export function loadConfig(): HttpServerConfig {
   const defaultTimeoutMs = parseOptionalInt("DEFAULT_TIMEOUT_MS", 10000);
   const port = parseOptionalInt("PORT", 3000);
 
+  // Exa API configuration
+  const exaApiKey = requireEnv("EXA_API_KEY");
+  const exaBase = readEnv("EXA_BASE") ?? "https://api.exa.ai";
+
+  // HasData API configuration
+  const hasDataApiKey = requireEnv("HASDATA_API_KEY");
+  const hasDataBase = readEnv("HASDATA_BASE") ?? "https://api.hasdata.com";
+
+  // Storage configuration
+  const responsesDir = readEnv("RESPONSES_DIR") ?? "responses";
+
   return {
     airbnbSearchUrl,
     airbnbUrl,
@@ -50,6 +66,11 @@ export function loadConfig(): HttpServerConfig {
     apiKey,
     defaultTimeoutMs,
     port,
+    exaApiKey,
+    exaBase,
+    hasDataApiKey,
+    hasDataBase,
+    responsesDir,
   };
 }
 

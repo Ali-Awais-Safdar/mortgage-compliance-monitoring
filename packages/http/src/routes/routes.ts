@@ -1,10 +1,12 @@
 import { handlePdpRequest, type PdpControllerContext } from "../controllers/pdp.controller";
+import { handleRedfinJsonRequest, type RedfinControllerContext } from "../controllers/redfin.controller";
 
 export interface ServerContext {
   pdpController: PdpControllerContext;
+  redfinController: RedfinControllerContext;
 }
 
-export async function registerPdpRoutes(
+export async function registerRoutes(
   req: Request,
   ctx: ServerContext
 ): Promise<Response | null> {
@@ -22,6 +24,11 @@ export async function registerPdpRoutes(
   // PDP HTML route
   if (path === "/pdp-html" && req.method === "POST") {
     return await handlePdpRequest(req, ctx.pdpController);
+  }
+
+  // Redfin JSON route
+  if (path === "/redfin-json" && req.method === "POST") {
+    return await handleRedfinJsonRequest(req, ctx.redfinController);
   }
 
   // Not found
