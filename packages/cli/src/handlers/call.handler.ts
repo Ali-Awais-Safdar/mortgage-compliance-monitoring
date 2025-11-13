@@ -1,6 +1,8 @@
-import { BodyPatchService, CallExternalWorkflow, ResponsePostprocessService, UrlPatchService } from "@poc/core";
+import {
+  PdpOutputComposer,
+} from "@poc/core";
 import { matchRes } from "@carbonteq/fp";
-import { FetchHttpAdapter, NodeEncodingAdapter } from "@poc/infra";
+import { createCoreWorkflow } from "@poc/infra";
 import { CallOptionsSchema } from "../schemas/call.schema";
 
 function deriveHtmlTextBase(outputPath?: string, overrideBase?: string, listingId?: string): string | null {
@@ -8,30 +10,6 @@ function deriveHtmlTextBase(outputPath?: string, overrideBase?: string, listingI
   if (outputPath) return outputPath.endsWith(".json") ? outputPath.slice(0, -5) : outputPath;
   if (listingId) return `responses/pdp_${listingId}`;
   return null;
-}
-
-function formatPdpItems(items: Array<{ title?: string; action?: unknown }>): string {
-  if (!items || items.length === 0) return "";
-
-  const lines = ["=== PdpSbuiBasicListItem Details ==="];
-
-  for (const item of items) {
-    if (!item?.title) continue;
-
-    lines.push(`- ${item.title}`);
-
-    if (item.action !== null && item.action !== undefined) {
-      lines.push(`  Action: ${JSON.stringify(item.action)}`);
-    }
-  }
-
-  return lines.join("\n");
-}
-
-function joinCleanHtml(chunks: string[]): string {
-  if (!chunks || chunks.length === 0) return "";
-
-  return chunks.join("\n\n---\n\n");
 }
 
 export const callHandler = async (opts: Record<string, unknown>) => {
@@ -65,13 +43,8 @@ export const callHandler = async (opts: Record<string, unknown>) => {
     headers: headers.length > 0 ? headers : undefined,
   };
 
-  const postprocess = new ResponsePostprocessService();
-  const workflow = new CallExternalWorkflow(
-    new FetchHttpAdapter(),
-    new UrlPatchService(new NodeEncodingAdapter()),
-    new BodyPatchService(),
-    postprocess
-  );
+  const { callWorkflow: workflow, postprocess } = createCoreWorkflow();
+  const composer = new PdpOutputComposer();
 
   const outcome = await workflow.execute(finalInput);
 
@@ -90,19 +63,16 @@ export const callHandler = async (opts: Record<string, unknown>) => {
       if (listingId && result.derived) {
         const base = deriveHtmlTextBase(output, htmltextOutput, listingId);
         if (base) {
-          const cleanedHtml = (result.derived.htmlTexts ?? []).map((html) => postprocess.cleanHtml(html));
-          const formattedItems = formatPdpItems(result.derived.pdpItems ?? []);
+          const composedText = composer.compose(
+            {
+              htmlTexts: result.derived.htmlTexts,
+              pdpItems: result.derived.pdpItems,
+            },
+            postprocess
+          );
 
-          const outputParts: string[] = [];
-          if (formattedItems) {
-            outputParts.push(formattedItems);
-          }
-          if (cleanedHtml.length > 0) {
-            outputParts.push(joinCleanHtml(cleanedHtml));
-          }
-
-          if (outputParts.length > 0) {
-            await Bun.write(`${base}_html.clean.txt`, outputParts.join("\n\n\n"));
+          if (composedText) {
+            await Bun.write(`${base}_html.clean.txt`, composedText);
             console.log(`htmlText extracted: ${result.derived.htmlTexts?.length ?? 0}`);
             console.log(`PdpSbuiBasicListItem items: ${result.derived.pdpItems?.length ?? 0}`);
             console.log(`Clean: ${base}_html.clean.txt`);

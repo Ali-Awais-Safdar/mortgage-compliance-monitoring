@@ -18,7 +18,7 @@
     "packages/*"
   ],
   "scripts": {
-    "typecheck": "tsc -p packages/core/tsconfig.json --noEmit && tsc -p packages/infra/tsconfig.json --noEmit && tsc -p packages/cli/tsconfig.json --noEmit",
+    "typecheck": "tsc -b packages/core packages/infra packages/cli packages/http",
     "lint": "eslint packages/**/*.ts",
     "lint:fix": "eslint packages/**/*.ts --fix",
     "cli": "packages/cli/src/index.ts --help"

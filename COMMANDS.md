@@ -14,7 +14,7 @@ bun packages/cli/src/index.ts call -u "$AIRBNB_URL" -q locale=de -q currency=USD
 
 ## Switch listing by numeric ID (auto-encodes to GraphQL IDs)
 
-bun packages/cli/src/index.ts call -u "$AIRBNB_URL" --listing-id 1023160328251457256 -H "x-airbnb-api-key: $AIRBNB_API_KEY" -o responses/pdp_stevensville.json
+bun packages/cli/src/index.ts call -u "$AIRBNB_URL" --listing-id 880457551611523268 -H "x-airbnb-api-key: $AIRBNB_API_KEY" -o responses/pdp_whitehaven.json
 
 # Stays Search (Listings)
 
@@ -43,7 +43,7 @@ bun packages/cli/src/index.ts call -X POST -u "$AIRBNB_SEARCH_URL" \
   -d "$AIRBNB_SEARCH_BODY" \
   -o responses/stays_whitehaven_single.json
 
-### Fennville, Michigan USA (1786 Morning Glory Lane, Fennville, Michigan)
+### Fennville, Michigan USA (1786 Morning Glory Lane, Fennville, Michigan, USA)
 
 bun packages/cli/src/index.ts call -X POST -u "$AIRBNB_SEARCH_URL" \
   --bbox "42.54826130737213,-86.23770074855929,42.54790113452498,-86.23793458777914" \

@@ -1,143 +1,31 @@
-import type { CallWorkflowInput } from "../dto/call-workflow.dto";
+import type { CallWorkflowInput } from "@/application/dto/call-workflow.dto";
+import {
+  type JsonRecord,
+  isJsonRecord,
+  getValueAtPath,
+  setAtPath,
+  coercePreservingType,
+} from "@/application/utils/json-path";
 
-type JsonRecord = Record<string, unknown>;
-type Indexable = JsonRecord | unknown[];
-type IndexKey = string | number;
 type RawParam = { filterName: string; filterValues: string[] };
 
 export class BodyPatchService {
-  private isJsonRecord(value: unknown): value is JsonRecord {
-    return typeof value === "object" && value !== null && !Array.isArray(value);
-  }
-
-  private isIndexable(value: unknown): value is Indexable {
-    return this.isJsonRecord(value) || Array.isArray(value);
-  }
-
-  private isArrayIndex(segment: string): boolean {
-    return /^\d+$/.test(segment);
-  }
-
-  private toIndexKey(segment: string): IndexKey {
-    return this.isArrayIndex(segment) ? Number.parseInt(segment, 10) : segment;
-  }
-
-  private readChild(container: Indexable, key: IndexKey): unknown {
-    if (Array.isArray(container) && typeof key === "number") {
-      return container[key];
-    }
-
-    if (!Array.isArray(container)) {
-      return container[String(key)];
-    }
-
-    return undefined;
-  }
-
-  private writeChild(container: Indexable, key: IndexKey, value: unknown): void {
-    if (Array.isArray(container) && typeof key === "number") {
-      container[key] = value;
-      return;
-    }
-
-    if (!Array.isArray(container)) {
-      container[String(key)] = value;
-    }
-  }
-
-  private ensureContainer(container: Indexable, key: IndexKey, nextSegment?: string): Indexable {
-    const existing = this.readChild(container, key);
-    if (this.isIndexable(existing)) {
-      return existing;
-    }
-
-    const shouldBeArray = nextSegment ? this.isArrayIndex(nextSegment) : false;
-    const nextValue: Indexable = shouldBeArray ? [] : {};
-    this.writeChild(container, key, nextValue);
-    return nextValue;
-  }
-
-  private getValueAtPath(target: Indexable, path: string): unknown {
-    const segments = path.split(".").filter(Boolean);
-    let current: unknown = target;
-
-    for (const segment of segments) {
-      if (!this.isIndexable(current)) {
-        return undefined;
-      }
-
-      const key = this.toIndexKey(segment);
-      current = this.readChild(current, key);
-      if (current === undefined) {
-        return undefined;
-      }
-    }
-
-    return current;
-  }
-
-  public setAtPath(target: Indexable, path: string, value: unknown): void {
-    const segments = path.split(".").filter(Boolean);
-    if (segments.length === 0) {
-      return;
-    }
-
-    let current: Indexable = target;
-
-    for (let i = 0; i < segments.length - 1; i += 1) {
-      const segment = segments[i];
-      if (!segment) {
-        continue;
-      }
-
-      const key = this.toIndexKey(segment);
-      const nextSegment = segments[i + 1];
-      current = this.ensureContainer(current, key, nextSegment);
-    }
-
-    const finalSegment = segments[segments.length - 1];
-    if (!finalSegment) {
-      return;
-    }
-
-    const finalKey = this.toIndexKey(finalSegment);
-    this.writeChild(current, finalKey, value);
-  }
-
-  public coercePreservingType(existingValue: unknown, provided: unknown): unknown {
-    if (existingValue === undefined || existingValue === null) {
-      return provided;
-    }
-
-    if (typeof existingValue === "string") {
-      return String(provided);
-    }
-
-    if (typeof existingValue === "number") {
-      const numberValue = typeof provided === "number" ? provided : Number.parseFloat(String(provided));
-      if (!Number.isNaN(numberValue)) {
-        return numberValue;
-      }
-    }
-
-    return provided;
-  }
 
   private ensureVariables(body: JsonRecord): {
     staysSearchRequest: JsonRecord;
     staysMapSearchRequestV2: JsonRecord;
   } {
-    if (!body.variables || !this.isJsonRecord(body.variables)) {
+    if (!body.variables || !isJsonRecord(body.variables)) {
       body.variables = {};
     }
 
     const variables = body.variables as JsonRecord;
 
-    if (!variables.staysSearchRequest || !this.isJsonRecord(variables.staysSearchRequest)) {
+    if (!variables.staysSearchRequest || !isJsonRecord(variables.staysSearchRequest)) {
       variables.staysSearchRequest = {};
     }
 
-    if (!variables.staysMapSearchRequestV2 || !this.isJsonRecord(variables.staysMapSearchRequestV2)) {
+    if (!variables.staysMapSearchRequestV2 || !isJsonRecord(variables.staysMapSearchRequestV2)) {
       variables.staysMapSearchRequestV2 = {};
     }
 
@@ -193,9 +81,9 @@ export class BodyPatchService {
       }
     }
 
-    const existingLeaf = this.getValueAtPath(body, path);
-    const finalValue = existingLeaf !== undefined ? this.coercePreservingType(existingLeaf, value) : value;
-    this.setAtPath(body, path, finalValue);
+    const existingLeaf = getValueAtPath(body, path);
+    const finalValue = existingLeaf !== undefined ? coercePreservingType(existingLeaf, value) : value;
+    setAtPath(body, path, finalValue);
   }
 
   public applyBaselineOverrides(body: JsonRecord, flags: CallWorkflowInput["flags"] = {}): void {
@@ -208,8 +96,8 @@ export class BodyPatchService {
     if (flags.bbox) {
       const segments = flags.bbox
         .split(",")
-        .map((segment) => segment.trim())
-        .filter((segment) => segment.length > 0);
+        .map((segment: string) => segment.trim())
+        .filter((segment: string) => segment.length > 0);
 
       if (segments.length !== 4) {
         throw new Error(`Invalid bbox format. Expected "neLat,neLng,swLat,swLng", got: ${flags.bbox}`);
@@ -249,7 +137,7 @@ export class BodyPatchService {
     flags: CallWorkflowInput["flags"],
     overrides: Array<{ path: string; value: unknown }> = []
   ): unknown {
-    if (!this.isJsonRecord(body)) {
+    if (!isJsonRecord(body)) {
       return body;
     }
 

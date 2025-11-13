@@ -1,6 +1,6 @@
 import { Result } from "@carbonteq/fp";
 import type { AppError, ApiRequestDTO, ApiResponseDTO, HttpPort } from "@poc/core";
-import { toAppError } from "../errors/http-error.mapper";
+import { toAppError } from "../errors/error-adapter";
 
 export class FetchHttpAdapter implements HttpPort {
   async request<T = unknown>(input: ApiRequestDTO): Promise<Result<ApiResponseDTO<T>, AppError>> {
@@ -18,10 +18,13 @@ export class FetchHttpAdapter implements HttpPort {
       const controller = new AbortController();
       const timeout = input.timeoutMs ? setTimeout(() => controller.abort(), input.timeoutMs) : undefined;
 
+      const method = input.method ?? "GET";
+      const body = method === "GET" ? undefined : (input.body ? JSON.stringify(input.body) : undefined);
+
       const res = await fetch(url, {
-        method: input.method ?? "GET",
+        method,
         headers,
-        body: input.body ? JSON.stringify(input.body) : undefined,
+        body,
         signal: controller.signal
       }).finally(() => timeout && clearTimeout(timeout));
 

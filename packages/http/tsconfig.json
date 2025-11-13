@@ -4,9 +4,11 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@poc/infra": ["../infra/src", "../infra/src/index.ts"]
     }
   },
   "include": ["src"],
   "references": [{ "path": "../core" }]
 }
+

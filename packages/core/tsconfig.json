@@ -1,10 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true,
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*", "src/*.ts"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src"]

@@ -36,6 +36,15 @@
         "@carbonteq/fp": "latest",
       },
     },
+    "packages/http": {
+      "name": "@poc/http",
+      "version": "0.0.0",
+      "dependencies": {
+        "@carbonteq/fp": "latest",
+        "@poc/core": "workspace:*",
+        "@poc/infra": "workspace:*",
+      },
+    },
     "packages/infra": {
       "name": "@poc/infra",
       "version": "0.0.0",
@@ -83,6 +92,8 @@
     "@poc/cli": ["@poc/cli@workspace:packages/cli"],
 
     "@poc/core": ["@poc/core@workspace:packages/core"],
+
+    "@poc/http": ["@poc/http@workspace:packages/http"],
 
     "@poc/infra": ["@poc/infra@workspace:packages/infra"],
 

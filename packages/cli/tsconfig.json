@@ -4,10 +4,10 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*", "src/*.ts"],
-      "@poc/core": ["../core/src", "../core/src/index.ts"],
+      "@/*": ["src/*"],
       "@poc/infra": ["../infra/src", "../infra/src/index.ts"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [{ "path": "../core" }]
 }

@@ -1,12 +1,12 @@
-import type { CallWorkflowInput, CallWorkflowResult } from "../dto/call-workflow.dto";
-import type { ApiRequestDTO } from "../dto/request.dto";
-import type { HttpPort } from "../ports/http.port";
-import { BodyPatchService } from "../services/body-patch.service";
-import { ResponsePostprocessService } from "../services/response-postprocess.service";
-import { UrlPatchService } from "../services/url-patch.service";
+import type { CallWorkflowInput, CallWorkflowResult } from "@/application/dto/call-workflow.dto";
+import type { ApiRequestDTO, ApiResponseDTO } from "@/application/dto/request.dto";
+import type { HttpPort } from "@/application/ports/http.port";
+import { BodyPatchService } from "@/application/services/body-patch.service";
+import { ResponsePostprocessService } from "@/application/services/response-postprocess.service";
+import { UrlPatchService } from "@/application/services/url-patch.service";
 import { Result } from "@carbonteq/fp";
-import type { AppError } from "../errors/app-error";
-import { guardBBoxString, guardListingId, guardOverrides } from "../services/validation.service";
+import type { AppError } from "@/application/errors/app-error";
+import { guardBBoxString, guardListingId, guardOverrides } from "@/application/services/validation.service";
 
 export class CallExternalWorkflow {
   constructor(
@@ -40,11 +40,6 @@ export class CallExternalWorkflow {
     }
 
     const url = new URL(input.url);
-    if (input.query) {
-      for (const [key, value] of Object.entries(input.query)) {
-        url.searchParams.set(key, String(value));
-      }
-    }
 
     const listingId = input.flags?.listingId;
     if (listingId) {
@@ -59,15 +54,21 @@ export class CallExternalWorkflow {
       url: url.toString(),
       method: input.method,
       headers: input.headers,
+      query: input.query,
       body: finalBody,
       timeoutMs: input.timeoutMs,
     };
 
     const response = await this.http.request<T>(request);
 
+    type DerivedData = {
+      htmlTexts: string[];
+      pdpItems: Array<{ title?: string; action?: unknown }>;
+    };
+
     const enriched = response
-      .zip((res) => (res.data != null ? this.postprocess.extractDerived(res.data as T) : undefined))
-      .map(([res, derived]) => (derived ? { response: res, derived } : { response: res }));
+      .zip((res: ApiResponseDTO<T>) => (res.data != null ? this.postprocess.extractDerived(res.data as T) : undefined))
+      .map(([res, derived]: [ApiResponseDTO<T>, DerivedData | undefined]) => (derived ? { response: res, derived } : { response: res }));
 
     return enriched.toPromise();
   }

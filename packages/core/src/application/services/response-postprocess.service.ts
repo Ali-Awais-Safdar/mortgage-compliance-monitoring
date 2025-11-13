@@ -1,3 +1,5 @@
+import { walkJson } from "@/application/utils/json-walk";
+
 type AnyJson = unknown;
 
 interface PdpSbuiBasicListItem {
@@ -7,30 +9,10 @@ interface PdpSbuiBasicListItem {
 }
 
 export class ResponsePostprocessService {
-  private *walkJson(node: AnyJson): Generator<AnyJson> {
-    if (node === null || node === undefined) {
-      return;
-    }
-
-    if (Array.isArray(node)) {
-      for (const value of node) {
-        yield* this.walkJson(value);
-      }
-      return;
-    }
-
-    if (typeof node === "object") {
-      yield node;
-      for (const value of Object.values(node as Record<string, AnyJson>)) {
-        yield* this.walkJson(value);
-      }
-    }
-  }
-
   public collectHtmlText(root: AnyJson): string[] {
     const collected: string[] = [];
 
-    for (const obj of this.walkJson(root)) {
+    for (const obj of walkJson(root)) {
       if (obj && typeof obj === "object" && !Array.isArray(obj)) {
         const candidate = (obj as Record<string, unknown>)["htmlText"];
         if (typeof candidate === "string") {
@@ -45,7 +27,7 @@ export class ResponsePostprocessService {
   public collectPdpSbuiBasicListItems(root: AnyJson): PdpSbuiBasicListItem[] {
     const items: PdpSbuiBasicListItem[] = [];
 
-    for (const obj of this.walkJson(root)) {
+    for (const obj of walkJson(root)) {
       if (obj && typeof obj === "object" && !Array.isArray(obj)) {
         const typed = obj as Record<string, unknown>;
         if (typed.__typename === "PdpSbuiBasicListItem") {
