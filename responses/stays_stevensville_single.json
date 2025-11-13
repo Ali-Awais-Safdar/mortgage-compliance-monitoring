@@ -1,33 +1,33 @@
 {
   "status": 200,
   "headers": {
-    "akamai-request-bc": "[a=23.45.206.80,b=280439146,c=g,n=SG__SINGAPORE,o=20940],[c=c,n=US_VA_STERLING,o=20940],[a=247,c=o]",
+    "akamai-request-bc": "[a=2.20.134.78,b=3196812307,c=g,n=TR__ISTANBUL,o=20940],[c=c,n=US_VA_ASHBURN,o=20940],[a=247,c=o]",
     "alt-svc": "h3=\":443\"; ma=93600",
     "cache-control": "max-age=0, no-cache, no-store",
     "cachestatus": "on",
     "connection": "keep-alive",
     "content-encoding": "gzip",
-    "content-length": "13540",
+    "content-length": "13530",
     "content-type": "application/json;charset=utf-8",
-    "date": "Thu, 13 Nov 2025 10:16:26 GMT",
-    "expires": "Thu, 13 Nov 2025 10:16:26 GMT",
+    "date": "Thu, 13 Nov 2025 10:20:57 GMT",
+    "expires": "Thu, 13 Nov 2025 10:20:57 GMT",
     "origin-trial": "AkOekvxwprBLSP7I2nhyRn5yZGt9lTJN6UIYziFKVYg5OhlzmlNDciWbBWkEQ5TYPz+aqsuIUT2pPEjPUD5dFAsAAABneyJvcmlnaW4iOiJodHRwczovL2FpcmJuYi5jb206NDQzIiwiZmVhdHVyZSI6IlByaW9yaXR5SGludHNBUEkiLCJleHBpcnkiOjE2NDc5OTM1OTksImlzU3ViZG9tYWluIjp0cnVlfQ==",
     "pragma": "no-cache",
     "referrer-policy": "same-origin",
     "server": "nginx",
-    "server-timing": "backend;dur=272, cdn-cache; desc=MISS, edge; dur=273, origin; dur=282",
+    "server-timing": "backend;dur=252, cdn-cache; desc=MISS, edge; dur=175, origin; dur=262",
     "status": "200 OK",
     "strict-transport-security": "max-age=10886400; includeSubdomains",
     "vary": "Accept-Encoding",
-    "x-airbnb-everest-device-id": "1763028986.EANWNkZDUwYzAyOWFhMz.rKAD3fx7i77mouitM8NL4mOtQpaBLUOKkDNL3mEnOvc",
+    "x-airbnb-everest-device-id": "1763029256.EANDk2NjBiNjI4ZTUwNm.HLk48Qz1JiF0u5yDR0cOYLlnEbRR1mc8pScYMT_YglY",
     "x-airbnb-graphql-schema-id": "b84407c8af7b0f40611ff787aa3597c2cd53dbf9500b4c19561bf6c7305fb43f",
-    "x-airbnb-internal-trace-id": "tPcazZYocids2vT8t6fJJg==",
-    "x-airbnb-sureride": "c1a1o.0.50ce2d17.1763028986.10b7296a%%i1c1o%%t1d1o.tPcazZYocids2vT8t6fJJg==%%h1",
+    "x-airbnb-internal-trace-id": "6jDorQZ8vbtKRZHcDWt38g==",
+    "x-airbnb-sureride": "c1a1o.0.4e861402.1763029256.be8b7c13%%i1c1o%%t1d1o.6jDorQZ8vbtKRZHcDWt38g==%%h1",
     "x-app-git-sha": "sha=f32d1c623e711",
     "x-browser-type": "unknown",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "274",
-    "x-erf-bev-bev": "1763028986_EAZTUyNGQwYmM4MD",
+    "x-envoy-upstream-service-time": "254",
+    "x-erf-bev-bev": "1763029256_EAZGY5MTY1MzZjZT",
     "x-erf-bev-bev-is-generated": "1",
     "x-frame-options": "SAMEORIGIN",
     "x-instrumentation": "airbnb",
@@ -48,15 +48,15 @@
             "searchResults": [
               {
                 "__typename": "StaySearchResult",
-                "avgRatingA11yLabel": "4.57 out of 5 average rating,  23 reviews",
-                "avgRatingLocalized": "4.57 (23)",
+                "avgRatingA11yLabel": "5.0 out of 5 average rating,  68 reviews",
+                "avgRatingLocalized": "5.0 (68)",
                 "listingParamOverrides": {
                   "__typename": "ExploreListingParamOverrides",
                   "adults": 1,
                   "categoryTag": null,
                   "causeId": null,
-                  "checkin": "2025-11-13",
-                  "checkout": "2025-11-18",
+                  "checkin": "2025-12-05",
+                  "checkout": "2025-12-10",
                   "children": 0,
                   "distanceInKm": null,
                   "highlightType": null,
@@ -72,11 +72,10 @@
                 "structuredDisplayPrice": {
                   "__typename": "StructuredDisplayPrice",
                   "primaryLine": {
-                    "__typename": "DiscountedDisplayPriceLine",
-                    "displayComponentType": "DISCOUNTED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م328,588 for 5 nights, originally ج.م394,672",
-                    "discountedPrice": "ج.م328,588",
-                    "originalPrice": "ج.م394,672",
+                    "__typename": "QualifiedDisplayPriceLine",
+                    "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
+                    "accessibilityLabel": "ج.م71,374 for 5 nights",
+                    "price": "ج.م71,374",
                     "qualifier": "for 5 nights",
                     "shortQualifier": null,
                     "concatQualifierLeft": false,
@@ -94,21 +93,15 @@
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
                         "items": [
                           {
-                            "__typename": "DiscountedExplanationLineItem",
-                            "displayComponentType": "DISCOUNTED_EXPLANATION_LINE_ITEM",
-                            "description": "5 nights x ج.م65,717.46",
-                            "priceString": "ج.م328,587.28",
-                            "originalPriceString": "ج.م394,671.20",
+                            "__typename": "DefaultExplanationLineItem",
+                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
+                            "description": "5 nights x ج.م14,274.70",
+                            "priceString": "ج.م71,373.49",
                             "explanationData": null
                           }
                         ],
                         "renderBorderTop": false,
                         "collapsable": null
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationDisclaimer",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DISCLAIMER",
-                        "content": "Ara recently lowered the price for these dates (from the average rate for the past 60 nights)."
                       }
                     ]
                   },
@@ -117,16 +110,32 @@
                   "layout": null,
                   "displayPriceStyle": "TOTAL_ONLY"
                 },
-                "badges": [],
+                "badges": [
+                  {
+                    "__typename": "ExploreFormattedBadge",
+                    "icon": {
+                      "__typename": "ExploreFormattedBadgeIconAsset",
+                      "localKey": "SYSTEM_GOLDEN_TROPHY"
+                    },
+                    "loggingContext": {
+                      "__typename": "ExploreFormattedBadgeLoggingContext",
+                      "badgeType": "TOP_X_GUEST_FAVORITE"
+                    },
+                    "style": "LOUD_ROUNDED_PILL",
+                    "text": "Guest favorite",
+                    "textAccessibilityLabel": "Top guest favorite",
+                    "textColor": "#000000"
+                  }
+                ],
                 "contextualPictures": [
                   {
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640020801",
+                    "id": "1780275145",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/71140786-d74d-4e29-b187-4efc5492e1b3.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -136,10 +145,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640022837",
+                    "id": "1780275146",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/7534038a-0500-4ff6-a576-76d82b618503.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/271abee8-a71a-473e-92de-826d8191b07e.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -149,10 +158,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640022838",
+                    "id": "1780275154",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/e9572da6-faa2-437a-87c6-bad1050d688c.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/94eb7ca9-25d8-4991-8067-b66dfd380563.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -162,10 +171,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846064070",
+                    "id": "1780275156",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/dcd84c95-df24-4500-89f1-c2a910074897.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/2e268da9-cc5e-4868-ae13-b97eeef3d2de.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -175,10 +184,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846064076",
+                    "id": "1780275149",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/4c5ca1fd-0551-48c5-b293-dba68b838122.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/699e8de7-0860-419b-b0ef-aa0f8403a885.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -188,10 +197,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846067450",
+                    "id": "1780275158",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/95d917ea-1c37-482f-af70-b3a863d0a2d7.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/d12fd313-57b6-41af-90f8-7f03765dc367.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -199,11 +208,11 @@
                   }
                 ],
                 "paymentMessages": [],
-                "title": "Home in White Haven",
-                "subtitle": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
+                "title": "Apartment in Stevensville",
+                "subtitle": "Heron Roost",
                 "nameLocalized": {
                   "__typename": "UGCText",
-                  "localizedStringWithTranslationPreference": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!"
+                  "localizedStringWithTranslationPreference": "Heron Roost"
                 },
                 "propertyId": null,
                 "structuredContent": {
@@ -214,7 +223,7 @@
                   "mapSecondaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "Nov 13 – 18",
+                      "body": "Dec 5 – 10",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -225,7 +234,7 @@
                   "primaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "11 bedrooms",
+                      "body": "2 bedrooms",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -234,7 +243,7 @@
                     },
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "15 beds",
+                      "body": "2 beds",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -245,7 +254,7 @@
                   "secondaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "Nov 13 – 18",
+                      "body": "Dec 5 – 10",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -259,20 +268,20 @@
                 "passportData": null,
                 "demandStayListing": {
                   "__typename": "DemandStayListing",
-                  "id": "RGVtYW5kU3RheUxpc3Rpbmc6ODgwNDU3NTUxNjExNTIzMjY4",
+                  "id": "RGVtYW5kU3RheUxpc3Rpbmc6MTAyMzE2MDMyODI1MTQ1NzI1Ng==",
                   "location": {
                     "__typename": "DemandStayListingLocation",
                     "coordinate": {
                       "__typename": "Coordinate",
-                      "latitude": 41.01449,
-                      "longitude": -75.81549
+                      "latitude": 38.9576,
+                      "longitude": -76.3405
                     }
                   },
                   "description": {
                     "__typename": "DemandStayListingDescription",
                     "name": {
                       "__typename": "UGCText",
-                      "localizedStringWithTranslationPreference": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!"
+                      "localizedStringWithTranslationPreference": "Heron Roost"
                     }
                   },
                   "wishlistItems": [],
@@ -289,77 +298,77 @@
                 "splitStaysListings": [
                   {
                     "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 16 to Nov 20, Stay 1 of 2",
-                    "checkInShortText": "Nov 16",
-                    "id": "880457551611523268",
-                    "lat": 41.01449,
+                    "accessibilityLabel": "Stevensville, Nov 18 to Nov 21, Stay 1 of 2",
+                    "checkInShortText": "Nov 18",
+                    "id": "1023160328251457256",
+                    "lat": 38.9575764,
                     "listingParamOverrides": {
                       "__typename": "ExploreListingParamOverrides",
                       "adults": null,
                       "categoryTag": null,
                       "causeId": null,
-                      "checkin": "2025-11-16",
-                      "checkout": "2025-11-20",
+                      "checkin": "2025-11-18",
+                      "checkout": "2025-11-21",
                       "children": null,
                       "enableM3PrivateRoom": null,
                       "highlightType": null,
                       "infants": null,
                       "pets": null,
                       "relaxedAmenityIds": null,
-                      "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c"
+                      "splitStaysUuid": "e9172c3d-d5bc-4989-ba49-f475a2c4baad"
                     },
-                    "lng": -75.81549,
-                    "mapPinAccessibilityLabel": "ج.م215,845 for 7 nights, Stay 1 of 2, Nov 16 to Nov 20, less than 1 km from second stay, White Haven",
-                    "name": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
+                    "lng": -76.3405446,
+                    "mapPinAccessibilityLabel": "ج.م87,534 for 7 nights, Stay 1 of 2, Nov 18 to Nov 21, less than 1 km from second stay, Stevensville",
+                    "name": "Heron Roost",
                     "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Entire home · White Haven",
+                    "pdpSubtitle": "Entire rental unit · Stevensville",
                     "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg?im_w=720",
-                    "subtitle": "Nov 16 – 20",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/71140786-d74d-4e29-b187-4efc5492e1b3.jpeg?im_w=720",
+                    "subtitle": "Nov 18 – 21",
                     "tierId": 0,
-                    "title": "White Haven"
+                    "title": "Stevensville"
                   },
                   {
                     "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 20 to Nov 23, Stay 2 of 2",
-                    "checkInShortText": "Nov 20",
-                    "id": "877425943075071335",
-                    "lat": 41.01094,
+                    "accessibilityLabel": "Stevensville, Nov 21 to Nov 25, Stay 2 of 2",
+                    "checkInShortText": "Nov 21",
+                    "id": "725307243142504181",
+                    "lat": 38.9644943,
                     "listingParamOverrides": {
                       "__typename": "ExploreListingParamOverrides",
                       "adults": null,
-                      "categoryTag": "Tag:8678",
+                      "categoryTag": null,
                       "causeId": null,
-                      "checkin": "2025-11-20",
-                      "checkout": "2025-11-23",
+                      "checkin": "2025-11-21",
+                      "checkout": "2025-11-25",
                       "children": null,
                       "enableM3PrivateRoom": null,
                       "highlightType": null,
                       "infants": null,
                       "pets": null,
                       "relaxedAmenityIds": null,
-                      "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c"
+                      "splitStaysUuid": "e9172c3d-d5bc-4989-ba49-f475a2c4baad"
                     },
-                    "lng": -75.81641,
-                    "mapPinAccessibilityLabel": "ج.م215,845 for 7 nights, Stay 2 of 2, Nov 20 to Nov 23, less than 1 km from first stay, White Haven",
-                    "name": "Restful Waterfalls BnB. Rent per room. # 3 of 3",
+                    "lng": -76.3402567,
+                    "mapPinAccessibilityLabel": "ج.م87,534 for 7 nights, Stay 2 of 2, Nov 21 to Nov 25, less than 1 km from first stay, Stevensville",
+                    "name": "Apartment with Lounge Stevensville, MD",
                     "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Private room · White Haven",
+                    "pdpSubtitle": "Entire rental unit · Stevensville",
                     "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/airflow/Hosting-877425943075071335/original/2bed517f-79f7-4987-a7e2-81c5098a760c.jpg?im_w=720",
-                    "subtitle": "Nov 20 – 23",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/hosting/Hosting-725307243142504181/original/61698526-f638-4c1f-9760-489033a30d28.jpeg?im_w=720",
+                    "subtitle": "Nov 21 – 25",
                     "tierId": 0,
-                    "title": "White Haven"
+                    "title": "Stevensville"
                   }
                 ],
-                "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c",
+                "splitStaysUuid": "e9172c3d-d5bc-4989-ba49-f475a2c4baad",
                 "structuredStayDisplayPrice": {
                   "__typename": "StructuredDisplayPrice",
                   "primaryLine": {
                     "__typename": "QualifiedDisplayPriceLine",
                     "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م215,845 for 7 nights",
-                    "price": "ج.م215,845",
+                    "accessibilityLabel": "ج.م87,534 for 7 nights",
+                    "price": "ج.م87,534",
                     "qualifier": "for 7 nights",
                     "shortQualifier": null,
                     "concatQualifierLeft": false,
@@ -375,7 +384,7 @@
                       {
                         "__typename": "DisplayPriceExplanationTitle",
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 16 – 20"
+                        "content": "Stay from Nov 18 – 21"
                       },
                       {
                         "__typename": "DisplayPriceExplanationLineGroup",
@@ -384,8 +393,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "4 nights x ج.م49,826.70",
-                            "priceString": "ج.م199,306.80",
+                            "description": "3 nights x ج.م14,992.87",
+                            "priceString": "ج.م44,978.62",
                             "explanationData": null
                           }
                         ],
@@ -412,7 +421,7 @@
                       {
                         "__typename": "DisplayPriceExplanationTitle",
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 20 – 23"
+                        "content": "Stay from Nov 21 – 25"
                       },
                       {
                         "__typename": "DisplayPriceExplanationLineGroup",
@@ -421,8 +430,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "3 nights x ج.م5,512.35",
-                            "priceString": "ج.م16,537.04",
+                            "description": "4 nights x ج.م10,638.69",
+                            "priceString": "ج.م42,554.74",
                             "explanationData": null
                           }
                         ],
@@ -454,7 +463,7 @@
                             "__typename": "HighlightExplanationLineItem",
                             "displayComponentType": "HIGHLIGHT_EXPLANATION_LINE_ITEM",
                             "description": "Price for two stays",
-                            "priceString": "ج.م215,843.84",
+                            "priceString": "ج.م87,533.36",
                             "explanationData": null,
                             "originalPriceString": null,
                             "accessibilityLabel": null
@@ -475,84 +484,84 @@
                   "layout": null,
                   "displayPriceStyle": "TOTAL_ONLY"
                 },
-                "title": "Two stays in White Haven less than 1 km apart"
+                "title": "Two stays in Stevensville less than 1 km apart"
               },
               {
                 "__typename": "ExploreSplitStaysListingItem",
                 "splitStaysListings": [
                   {
                     "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 13 to Nov 17, Stay 1 of 2",
-                    "checkInShortText": "Nov 13",
-                    "id": "768923757213497320",
-                    "lat": 41.01105,
-                    "listingParamOverrides": {
-                      "__typename": "ExploreListingParamOverrides",
-                      "adults": null,
-                      "categoryTag": "Tag:8678",
-                      "causeId": null,
-                      "checkin": "2025-11-13",
-                      "checkout": "2025-11-17",
-                      "children": null,
-                      "enableM3PrivateRoom": null,
-                      "highlightType": null,
-                      "infants": null,
-                      "pets": null,
-                      "relaxedAmenityIds": null,
-                      "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538"
-                    },
-                    "lng": -75.81672,
-                    "mapPinAccessibilityLabel": "ج.م175,391 for 7 nights, Stay 1 of 2, Nov 13 to Nov 17, less than 1 km from second stay, White Haven",
-                    "name": "Restful Waterfalls BnB. Rent per room.  # 2 of 3",
-                    "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Private room · White Haven",
-                    "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/airflow/Hosting-768923757213497320/original/686aecf5-cd78-4776-b0d5-9ad59e027895.jpg?im_w=720",
-                    "subtitle": "Nov 13 – 17",
-                    "tierId": 0,
-                    "title": "White Haven"
-                  },
-                  {
-                    "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 17 to Nov 20, Stay 2 of 2",
-                    "checkInShortText": "Nov 17",
-                    "id": "880457551611523268",
-                    "lat": 41.01449,
+                    "accessibilityLabel": "Stevensville, Dec 2 to Dec 5, Stay 1 of 2",
+                    "checkInShortText": "Dec 2",
+                    "id": "51023541",
+                    "lat": 38.9572,
                     "listingParamOverrides": {
                       "__typename": "ExploreListingParamOverrides",
                       "adults": null,
                       "categoryTag": null,
                       "causeId": null,
-                      "checkin": "2025-11-17",
-                      "checkout": "2025-11-20",
+                      "checkin": "2025-12-02",
+                      "checkout": "2025-12-05",
                       "children": null,
                       "enableM3PrivateRoom": null,
                       "highlightType": null,
                       "infants": null,
                       "pets": null,
                       "relaxedAmenityIds": null,
-                      "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538"
+                      "splitStaysUuid": "0b08f7db-9c48-4ed9-81c6-fab95af96b1c"
                     },
-                    "lng": -75.81549,
-                    "mapPinAccessibilityLabel": "ج.م175,391 for 7 nights, Stay 2 of 2, Nov 17 to Nov 20, less than 1 km from first stay, White Haven",
-                    "name": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
+                    "lng": -76.33646,
+                    "mapPinAccessibilityLabel": "ج.م121,202 for 7 nights, Stay 1 of 2, Dec 2 to Dec 5, less than 1 km from second stay, Stevensville",
+                    "name": "Cozy, Waterfront Getaway “Great Neck”",
                     "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Entire home · White Haven",
+                    "pdpSubtitle": "Entire cottage · Stevensville",
                     "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg?im_w=720",
-                    "subtitle": "Nov 17 – 20",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-51023541/original/e0319aa2-750f-4365-b64a-2eddee8fdcaa.jpeg?im_w=720",
+                    "subtitle": "Dec 2 – 5",
                     "tierId": 0,
-                    "title": "White Haven"
+                    "title": "Stevensville"
+                  },
+                  {
+                    "__typename": "SplitStaysListing",
+                    "accessibilityLabel": "Stevensville, Dec 5 to Dec 9, Stay 2 of 2",
+                    "checkInShortText": "Dec 5",
+                    "id": "1023160328251457256",
+                    "lat": 38.9575764,
+                    "listingParamOverrides": {
+                      "__typename": "ExploreListingParamOverrides",
+                      "adults": null,
+                      "categoryTag": null,
+                      "causeId": null,
+                      "checkin": "2025-12-05",
+                      "checkout": "2025-12-09",
+                      "children": null,
+                      "enableM3PrivateRoom": null,
+                      "highlightType": null,
+                      "infants": null,
+                      "pets": null,
+                      "relaxedAmenityIds": null,
+                      "splitStaysUuid": "0b08f7db-9c48-4ed9-81c6-fab95af96b1c"
+                    },
+                    "lng": -76.3405446,
+                    "mapPinAccessibilityLabel": "ج.م121,202 for 7 nights, Stay 2 of 2, Dec 5 to Dec 9, less than 1 km from first stay, Stevensville",
+                    "name": "Heron Roost",
+                    "pdpDisplayExtensions": [],
+                    "pdpSubtitle": "Entire rental unit · Stevensville",
+                    "pdpUrlType": "ROOMS",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/71140786-d74d-4e29-b187-4efc5492e1b3.jpeg?im_w=720",
+                    "subtitle": "Dec 5 – 9",
+                    "tierId": 0,
+                    "title": "Stevensville"
                   }
                 ],
-                "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538",
+                "splitStaysUuid": "0b08f7db-9c48-4ed9-81c6-fab95af96b1c",
                 "structuredStayDisplayPrice": {
                   "__typename": "StructuredDisplayPrice",
                   "primaryLine": {
                     "__typename": "QualifiedDisplayPriceLine",
                     "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م175,391 for 7 nights",
-                    "price": "ج.م175,391",
+                    "accessibilityLabel": "ج.م121,202 for 7 nights",
+                    "price": "ج.م121,202",
                     "qualifier": "for 7 nights",
                     "shortQualifier": null,
                     "concatQualifierLeft": false,
@@ -568,7 +577,7 @@
                       {
                         "__typename": "DisplayPriceExplanationTitle",
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 13 – 17"
+                        "content": "Stay from Dec 2 – 5"
                       },
                       {
                         "__typename": "DisplayPriceExplanationLineGroup",
@@ -577,8 +586,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "4 nights x ج.م4,794.15",
-                            "priceString": "ج.م19,176.61",
+                            "description": "3 nights x ج.م21,008.08",
+                            "priceString": "ج.م63,024.24",
                             "explanationData": null
                           }
                         ],
@@ -605,7 +614,7 @@
                       {
                         "__typename": "DisplayPriceExplanationTitle",
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 17 – 20"
+                        "content": "Stay from Dec 5 – 9"
                       },
                       {
                         "__typename": "DisplayPriceExplanationLineGroup",
@@ -614,8 +623,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "3 nights x ج.م52,071.15",
-                            "priceString": "ج.م156,213.46",
+                            "description": "4 nights x ج.م14,544.01",
+                            "priceString": "ج.م58,176.05",
                             "explanationData": null
                           }
                         ],
@@ -647,7 +656,7 @@
                             "__typename": "HighlightExplanationLineItem",
                             "displayComponentType": "HIGHLIGHT_EXPLANATION_LINE_ITEM",
                             "description": "Price for two stays",
-                            "priceString": "ج.م175,390.07",
+                            "priceString": "ج.م121,200.29",
                             "explanationData": null,
                             "originalPriceString": null,
                             "accessibilityLabel": null
@@ -668,7 +677,7 @@
                   "layout": null,
                   "displayPriceStyle": "TOTAL_ONLY"
                 },
-                "title": "Two stays in White Haven less than 1 km apart"
+                "title": "Two stays in Stevensville less than 1 km apart"
               }
             ],
             "paginationInfo": {
@@ -681,7 +690,7 @@
             },
             "loggingMetadata": {
               "__typename": "StaysSearchLoggingMetadata",
-              "legacyLoggingSectionId": "3da2ee8a-d9c9-4d89-a418-94faa2f0e084",
+              "legacyLoggingSectionId": "479de329-b343-4d92-8f85-4479a53d57a9",
               "remarketingLoggingData": {
                 "__typename": "RemarketingLoggingData",
                 "remarketingIds": [],
@@ -692,8 +701,8 @@
               },
               "legacyLoggingContext": {
                 "__typename": "ExploreLoggingContext",
-                "federatedSearchId": "a5a1b65a-036d-4d13-add3-c0141f6a3943",
-                "federatedSearchSessionId": "0c360a4b-c8a3-4d06-9b78-fc787ee5db3a",
+                "federatedSearchId": "5606852b-b0b0-42a9-bb51-b6de9f3e7de5",
+                "federatedSearchSessionId": "31756a2e-13c1-428d-aadc-e4199413cdbd",
                 "pageLoggingContext": {
                   "__typename": "ExplorePageLoggingContext",
                   "extraData": {},
@@ -3041,7 +3050,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Oi05MDc0ODQ1MDc5MjU1Mjk5Mw==",
+                        "id": "VGl0bGVUZXh0Oi04OTYwMjk5MTIxMjE1NDg5NDQy",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Price range"
@@ -3051,7 +3060,7 @@
                             "__typename": "ExplorePriceSliderFilterItem",
                             "text": {
                               "__typename": "TitleSubtitleText",
-                              "title": "ج.م2,400 - ج.م300,000",
+                              "title": "ج.م2,400 - ج.م67,000",
                               "subtitle": "Trip price, includes all fees"
                             },
                             "searchParams": {
@@ -3081,7 +3090,7 @@
                               "tabId": "all_tab"
                             },
                             "minValue": 2400,
-                            "maxValue": 300000,
+                            "maxValue": 67000,
                             "priceHistogram": [
                               0,
                               0,
@@ -3132,7 +3141,7 @@
                               0,
                               0,
                               0,
-                              0
+                              1
                             ],
                             "priceFilterInputType": null,
                             "version": "V2"
@@ -3162,7 +3171,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0OjQ5NzY5MjM3ODE5NjI3NDc2OTI=",
+                        "id": "VGl0bGVUZXh0Oi0zNjkzNzQxOTExNzQzMzM2NjA1",
                         "filterItemText": null,
                         "discreteFilterItems": [
                           {
@@ -3286,7 +3295,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Oi00NTEwMTYzMjgzMTUxNTU4MjAz",
+                        "id": "VGl0bGVUZXh0Oi03NTk5NzMwMDgzOTg5OTIwOTI0",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Rooms and beds"
@@ -3413,7 +3422,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Oi0yNzM4NTEyMjc0NTczMzQ0NTAy",
+                        "id": "VGl0bGVUZXh0Oi01MDIzNzIzMjgxNjEzNjE0NzI3",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Standout stays"
@@ -3527,7 +3536,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0OjU3NDMyMjg5MzY3MDAyOTUyNDk=",
+                        "id": "VGl0bGVUZXh0OjE1OTczODIzMjg4ODAzODM2NTQ=",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Booking options"
@@ -3666,7 +3675,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0OjMzMjU5NjUwOTU0NDQyMTUwNjU=",
+                        "id": "VGl0bGVUZXh0OjM3MjMzODIyOTcwNDgzMzEwMA==",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Accessibility features"
@@ -4093,7 +4102,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Ojg1MzM4MzY5MDIxMjUwMTgwOTE=",
+                        "id": "VGl0bGVUZXh0OjU0NjMyOTUwNDAzNzM2MTM3Mjc=",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Amenities"
@@ -5036,7 +5045,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Oi0xODgyNjk3ODQxMTI3ODQ1NjQw",
+                        "id": "VGl0bGVUZXh0Ojc2NDM2OTExMDQ0ODk3NTUxNzc=",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Property type"
@@ -5046,12 +5055,12 @@
                             "__typename": "ExploreIconPillFilterItem",
                             "text": {
                               "__typename": "TitleText",
-                              "title": "House"
+                              "title": "Apartment"
                             },
                             "localImageAsset": {
                               "__typename": "LocalImageAsset",
                               "localKey": null,
-                              "remoteUrl": "https://a0.muscache.com/pictures/4d7580e1-4ab2-4d26-a3d6-97f9555ba8f9.jpg"
+                              "remoteUrl": "https://a0.muscache.com/pictures/21cfc7c9-5457-494d-9779-7b0c21d81a25.jpg"
                             },
                             "searchParams": {
                               "__typename": "ExploreSearchParams",
@@ -5063,7 +5072,7 @@
                                   "key": "l2_property_type_ids",
                                   "value": {
                                     "__typename": "LongValue",
-                                    "longValue": "1"
+                                    "longValue": "3"
                                   },
                                   "valueType": "array"
                                 }
@@ -5102,7 +5111,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Ojg4MTkzMTY0MjY5NDEwNjYxNjM=",
+                        "id": "VGl0bGVUZXh0OjIwMzk2OTI0ODI2MTMyODMxMTg=",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Host language"
@@ -5126,37 +5135,6 @@
                                   "value": {
                                     "__typename": "StringValue",
                                     "stringValue": "en"
-                                  },
-                                  "valueType": "array"
-                                }
-                              ],
-                              "placeId": null,
-                              "query": null,
-                              "refinementPaths": [],
-                              "resetFilters": false,
-                              "resetKeys": [],
-                              "tabId": "all_tab"
-                            },
-                            "visibilityConfiguration": null
-                          },
-                          {
-                            "__typename": "ExploreCheckboxFilterItem",
-                            "text": {
-                              "__typename": "TitleText",
-                              "title": "Indonesian"
-                            },
-                            "badgeText": null,
-                            "searchParams": {
-                              "__typename": "ExploreSearchParams",
-                              "locationSearch": null,
-                              "params": [
-                                {
-                                  "__typename": "ExploreSearchParam",
-                                  "inArray": true,
-                                  "key": "host_languages",
-                                  "value": {
-                                    "__typename": "StringValue",
-                                    "stringValue": "id"
                                   },
                                   "valueType": "array"
                                 }
@@ -5196,7 +5174,7 @@
                   "valueType": "STRING",
                   "value": {
                     "__typename": "ExploreFilterStateStringValue",
-                    "stringValue": "12 Polonia Ct, White Haven, PA 18661, United States"
+                    "stringValue": "102 Great Neck Rd Stevensville, Md 21666"
                   }
                 },
                 {
@@ -5341,7 +5319,7 @@
                   "valueType": "DOUBLE",
                   "value": {
                     "__typename": "ExploreFilterStateDoubleValue",
-                    "doubleValue": 41.014581780039535
+                    "doubleValue": 38.957683636119384
                   }
                 },
                 {
@@ -5351,7 +5329,7 @@
                   "valueType": "DOUBLE",
                   "value": {
                     "__typename": "ExploreFilterStateDoubleValue",
-                    "doubleValue": 41.01436674658937
+                    "doubleValue": 38.957468546536575
                   }
                 },
                 {
@@ -5361,7 +5339,7 @@
                   "valueType": "DOUBLE",
                   "value": {
                     "__typename": "ExploreFilterStateDoubleValue",
-                    "doubleValue": -75.81544190595048
+                    "doubleValue": -76.3404773324412
                   }
                 },
                 {
@@ -5371,7 +5349,7 @@
                   "valueType": "DOUBLE",
                   "value": {
                     "__typename": "ExploreFilterStateDoubleValue",
-                    "doubleValue": -75.81554452140006
+                    "doubleValue": -76.34057460966619
                   }
                 },
                 {
@@ -6018,15 +5996,15 @@
             "mapSearchResults": [
               {
                 "__typename": "StaySearchResult",
-                "avgRatingA11yLabel": "4.57 out of 5 average rating,  23 reviews",
-                "avgRatingLocalized": "4.57 (23)",
+                "avgRatingA11yLabel": "5.0 out of 5 average rating,  68 reviews",
+                "avgRatingLocalized": "5.0 (68)",
                 "listingParamOverrides": {
                   "__typename": "ExploreListingParamOverrides",
                   "adults": 1,
                   "categoryTag": null,
                   "causeId": null,
-                  "checkin": "2025-11-13",
-                  "checkout": "2025-11-18",
+                  "checkin": "2025-12-05",
+                  "checkout": "2025-12-10",
                   "children": 0,
                   "distanceInKm": null,
                   "highlightType": null,
@@ -6042,11 +6020,10 @@
                 "structuredDisplayPrice": {
                   "__typename": "StructuredDisplayPrice",
                   "primaryLine": {
-                    "__typename": "DiscountedDisplayPriceLine",
-                    "displayComponentType": "DISCOUNTED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م328,588 for 5 nights, originally ج.م394,672",
-                    "discountedPrice": "ج.م328,588",
-                    "originalPrice": "ج.م394,672",
+                    "__typename": "QualifiedDisplayPriceLine",
+                    "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
+                    "accessibilityLabel": "ج.م71,374 for 5 nights",
+                    "price": "ج.م71,374",
                     "qualifier": "for 5 nights",
                     "shortQualifier": null,
                     "concatQualifierLeft": false,
@@ -6064,21 +6041,15 @@
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
                         "items": [
                           {
-                            "__typename": "DiscountedExplanationLineItem",
-                            "displayComponentType": "DISCOUNTED_EXPLANATION_LINE_ITEM",
-                            "description": "5 nights x ج.م65,717.46",
-                            "priceString": "ج.م328,587.28",
-                            "originalPriceString": "ج.م394,671.20",
+                            "__typename": "DefaultExplanationLineItem",
+                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
+                            "description": "5 nights x ج.م14,274.70",
+                            "priceString": "ج.م71,373.49",
                             "explanationData": null
                           }
                         ],
                         "renderBorderTop": false,
                         "collapsable": null
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationDisclaimer",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DISCLAIMER",
-                        "content": "Ara recently lowered the price for these dates (from the average rate for the past 60 nights)."
                       }
                     ]
                   },
@@ -6087,16 +6058,32 @@
                   "layout": null,
                   "displayPriceStyle": "TOTAL_ONLY"
                 },
-                "badges": [],
+                "badges": [
+                  {
+                    "__typename": "ExploreFormattedBadge",
+                    "icon": {
+                      "__typename": "ExploreFormattedBadgeIconAsset",
+                      "localKey": "SYSTEM_GOLDEN_TROPHY"
+                    },
+                    "loggingContext": {
+                      "__typename": "ExploreFormattedBadgeLoggingContext",
+                      "badgeType": "TOP_X_GUEST_FAVORITE"
+                    },
+                    "style": "LOUD_ROUNDED_PILL",
+                    "text": "Guest favorite",
+                    "textAccessibilityLabel": "Top guest favorite",
+                    "textColor": "#000000"
+                  }
+                ],
                 "contextualPictures": [
                   {
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640020801",
+                    "id": "1780275145",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/71140786-d74d-4e29-b187-4efc5492e1b3.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6106,10 +6093,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640022837",
+                    "id": "1780275146",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/7534038a-0500-4ff6-a576-76d82b618503.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/271abee8-a71a-473e-92de-826d8191b07e.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6119,10 +6106,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640022838",
+                    "id": "1780275154",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/e9572da6-faa2-437a-87c6-bad1050d688c.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/94eb7ca9-25d8-4991-8067-b66dfd380563.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6132,10 +6119,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846064070",
+                    "id": "1780275156",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/dcd84c95-df24-4500-89f1-c2a910074897.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/2e268da9-cc5e-4868-ae13-b97eeef3d2de.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6145,10 +6132,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846064076",
+                    "id": "1780275149",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/4c5ca1fd-0551-48c5-b293-dba68b838122.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/699e8de7-0860-419b-b0ef-aa0f8403a885.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6158,10 +6145,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846067450",
+                    "id": "1780275158",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/95d917ea-1c37-482f-af70-b3a863d0a2d7.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/d12fd313-57b6-41af-90f8-7f03765dc367.jpeg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6169,11 +6156,11 @@
                   }
                 ],
                 "paymentMessages": [],
-                "title": "Home in White Haven",
-                "subtitle": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
+                "title": "Apartment in Stevensville",
+                "subtitle": "Heron Roost",
                 "nameLocalized": {
                   "__typename": "UGCText",
-                  "localizedStringWithTranslationPreference": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!"
+                  "localizedStringWithTranslationPreference": "Heron Roost"
                 },
                 "propertyId": null,
                 "structuredContent": {
@@ -6184,7 +6171,7 @@
                   "mapSecondaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "Nov 13 – 18",
+                      "body": "Dec 5 – 10",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -6195,7 +6182,7 @@
                   "primaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "11 bedrooms",
+                      "body": "2 bedrooms",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -6204,7 +6191,7 @@
                     },
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "15 beds",
+                      "body": "2 beds",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -6215,7 +6202,7 @@
                   "secondaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "Nov 13 – 18",
+                      "body": "Dec 5 – 10",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -6229,20 +6216,20 @@
                 "passportData": null,
                 "demandStayListing": {
                   "__typename": "DemandStayListing",
-                  "id": "RGVtYW5kU3RheUxpc3Rpbmc6ODgwNDU3NTUxNjExNTIzMjY4",
+                  "id": "RGVtYW5kU3RheUxpc3Rpbmc6MTAyMzE2MDMyODI1MTQ1NzI1Ng==",
                   "location": {
                     "__typename": "DemandStayListingLocation",
                     "coordinate": {
                       "__typename": "Coordinate",
-                      "latitude": 41.01449,
-                      "longitude": -75.81549
+                      "latitude": 38.9576,
+                      "longitude": -76.3405
                     }
                   },
                   "description": {
                     "__typename": "DemandStayListingDescription",
                     "name": {
                       "__typename": "UGCText",
-                      "localizedStringWithTranslationPreference": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!"
+                      "localizedStringWithTranslationPreference": "Heron Roost"
                     }
                   },
                   "wishlistItems": [],
@@ -6254,77 +6241,77 @@
                 "splitStaysListings": [
                   {
                     "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 16 to Nov 20, Stay 1 of 2",
-                    "checkInShortText": "Nov 16",
-                    "id": "880457551611523268",
-                    "lat": 41.01449,
+                    "accessibilityLabel": "Stevensville, Nov 18 to Nov 21, Stay 1 of 2",
+                    "checkInShortText": "Nov 18",
+                    "id": "1023160328251457256",
+                    "lat": 38.9575764,
                     "listingParamOverrides": {
                       "__typename": "ExploreListingParamOverrides",
                       "adults": null,
                       "categoryTag": null,
                       "causeId": null,
-                      "checkin": "2025-11-16",
-                      "checkout": "2025-11-20",
+                      "checkin": "2025-11-18",
+                      "checkout": "2025-11-21",
                       "children": null,
                       "enableM3PrivateRoom": null,
                       "highlightType": null,
                       "infants": null,
                       "pets": null,
                       "relaxedAmenityIds": null,
-                      "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c"
+                      "splitStaysUuid": "e9172c3d-d5bc-4989-ba49-f475a2c4baad"
                     },
-                    "lng": -75.81549,
-                    "mapPinAccessibilityLabel": "ج.م215,845 for 7 nights, Stay 1 of 2, Nov 16 to Nov 20, less than 1 km from second stay, White Haven",
-                    "name": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
+                    "lng": -76.3405446,
+                    "mapPinAccessibilityLabel": "ج.م87,534 for 7 nights, Stay 1 of 2, Nov 18 to Nov 21, less than 1 km from second stay, Stevensville",
+                    "name": "Heron Roost",
                     "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Entire home · White Haven",
+                    "pdpSubtitle": "Entire rental unit · Stevensville",
                     "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg?im_w=720",
-                    "subtitle": "Nov 16 – 20",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/71140786-d74d-4e29-b187-4efc5492e1b3.jpeg?im_w=720",
+                    "subtitle": "Nov 18 – 21",
                     "tierId": 0,
-                    "title": "White Haven"
+                    "title": "Stevensville"
                   },
                   {
                     "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 20 to Nov 23, Stay 2 of 2",
-                    "checkInShortText": "Nov 20",
-                    "id": "877425943075071335",
-                    "lat": 41.01094,
+                    "accessibilityLabel": "Stevensville, Nov 21 to Nov 25, Stay 2 of 2",
+                    "checkInShortText": "Nov 21",
+                    "id": "725307243142504181",
+                    "lat": 38.9644943,
                     "listingParamOverrides": {
                       "__typename": "ExploreListingParamOverrides",
                       "adults": null,
-                      "categoryTag": "Tag:8678",
+                      "categoryTag": null,
                       "causeId": null,
-                      "checkin": "2025-11-20",
-                      "checkout": "2025-11-23",
+                      "checkin": "2025-11-21",
+                      "checkout": "2025-11-25",
                       "children": null,
                       "enableM3PrivateRoom": null,
                       "highlightType": null,
                       "infants": null,
                       "pets": null,
                       "relaxedAmenityIds": null,
-                      "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c"
+                      "splitStaysUuid": "e9172c3d-d5bc-4989-ba49-f475a2c4baad"
                     },
-                    "lng": -75.81641,
-                    "mapPinAccessibilityLabel": "ج.م215,845 for 7 nights, Stay 2 of 2, Nov 20 to Nov 23, less than 1 km from first stay, White Haven",
-                    "name": "Restful Waterfalls BnB. Rent per room. # 3 of 3",
+                    "lng": -76.3402567,
+                    "mapPinAccessibilityLabel": "ج.م87,534 for 7 nights, Stay 2 of 2, Nov 21 to Nov 25, less than 1 km from first stay, Stevensville",
+                    "name": "Apartment with Lounge Stevensville, MD",
                     "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Private room · White Haven",
+                    "pdpSubtitle": "Entire rental unit · Stevensville",
                     "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/airflow/Hosting-877425943075071335/original/2bed517f-79f7-4987-a7e2-81c5098a760c.jpg?im_w=720",
-                    "subtitle": "Nov 20 – 23",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/hosting/Hosting-725307243142504181/original/61698526-f638-4c1f-9760-489033a30d28.jpeg?im_w=720",
+                    "subtitle": "Nov 21 – 25",
                     "tierId": 0,
-                    "title": "White Haven"
+                    "title": "Stevensville"
                   }
                 ],
-                "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c",
+                "splitStaysUuid": "e9172c3d-d5bc-4989-ba49-f475a2c4baad",
                 "structuredStayDisplayPrice": {
                   "__typename": "StructuredDisplayPrice",
                   "primaryLine": {
                     "__typename": "QualifiedDisplayPriceLine",
                     "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م215,845 for 7 nights",
-                    "price": "ج.م215,845",
+                    "accessibilityLabel": "ج.م87,534 for 7 nights",
+                    "price": "ج.م87,534",
                     "qualifier": "for 7 nights",
                     "shortQualifier": null,
                     "concatQualifierLeft": false,
@@ -6340,7 +6327,7 @@
                       {
                         "__typename": "DisplayPriceExplanationTitle",
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 16 – 20"
+                        "content": "Stay from Nov 18 – 21"
                       },
                       {
                         "__typename": "DisplayPriceExplanationLineGroup",
@@ -6349,8 +6336,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "4 nights x ج.م49,826.70",
-                            "priceString": "ج.م199,306.80",
+                            "description": "3 nights x ج.م14,992.87",
+                            "priceString": "ج.م44,978.62",
                             "explanationData": null
                           }
                         ],
@@ -6377,7 +6364,7 @@
                       {
                         "__typename": "DisplayPriceExplanationTitle",
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 20 – 23"
+                        "content": "Stay from Nov 21 – 25"
                       },
                       {
                         "__typename": "DisplayPriceExplanationLineGroup",
@@ -6386,8 +6373,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "3 nights x ج.م5,512.35",
-                            "priceString": "ج.م16,537.04",
+                            "description": "4 nights x ج.م10,638.69",
+                            "priceString": "ج.م42,554.74",
                             "explanationData": null
                           }
                         ],
@@ -6419,7 +6406,7 @@
                             "__typename": "HighlightExplanationLineItem",
                             "displayComponentType": "HIGHLIGHT_EXPLANATION_LINE_ITEM",
                             "description": "Price for two stays",
-                            "priceString": "ج.م215,843.84",
+                            "priceString": "ج.م87,533.36",
                             "explanationData": null,
                             "originalPriceString": null,
                             "accessibilityLabel": null
@@ -6440,84 +6427,84 @@
                   "layout": null,
                   "displayPriceStyle": "TOTAL_ONLY"
                 },
-                "title": "Two stays in White Haven less than 1 km apart"
+                "title": "Two stays in Stevensville less than 1 km apart"
               },
               {
                 "__typename": "ExploreSplitStaysListingItem",
                 "splitStaysListings": [
                   {
                     "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 13 to Nov 17, Stay 1 of 2",
-                    "checkInShortText": "Nov 13",
-                    "id": "768923757213497320",
-                    "lat": 41.01105,
-                    "listingParamOverrides": {
-                      "__typename": "ExploreListingParamOverrides",
-                      "adults": null,
-                      "categoryTag": "Tag:8678",
-                      "causeId": null,
-                      "checkin": "2025-11-13",
-                      "checkout": "2025-11-17",
-                      "children": null,
-                      "enableM3PrivateRoom": null,
-                      "highlightType": null,
-                      "infants": null,
-                      "pets": null,
-                      "relaxedAmenityIds": null,
-                      "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538"
-                    },
-                    "lng": -75.81672,
-                    "mapPinAccessibilityLabel": "ج.م175,391 for 7 nights, Stay 1 of 2, Nov 13 to Nov 17, less than 1 km from second stay, White Haven",
-                    "name": "Restful Waterfalls BnB. Rent per room.  # 2 of 3",
-                    "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Private room · White Haven",
-                    "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/airflow/Hosting-768923757213497320/original/686aecf5-cd78-4776-b0d5-9ad59e027895.jpg?im_w=720",
-                    "subtitle": "Nov 13 – 17",
-                    "tierId": 0,
-                    "title": "White Haven"
-                  },
-                  {
-                    "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 17 to Nov 20, Stay 2 of 2",
-                    "checkInShortText": "Nov 17",
-                    "id": "880457551611523268",
-                    "lat": 41.01449,
+                    "accessibilityLabel": "Stevensville, Dec 2 to Dec 5, Stay 1 of 2",
+                    "checkInShortText": "Dec 2",
+                    "id": "51023541",
+                    "lat": 38.9572,
                     "listingParamOverrides": {
                       "__typename": "ExploreListingParamOverrides",
                       "adults": null,
                       "categoryTag": null,
                       "causeId": null,
-                      "checkin": "2025-11-17",
-                      "checkout": "2025-11-20",
+                      "checkin": "2025-12-02",
+                      "checkout": "2025-12-05",
                       "children": null,
                       "enableM3PrivateRoom": null,
                       "highlightType": null,
                       "infants": null,
                       "pets": null,
                       "relaxedAmenityIds": null,
-                      "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538"
+                      "splitStaysUuid": "0b08f7db-9c48-4ed9-81c6-fab95af96b1c"
                     },
-                    "lng": -75.81549,
-                    "mapPinAccessibilityLabel": "ج.م175,391 for 7 nights, Stay 2 of 2, Nov 17 to Nov 20, less than 1 km from first stay, White Haven",
-                    "name": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
+                    "lng": -76.33646,
+                    "mapPinAccessibilityLabel": "ج.م121,202 for 7 nights, Stay 1 of 2, Dec 2 to Dec 5, less than 1 km from second stay, Stevensville",
+                    "name": "Cozy, Waterfront Getaway “Great Neck”",
                     "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Entire home · White Haven",
+                    "pdpSubtitle": "Entire cottage · Stevensville",
                     "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg?im_w=720",
-                    "subtitle": "Nov 17 – 20",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-51023541/original/e0319aa2-750f-4365-b64a-2eddee8fdcaa.jpeg?im_w=720",
+                    "subtitle": "Dec 2 – 5",
                     "tierId": 0,
-                    "title": "White Haven"
+                    "title": "Stevensville"
+                  },
+                  {
+                    "__typename": "SplitStaysListing",
+                    "accessibilityLabel": "Stevensville, Dec 5 to Dec 9, Stay 2 of 2",
+                    "checkInShortText": "Dec 5",
+                    "id": "1023160328251457256",
+                    "lat": 38.9575764,
+                    "listingParamOverrides": {
+                      "__typename": "ExploreListingParamOverrides",
+                      "adults": null,
+                      "categoryTag": null,
+                      "causeId": null,
+                      "checkin": "2025-12-05",
+                      "checkout": "2025-12-09",
+                      "children": null,
+                      "enableM3PrivateRoom": null,
+                      "highlightType": null,
+                      "infants": null,
+                      "pets": null,
+                      "relaxedAmenityIds": null,
+                      "splitStaysUuid": "0b08f7db-9c48-4ed9-81c6-fab95af96b1c"
+                    },
+                    "lng": -76.3405446,
+                    "mapPinAccessibilityLabel": "ج.م121,202 for 7 nights, Stay 2 of 2, Dec 5 to Dec 9, less than 1 km from first stay, Stevensville",
+                    "name": "Heron Roost",
+                    "pdpDisplayExtensions": [],
+                    "pdpSubtitle": "Entire rental unit · Stevensville",
+                    "pdpUrlType": "ROOMS",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-1023160328251457256/original/71140786-d74d-4e29-b187-4efc5492e1b3.jpeg?im_w=720",
+                    "subtitle": "Dec 5 – 9",
+                    "tierId": 0,
+                    "title": "Stevensville"
                   }
                 ],
-                "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538",
+                "splitStaysUuid": "0b08f7db-9c48-4ed9-81c6-fab95af96b1c",
                 "structuredStayDisplayPrice": {
                   "__typename": "StructuredDisplayPrice",
                   "primaryLine": {
                     "__typename": "QualifiedDisplayPriceLine",
                     "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م175,391 for 7 nights",
-                    "price": "ج.م175,391",
+                    "accessibilityLabel": "ج.م121,202 for 7 nights",
+                    "price": "ج.م121,202",
                     "qualifier": "for 7 nights",
                     "shortQualifier": null,
                     "concatQualifierLeft": false,
@@ -6533,7 +6520,7 @@
                       {
                         "__typename": "DisplayPriceExplanationTitle",
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 13 – 17"
+                        "content": "Stay from Dec 2 – 5"
                       },
                       {
                         "__typename": "DisplayPriceExplanationLineGroup",
@@ -6542,8 +6529,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "4 nights x ج.م4,794.15",
-                            "priceString": "ج.م19,176.61",
+                            "description": "3 nights x ج.م21,008.08",
+                            "priceString": "ج.م63,024.24",
                             "explanationData": null
                           }
                         ],
@@ -6570,7 +6557,7 @@
                       {
                         "__typename": "DisplayPriceExplanationTitle",
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 17 – 20"
+                        "content": "Stay from Dec 5 – 9"
                       },
                       {
                         "__typename": "DisplayPriceExplanationLineGroup",
@@ -6579,8 +6566,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "3 nights x ج.م52,071.15",
-                            "priceString": "ج.م156,213.46",
+                            "description": "4 nights x ج.م14,544.01",
+                            "priceString": "ج.م58,176.05",
                             "explanationData": null
                           }
                         ],
@@ -6612,7 +6599,7 @@
                             "__typename": "HighlightExplanationLineItem",
                             "displayComponentType": "HIGHLIGHT_EXPLANATION_LINE_ITEM",
                             "description": "Price for two stays",
-                            "priceString": "ج.م175,390.07",
+                            "priceString": "ج.م121,200.29",
                             "explanationData": null,
                             "originalPriceString": null,
                             "accessibilityLabel": null
@@ -6633,40 +6620,40 @@
                   "layout": null,
                   "displayPriceStyle": "TOTAL_ONLY"
                 },
-                "title": "Two stays in White Haven less than 1 km apart"
+                "title": "Two stays in Stevensville less than 1 km apart"
               }
             ],
             "staysInViewport": [
               {
                 "__typename": "ExploreStayMapInfo",
-                "listingId": "880457551611523268",
+                "listingId": "1023160328251457256",
                 "splitStayUuid": null,
                 "pinState": "FULL_PIN"
               },
               {
                 "__typename": "ExploreStayMapInfo",
                 "listingId": null,
-                "splitStayUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c",
+                "splitStayUuid": "e9172c3d-d5bc-4989-ba49-f475a2c4baad",
                 "pinState": "FULL_PIN"
               },
               {
                 "__typename": "ExploreStayMapInfo",
                 "listingId": null,
-                "splitStayUuid": "eb467bb0-58a3-4867-870b-9529c0c18538",
+                "splitStayUuid": "0b08f7db-9c48-4ed9-81c6-fab95af96b1c",
                 "pinState": "FULL_PIN"
               }
             ],
             "loggingMetadata": {
               "__typename": "StaysSearchLoggingMetadata",
-              "legacyLoggingBackendSearchId": "d2493446-8744-4c0d-9afa-32a1a10b4fbe",
-              "legacyLoggingSectionId": "3c9562f4-69e4-4ba5-b99a-ed6aba64069d"
+              "legacyLoggingBackendSearchId": "275f9611-78be-413c-9c93-c5f94d12427a",
+              "legacyLoggingSectionId": "a353c369-7a3e-4529-aa3a-6efd6fe1bec4"
             }
           }
         }
       }
     },
     "extensions": {
-      "traceId": "tPcazZYocids2vT8t6fJJg=="
+      "traceId": "6jDorQZ8vbtKRZHcDWt38g=="
     }
   }
 }

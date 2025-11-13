@@ -1,33 +1,33 @@
 {
   "status": 200,
   "headers": {
-    "akamai-request-bc": "[a=23.45.206.80,b=280439146,c=g,n=SG__SINGAPORE,o=20940],[c=c,n=US_VA_STERLING,o=20940],[a=247,c=o]",
+    "akamai-request-bc": "[a=2.20.134.78,b=3196124435,c=g,n=TR__ISTANBUL,o=20940],[c=c,n=US_VA_STERLING,o=20940],[a=237,c=o]",
     "alt-svc": "h3=\":443\"; ma=93600",
     "cache-control": "max-age=0, no-cache, no-store",
     "cachestatus": "on",
     "connection": "keep-alive",
     "content-encoding": "gzip",
-    "content-length": "13540",
+    "content-length": "13497",
     "content-type": "application/json;charset=utf-8",
-    "date": "Thu, 13 Nov 2025 10:16:26 GMT",
-    "expires": "Thu, 13 Nov 2025 10:16:26 GMT",
+    "date": "Thu, 13 Nov 2025 10:18:46 GMT",
+    "expires": "Thu, 13 Nov 2025 10:18:46 GMT",
     "origin-trial": "AkOekvxwprBLSP7I2nhyRn5yZGt9lTJN6UIYziFKVYg5OhlzmlNDciWbBWkEQ5TYPz+aqsuIUT2pPEjPUD5dFAsAAABneyJvcmlnaW4iOiJodHRwczovL2FpcmJuYi5jb206NDQzIiwiZmVhdHVyZSI6IlByaW9yaXR5SGludHNBUEkiLCJleHBpcnkiOjE2NDc5OTM1OTksImlzU3ViZG9tYWluIjp0cnVlfQ==",
     "pragma": "no-cache",
     "referrer-policy": "same-origin",
     "server": "nginx",
-    "server-timing": "backend;dur=272, cdn-cache; desc=MISS, edge; dur=273, origin; dur=282",
+    "server-timing": "backend;dur=227, cdn-cache; desc=MISS, edge; dur=149, origin; dur=261",
     "status": "200 OK",
     "strict-transport-security": "max-age=10886400; includeSubdomains",
     "vary": "Accept-Encoding",
-    "x-airbnb-everest-device-id": "1763028986.EANWNkZDUwYzAyOWFhMz.rKAD3fx7i77mouitM8NL4mOtQpaBLUOKkDNL3mEnOvc",
+    "x-airbnb-everest-device-id": "1763029125.EAMjY0Yzk1OGI3NmVmMW.QyOX3OW_Mox6XGhhnUs5fPmcqEHMn7ONWXJ9Jg6sNrs",
     "x-airbnb-graphql-schema-id": "b84407c8af7b0f40611ff787aa3597c2cd53dbf9500b4c19561bf6c7305fb43f",
-    "x-airbnb-internal-trace-id": "tPcazZYocids2vT8t6fJJg==",
-    "x-airbnb-sureride": "c1a1o.0.50ce2d17.1763028986.10b7296a%%i1c1o%%t1d1o.tPcazZYocids2vT8t6fJJg==%%h1",
+    "x-airbnb-internal-trace-id": "Npcb4IYkPUEzGvxXiKJPpA==",
+    "x-airbnb-sureride": "c1a1o.0.4e861402.1763029125.be80fd13%%i1c1o%%t1d1o.Npcb4IYkPUEzGvxXiKJPpA==%%h1",
     "x-app-git-sha": "sha=f32d1c623e711",
     "x-browser-type": "unknown",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "274",
-    "x-erf-bev-bev": "1763028986_EAZTUyNGQwYmM4MD",
+    "x-envoy-upstream-service-time": "228",
+    "x-erf-bev-bev": "1763029125_EAYzc0MDljNTY2NG",
     "x-erf-bev-bev-is-generated": "1",
     "x-frame-options": "SAMEORIGIN",
     "x-instrumentation": "airbnb",
@@ -48,15 +48,15 @@
             "searchResults": [
               {
                 "__typename": "StaySearchResult",
-                "avgRatingA11yLabel": "4.57 out of 5 average rating,  23 reviews",
-                "avgRatingLocalized": "4.57 (23)",
+                "avgRatingA11yLabel": "4.97 out of 5 average rating,  61 reviews",
+                "avgRatingLocalized": "4.97 (61)",
                 "listingParamOverrides": {
                   "__typename": "ExploreListingParamOverrides",
                   "adults": 1,
                   "categoryTag": null,
                   "causeId": null,
-                  "checkin": "2025-11-13",
-                  "checkout": "2025-11-18",
+                  "checkin": "2025-11-14",
+                  "checkout": "2025-11-19",
                   "children": 0,
                   "distanceInKm": null,
                   "highlightType": null,
@@ -72,11 +72,10 @@
                 "structuredDisplayPrice": {
                   "__typename": "StructuredDisplayPrice",
                   "primaryLine": {
-                    "__typename": "DiscountedDisplayPriceLine",
-                    "displayComponentType": "DISCOUNTED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م328,588 for 5 nights, originally ج.م394,672",
-                    "discountedPrice": "ج.م328,588",
-                    "originalPrice": "ج.م394,672",
+                    "__typename": "QualifiedDisplayPriceLine",
+                    "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
+                    "accessibilityLabel": "ج.م70,566 for 5 nights",
+                    "price": "ج.م70,566",
                     "qualifier": "for 5 nights",
                     "shortQualifier": null,
                     "concatQualifierLeft": false,
@@ -94,21 +93,15 @@
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
                         "items": [
                           {
-                            "__typename": "DiscountedExplanationLineItem",
-                            "displayComponentType": "DISCOUNTED_EXPLANATION_LINE_ITEM",
-                            "description": "5 nights x ج.م65,717.46",
-                            "priceString": "ج.م328,587.28",
-                            "originalPriceString": "ج.م394,671.20",
+                            "__typename": "DefaultExplanationLineItem",
+                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
+                            "description": "5 nights x ج.م14,113.07",
+                            "priceString": "ج.م70,565.36",
                             "explanationData": null
                           }
                         ],
                         "renderBorderTop": false,
                         "collapsable": null
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationDisclaimer",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DISCLAIMER",
-                        "content": "Ara recently lowered the price for these dates (from the average rate for the past 60 nights)."
                       }
                     ]
                   },
@@ -117,16 +110,29 @@
                   "layout": null,
                   "displayPriceStyle": "TOTAL_ONLY"
                 },
-                "badges": [],
+                "badges": [
+                  {
+                    "__typename": "ExploreFormattedBadge",
+                    "icon": null,
+                    "loggingContext": {
+                      "__typename": "ExploreFormattedBadgeLoggingContext",
+                      "badgeType": "GUEST_FAVORITE"
+                    },
+                    "style": "LOUD_ROUNDED_PILL",
+                    "text": "Guest favorite",
+                    "textAccessibilityLabel": "Guest favorite",
+                    "textColor": "#000000"
+                  }
+                ],
                 "contextualPictures": [
                   {
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640020801",
+                    "id": "613702569",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/e79ac5db-8153-49b1-8ac1-2fb49ed12b13.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -136,10 +142,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640022837",
+                    "id": "613703037",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/7534038a-0500-4ff6-a576-76d82b618503.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/46280c1c-6641-4080-8970-a94bbc3cb9f4.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -149,10 +155,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640022838",
+                    "id": "685110581",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/e9572da6-faa2-437a-87c6-bad1050d688c.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/45ee16d3-03d7-4aee-b142-d21b7671a5ce.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -162,10 +168,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846064070",
+                    "id": "685110847",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/dcd84c95-df24-4500-89f1-c2a910074897.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/b4bb989a-1e82-4220-9d6e-30876a950037.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -175,10 +181,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846064076",
+                    "id": "1522228685",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/4c5ca1fd-0551-48c5-b293-dba68b838122.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/003b86b4-85dc-4193-aeb5-20546c260b5f.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -188,10 +194,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846067450",
+                    "id": "1522228736",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/95d917ea-1c37-482f-af70-b3a863d0a2d7.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/a8d4404b-6224-4517-aefa-b53354c56cd9.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -199,11 +205,11 @@
                   }
                 ],
                 "paymentMessages": [],
-                "title": "Home in White Haven",
-                "subtitle": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
+                "title": "Condo in San Pedro",
+                "subtitle": "Serene Harbor View Condo Escape",
                 "nameLocalized": {
                   "__typename": "UGCText",
-                  "localizedStringWithTranslationPreference": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!"
+                  "localizedStringWithTranslationPreference": "Serene Harbor View Condo Escape"
                 },
                 "propertyId": null,
                 "structuredContent": {
@@ -214,7 +220,7 @@
                   "mapSecondaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "Nov 13 – 18",
+                      "body": "Nov 14 – 19",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -225,7 +231,7 @@
                   "primaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "11 bedrooms",
+                      "body": "1 bedroom",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -234,7 +240,7 @@
                     },
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "15 beds",
+                      "body": "1 king bed",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -245,7 +251,7 @@
                   "secondaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "Nov 13 – 18",
+                      "body": "Nov 14 – 19",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -259,20 +265,20 @@
                 "passportData": null,
                 "demandStayListing": {
                   "__typename": "DemandStayListing",
-                  "id": "RGVtYW5kU3RheUxpc3Rpbmc6ODgwNDU3NTUxNjExNTIzMjY4",
+                  "id": "RGVtYW5kU3RheUxpc3Rpbmc6Mjk5Mjg2MjU=",
                   "location": {
                     "__typename": "DemandStayListingLocation",
                     "coordinate": {
                       "__typename": "Coordinate",
-                      "latitude": 41.01449,
-                      "longitude": -75.81549
+                      "latitude": 33.73669920122322,
+                      "longitude": -118.30140572518344
                     }
                   },
                   "description": {
                     "__typename": "DemandStayListingDescription",
                     "name": {
                       "__typename": "UGCText",
-                      "localizedStringWithTranslationPreference": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!"
+                      "localizedStringWithTranslationPreference": "Serene Harbor View Condo Escape"
                     }
                   },
                   "wishlistItems": [],
@@ -289,207 +295,14 @@
                 "splitStaysListings": [
                   {
                     "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 16 to Nov 20, Stay 1 of 2",
-                    "checkInShortText": "Nov 16",
-                    "id": "880457551611523268",
-                    "lat": 41.01449,
+                    "accessibilityLabel": "San Pedro, Nov 13 to Nov 17, Stay 1 of 2",
+                    "checkInShortText": "Nov 13",
+                    "id": "1353877698912617389",
+                    "lat": 33.73898911975697,
                     "listingParamOverrides": {
                       "__typename": "ExploreListingParamOverrides",
                       "adults": null,
                       "categoryTag": null,
-                      "causeId": null,
-                      "checkin": "2025-11-16",
-                      "checkout": "2025-11-20",
-                      "children": null,
-                      "enableM3PrivateRoom": null,
-                      "highlightType": null,
-                      "infants": null,
-                      "pets": null,
-                      "relaxedAmenityIds": null,
-                      "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c"
-                    },
-                    "lng": -75.81549,
-                    "mapPinAccessibilityLabel": "ج.م215,845 for 7 nights, Stay 1 of 2, Nov 16 to Nov 20, less than 1 km from second stay, White Haven",
-                    "name": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
-                    "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Entire home · White Haven",
-                    "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg?im_w=720",
-                    "subtitle": "Nov 16 – 20",
-                    "tierId": 0,
-                    "title": "White Haven"
-                  },
-                  {
-                    "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 20 to Nov 23, Stay 2 of 2",
-                    "checkInShortText": "Nov 20",
-                    "id": "877425943075071335",
-                    "lat": 41.01094,
-                    "listingParamOverrides": {
-                      "__typename": "ExploreListingParamOverrides",
-                      "adults": null,
-                      "categoryTag": "Tag:8678",
-                      "causeId": null,
-                      "checkin": "2025-11-20",
-                      "checkout": "2025-11-23",
-                      "children": null,
-                      "enableM3PrivateRoom": null,
-                      "highlightType": null,
-                      "infants": null,
-                      "pets": null,
-                      "relaxedAmenityIds": null,
-                      "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c"
-                    },
-                    "lng": -75.81641,
-                    "mapPinAccessibilityLabel": "ج.م215,845 for 7 nights, Stay 2 of 2, Nov 20 to Nov 23, less than 1 km from first stay, White Haven",
-                    "name": "Restful Waterfalls BnB. Rent per room. # 3 of 3",
-                    "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Private room · White Haven",
-                    "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/airflow/Hosting-877425943075071335/original/2bed517f-79f7-4987-a7e2-81c5098a760c.jpg?im_w=720",
-                    "subtitle": "Nov 20 – 23",
-                    "tierId": 0,
-                    "title": "White Haven"
-                  }
-                ],
-                "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c",
-                "structuredStayDisplayPrice": {
-                  "__typename": "StructuredDisplayPrice",
-                  "primaryLine": {
-                    "__typename": "QualifiedDisplayPriceLine",
-                    "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م215,845 for 7 nights",
-                    "price": "ج.م215,845",
-                    "qualifier": "for 7 nights",
-                    "shortQualifier": null,
-                    "concatQualifierLeft": false,
-                    "trailingContent": null,
-                    "trailing": null
-                  },
-                  "secondaryLine": null,
-                  "explanationData": {
-                    "__typename": "DisplayPriceExplanationData",
-                    "title": "Price details",
-                    "subtitle": null,
-                    "priceDetails": [
-                      {
-                        "__typename": "DisplayPriceExplanationTitle",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 16 – 20"
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationLineGroup",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
-                        "items": [
-                          {
-                            "__typename": "DefaultExplanationLineItem",
-                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "4 nights x ج.م49,826.70",
-                            "priceString": "ج.م199,306.80",
-                            "explanationData": null
-                          }
-                        ],
-                        "renderBorderTop": false,
-                        "collapsable": null
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationDivider",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DIVIDER",
-                        "divider": {
-                          "__typename": "Divider",
-                          "lineStyle": "THIN",
-                          "lineWidth": "FULL_WIDTH",
-                          "lineColor": {
-                            "__typename": "Color",
-                            "dls19": "DECO",
-                            "dls19Gradient": null,
-                            "gradient": null,
-                            "hex": null,
-                            "type": "DLS_19_PALETTE"
-                          }
-                        }
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationTitle",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 20 – 23"
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationLineGroup",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
-                        "items": [
-                          {
-                            "__typename": "DefaultExplanationLineItem",
-                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "3 nights x ج.م5,512.35",
-                            "priceString": "ج.م16,537.04",
-                            "explanationData": null
-                          }
-                        ],
-                        "renderBorderTop": false,
-                        "collapsable": null
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationDivider",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DIVIDER",
-                        "divider": {
-                          "__typename": "Divider",
-                          "lineStyle": "THIN",
-                          "lineWidth": "FULL_WIDTH",
-                          "lineColor": {
-                            "__typename": "Color",
-                            "dls19": "DECO",
-                            "dls19Gradient": null,
-                            "gradient": null,
-                            "hex": null,
-                            "type": "DLS_19_PALETTE"
-                          }
-                        }
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationLineGroup",
-                        "displayComponentType": null,
-                        "items": [
-                          {
-                            "__typename": "HighlightExplanationLineItem",
-                            "displayComponentType": "HIGHLIGHT_EXPLANATION_LINE_ITEM",
-                            "description": "Price for two stays",
-                            "priceString": "ج.م215,843.84",
-                            "explanationData": null,
-                            "originalPriceString": null,
-                            "accessibilityLabel": null
-                          }
-                        ],
-                        "renderBorderTop": false,
-                        "collapsable": null
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationDisclaimer",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DISCLAIMER",
-                        "content": "You will book and pay for each stay separately."
-                      }
-                    ]
-                  },
-                  "explanationDataDisplayPosition": "PRIMARY_LINE",
-                  "explanationDataDisplayPriceTriggerType": null,
-                  "layout": null,
-                  "displayPriceStyle": "TOTAL_ONLY"
-                },
-                "title": "Two stays in White Haven less than 1 km apart"
-              },
-              {
-                "__typename": "ExploreSplitStaysListingItem",
-                "splitStaysListings": [
-                  {
-                    "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 13 to Nov 17, Stay 1 of 2",
-                    "checkInShortText": "Nov 13",
-                    "id": "768923757213497320",
-                    "lat": 41.01105,
-                    "listingParamOverrides": {
-                      "__typename": "ExploreListingParamOverrides",
-                      "adults": null,
-                      "categoryTag": "Tag:8678",
                       "causeId": null,
                       "checkin": "2025-11-13",
                       "checkout": "2025-11-17",
@@ -499,25 +312,25 @@
                       "infants": null,
                       "pets": null,
                       "relaxedAmenityIds": null,
-                      "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538"
+                      "splitStaysUuid": "f0d8e749-49dd-4360-95b2-74920d91c7d5"
                     },
-                    "lng": -75.81672,
-                    "mapPinAccessibilityLabel": "ج.م175,391 for 7 nights, Stay 1 of 2, Nov 13 to Nov 17, less than 1 km from second stay, White Haven",
-                    "name": "Restful Waterfalls BnB. Rent per room.  # 2 of 3",
+                    "lng": -118.2939860317482,
+                    "mapPinAccessibilityLabel": "ج.م69,650 for 7 nights, Stay 1 of 2, Nov 13 to Nov 17, less than 1 km from second stay, San Pedro",
+                    "name": "The Orchid, A Cozy Guesthouse",
                     "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Private room · White Haven",
+                    "pdpSubtitle": "Entire guesthouse · San Pedro",
                     "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/airflow/Hosting-768923757213497320/original/686aecf5-cd78-4776-b0d5-9ad59e027895.jpg?im_w=720",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/hosting/Hosting-1353877698912617389/original/a5ca0a3c-2369-4b52-8046-3fc561e7893e.jpeg?im_w=720",
                     "subtitle": "Nov 13 – 17",
                     "tierId": 0,
-                    "title": "White Haven"
+                    "title": "San Pedro"
                   },
                   {
                     "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 17 to Nov 20, Stay 2 of 2",
+                    "accessibilityLabel": "San Pedro, Nov 17 to Nov 20, Stay 2 of 2",
                     "checkInShortText": "Nov 17",
-                    "id": "880457551611523268",
-                    "lat": 41.01449,
+                    "id": "29928625",
+                    "lat": 33.73669920122322,
                     "listingParamOverrides": {
                       "__typename": "ExploreListingParamOverrides",
                       "adults": null,
@@ -531,28 +344,28 @@
                       "infants": null,
                       "pets": null,
                       "relaxedAmenityIds": null,
-                      "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538"
+                      "splitStaysUuid": "f0d8e749-49dd-4360-95b2-74920d91c7d5"
                     },
-                    "lng": -75.81549,
-                    "mapPinAccessibilityLabel": "ج.م175,391 for 7 nights, Stay 2 of 2, Nov 17 to Nov 20, less than 1 km from first stay, White Haven",
-                    "name": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
+                    "lng": -118.30140572518344,
+                    "mapPinAccessibilityLabel": "ج.م69,650 for 7 nights, Stay 2 of 2, Nov 17 to Nov 20, less than 1 km from first stay, San Pedro",
+                    "name": "Serene Harbor View Condo Escape",
                     "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Entire home · White Haven",
+                    "pdpSubtitle": "Entire condo · San Pedro",
                     "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg?im_w=720",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/e79ac5db-8153-49b1-8ac1-2fb49ed12b13.jpg?im_w=720",
                     "subtitle": "Nov 17 – 20",
                     "tierId": 0,
-                    "title": "White Haven"
+                    "title": "San Pedro"
                   }
                 ],
-                "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538",
+                "splitStaysUuid": "f0d8e749-49dd-4360-95b2-74920d91c7d5",
                 "structuredStayDisplayPrice": {
                   "__typename": "StructuredDisplayPrice",
                   "primaryLine": {
                     "__typename": "QualifiedDisplayPriceLine",
                     "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م175,391 for 7 nights",
-                    "price": "ج.م175,391",
+                    "accessibilityLabel": "ج.م69,650 for 7 nights",
+                    "price": "ج.م69,650",
                     "qualifier": "for 7 nights",
                     "shortQualifier": null,
                     "concatQualifierLeft": false,
@@ -577,8 +390,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "4 nights x ج.م4,794.15",
-                            "priceString": "ج.م19,176.61",
+                            "description": "4 nights x ج.م6,504.43",
+                            "priceString": "ج.م26,017.73",
                             "explanationData": null
                           }
                         ],
@@ -614,8 +427,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "3 nights x ج.م52,071.15",
-                            "priceString": "ج.م156,213.46",
+                            "description": "3 nights x ج.م14,543.97",
+                            "priceString": "ج.م43,631.91",
                             "explanationData": null
                           }
                         ],
@@ -647,7 +460,7 @@
                             "__typename": "HighlightExplanationLineItem",
                             "displayComponentType": "HIGHLIGHT_EXPLANATION_LINE_ITEM",
                             "description": "Price for two stays",
-                            "priceString": "ج.م175,390.07",
+                            "priceString": "ج.م69,649.64",
                             "explanationData": null,
                             "originalPriceString": null,
                             "accessibilityLabel": null
@@ -668,7 +481,200 @@
                   "layout": null,
                   "displayPriceStyle": "TOTAL_ONLY"
                 },
-                "title": "Two stays in White Haven less than 1 km apart"
+                "title": "Two stays in San Pedro less than 1 km apart"
+              },
+              {
+                "__typename": "ExploreSplitStaysListingItem",
+                "splitStaysListings": [
+                  {
+                    "__typename": "SplitStaysListing",
+                    "accessibilityLabel": "San Pedro, Nov 15 to Nov 19, Stay 1 of 2",
+                    "checkInShortText": "Nov 15",
+                    "id": "1290059984101934682",
+                    "lat": 33.74167948181108,
+                    "listingParamOverrides": {
+                      "__typename": "ExploreListingParamOverrides",
+                      "adults": null,
+                      "categoryTag": null,
+                      "causeId": null,
+                      "checkin": "2025-11-15",
+                      "checkout": "2025-11-19",
+                      "children": null,
+                      "enableM3PrivateRoom": null,
+                      "highlightType": null,
+                      "infants": null,
+                      "pets": null,
+                      "relaxedAmenityIds": null,
+                      "splitStaysUuid": "aba00d5c-855c-46f1-b0ad-189b1e35210f"
+                    },
+                    "lng": -118.30044902402179,
+                    "mapPinAccessibilityLabel": "ج.م117,161 for 7 nights, Stay 1 of 2, Nov 15 to Nov 19, less than 1 km from second stay, San Pedro",
+                    "name": "Architectural Townhome w/ Views",
+                    "pdpDisplayExtensions": [],
+                    "pdpSubtitle": "Entire home · San Pedro",
+                    "pdpUrlType": "ROOMS",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/006bfba7-ef77-4acd-b9fe-a0dc150b99d5.jpg?im_w=720",
+                    "subtitle": "Nov 15 – 19",
+                    "tierId": 0,
+                    "title": "San Pedro"
+                  },
+                  {
+                    "__typename": "SplitStaysListing",
+                    "accessibilityLabel": "San Pedro, Nov 19 to Nov 22, Stay 2 of 2",
+                    "checkInShortText": "Nov 19",
+                    "id": "29928625",
+                    "lat": 33.73669920122322,
+                    "listingParamOverrides": {
+                      "__typename": "ExploreListingParamOverrides",
+                      "adults": null,
+                      "categoryTag": null,
+                      "causeId": null,
+                      "checkin": "2025-11-19",
+                      "checkout": "2025-11-22",
+                      "children": null,
+                      "enableM3PrivateRoom": null,
+                      "highlightType": null,
+                      "infants": null,
+                      "pets": null,
+                      "relaxedAmenityIds": null,
+                      "splitStaysUuid": "aba00d5c-855c-46f1-b0ad-189b1e35210f"
+                    },
+                    "lng": -118.30140572518344,
+                    "mapPinAccessibilityLabel": "ج.م117,161 for 7 nights, Stay 2 of 2, Nov 19 to Nov 22, less than 1 km from first stay, San Pedro",
+                    "name": "Serene Harbor View Condo Escape",
+                    "pdpDisplayExtensions": [],
+                    "pdpSubtitle": "Entire condo · San Pedro",
+                    "pdpUrlType": "ROOMS",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/e79ac5db-8153-49b1-8ac1-2fb49ed12b13.jpg?im_w=720",
+                    "subtitle": "Nov 19 – 22",
+                    "tierId": 0,
+                    "title": "San Pedro"
+                  }
+                ],
+                "splitStaysUuid": "aba00d5c-855c-46f1-b0ad-189b1e35210f",
+                "structuredStayDisplayPrice": {
+                  "__typename": "StructuredDisplayPrice",
+                  "primaryLine": {
+                    "__typename": "QualifiedDisplayPriceLine",
+                    "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
+                    "accessibilityLabel": "ج.م117,161 for 7 nights",
+                    "price": "ج.م117,161",
+                    "qualifier": "for 7 nights",
+                    "shortQualifier": null,
+                    "concatQualifierLeft": false,
+                    "trailingContent": null,
+                    "trailing": null
+                  },
+                  "secondaryLine": null,
+                  "explanationData": {
+                    "__typename": "DisplayPriceExplanationData",
+                    "title": "Price details",
+                    "subtitle": null,
+                    "priceDetails": [
+                      {
+                        "__typename": "DisplayPriceExplanationTitle",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
+                        "content": "Stay from Nov 15 – 19"
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationLineGroup",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
+                        "items": [
+                          {
+                            "__typename": "DefaultExplanationLineItem",
+                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
+                            "description": "4 nights x ج.م18,382.07",
+                            "priceString": "ج.م73,528.29",
+                            "explanationData": null
+                          }
+                        ],
+                        "renderBorderTop": false,
+                        "collapsable": null
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationDivider",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DIVIDER",
+                        "divider": {
+                          "__typename": "Divider",
+                          "lineStyle": "THIN",
+                          "lineWidth": "FULL_WIDTH",
+                          "lineColor": {
+                            "__typename": "Color",
+                            "dls19": "DECO",
+                            "dls19Gradient": null,
+                            "gradient": null,
+                            "hex": null,
+                            "type": "DLS_19_PALETTE"
+                          }
+                        }
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationTitle",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
+                        "content": "Stay from Nov 19 – 22"
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationLineGroup",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
+                        "items": [
+                          {
+                            "__typename": "DefaultExplanationLineItem",
+                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
+                            "description": "3 nights x ج.م14,543.97",
+                            "priceString": "ج.م43,631.91",
+                            "explanationData": null
+                          }
+                        ],
+                        "renderBorderTop": false,
+                        "collapsable": null
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationDivider",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DIVIDER",
+                        "divider": {
+                          "__typename": "Divider",
+                          "lineStyle": "THIN",
+                          "lineWidth": "FULL_WIDTH",
+                          "lineColor": {
+                            "__typename": "Color",
+                            "dls19": "DECO",
+                            "dls19Gradient": null,
+                            "gradient": null,
+                            "hex": null,
+                            "type": "DLS_19_PALETTE"
+                          }
+                        }
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationLineGroup",
+                        "displayComponentType": null,
+                        "items": [
+                          {
+                            "__typename": "HighlightExplanationLineItem",
+                            "displayComponentType": "HIGHLIGHT_EXPLANATION_LINE_ITEM",
+                            "description": "Price for two stays",
+                            "priceString": "ج.م117,160.20",
+                            "explanationData": null,
+                            "originalPriceString": null,
+                            "accessibilityLabel": null
+                          }
+                        ],
+                        "renderBorderTop": false,
+                        "collapsable": null
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationDisclaimer",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DISCLAIMER",
+                        "content": "You will book and pay for each stay separately."
+                      }
+                    ]
+                  },
+                  "explanationDataDisplayPosition": "PRIMARY_LINE",
+                  "explanationDataDisplayPriceTriggerType": null,
+                  "layout": null,
+                  "displayPriceStyle": "TOTAL_ONLY"
+                },
+                "title": "Two stays in San Pedro less than 1 km apart"
               }
             ],
             "paginationInfo": {
@@ -681,7 +687,7 @@
             },
             "loggingMetadata": {
               "__typename": "StaysSearchLoggingMetadata",
-              "legacyLoggingSectionId": "3da2ee8a-d9c9-4d89-a418-94faa2f0e084",
+              "legacyLoggingSectionId": "ef7bb08f-061e-4ff9-b67e-7eeed578797c",
               "remarketingLoggingData": {
                 "__typename": "RemarketingLoggingData",
                 "remarketingIds": [],
@@ -692,8 +698,8 @@
               },
               "legacyLoggingContext": {
                 "__typename": "ExploreLoggingContext",
-                "federatedSearchId": "a5a1b65a-036d-4d13-add3-c0141f6a3943",
-                "federatedSearchSessionId": "0c360a4b-c8a3-4d06-9b78-fc787ee5db3a",
+                "federatedSearchId": "3ba385ff-d779-4b40-8ff6-05f51a4a224b",
+                "federatedSearchSessionId": "69ac0673-5ed6-417e-98b5-accfec7c0919",
                 "pageLoggingContext": {
                   "__typename": "ExplorePageLoggingContext",
                   "extraData": {},
@@ -3041,7 +3047,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Oi05MDc0ODQ1MDc5MjU1Mjk5Mw==",
+                        "id": "VGl0bGVUZXh0Oi05MTAxNDEwNDc3MzMwNTEyMDgz",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Price range"
@@ -3051,7 +3057,7 @@
                             "__typename": "ExplorePriceSliderFilterItem",
                             "text": {
                               "__typename": "TitleSubtitleText",
-                              "title": "ج.م2,400 - ج.م300,000",
+                              "title": "ج.م2,400 - ج.م68,000",
                               "subtitle": "Trip price, includes all fees"
                             },
                             "searchParams": {
@@ -3081,7 +3087,7 @@
                               "tabId": "all_tab"
                             },
                             "minValue": 2400,
-                            "maxValue": 300000,
+                            "maxValue": 68000,
                             "priceHistogram": [
                               0,
                               0,
@@ -3132,7 +3138,7 @@
                               0,
                               0,
                               0,
-                              0
+                              1
                             ],
                             "priceFilterInputType": null,
                             "version": "V2"
@@ -3162,7 +3168,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0OjQ5NzY5MjM3ODE5NjI3NDc2OTI=",
+                        "id": "VGl0bGVUZXh0OjcxMzc1MDQ5MDI2NzY5NDU5NzE=",
                         "filterItemText": null,
                         "discreteFilterItems": [
                           {
@@ -3286,7 +3292,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Oi00NTEwMTYzMjgzMTUxNTU4MjAz",
+                        "id": "VGl0bGVUZXh0Oi00MDIzODQxOTg2NjMwMjI0NTY1",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Rooms and beds"
@@ -3413,7 +3419,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Oi0yNzM4NTEyMjc0NTczMzQ0NTAy",
+                        "id": "VGl0bGVUZXh0Oi0xODU3NzA5NDY5OTU1NzU1Mzg5",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Standout stays"
@@ -3527,7 +3533,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0OjU3NDMyMjg5MzY3MDAyOTUyNDk=",
+                        "id": "VGl0bGVUZXh0Ojk1ODYxNjU2MjA4MTAzMTMyMA==",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Booking options"
@@ -3666,7 +3672,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0OjMzMjU5NjUwOTU0NDQyMTUwNjU=",
+                        "id": "VGl0bGVUZXh0Oi0yNDg4NDIyNTc2NTE1Nzc5NDYw",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Accessibility features"
@@ -4093,7 +4099,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Ojg1MzM4MzY5MDIxMjUwMTgwOTE=",
+                        "id": "VGl0bGVUZXh0Ojc4NjkzNTg3Njg1ODk4NjM2Mzg=",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Amenities"
@@ -5036,7 +5042,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Oi0xODgyNjk3ODQxMTI3ODQ1NjQw",
+                        "id": "VGl0bGVUZXh0Oi0zMjI0MDg3MzI3NDA3MTExNDg4",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Property type"
@@ -5046,12 +5052,12 @@
                             "__typename": "ExploreIconPillFilterItem",
                             "text": {
                               "__typename": "TitleText",
-                              "title": "House"
+                              "title": "Apartment"
                             },
                             "localImageAsset": {
                               "__typename": "LocalImageAsset",
                               "localKey": null,
-                              "remoteUrl": "https://a0.muscache.com/pictures/4d7580e1-4ab2-4d26-a3d6-97f9555ba8f9.jpg"
+                              "remoteUrl": "https://a0.muscache.com/pictures/21cfc7c9-5457-494d-9779-7b0c21d81a25.jpg"
                             },
                             "searchParams": {
                               "__typename": "ExploreSearchParams",
@@ -5063,7 +5069,7 @@
                                   "key": "l2_property_type_ids",
                                   "value": {
                                     "__typename": "LongValue",
-                                    "longValue": "1"
+                                    "longValue": "3"
                                   },
                                   "valueType": "array"
                                 }
@@ -5102,7 +5108,7 @@
                       "loggingData": null,
                       "sectionData": {
                         "__typename": "ExploreFilterSectionV2",
-                        "id": "VGl0bGVUZXh0Ojg4MTkzMTY0MjY5NDEwNjYxNjM=",
+                        "id": "VGl0bGVUZXh0Ojc0MjY1MzU0MDc5MzExNjk2Mjc=",
                         "filterItemText": {
                           "__typename": "TitleText",
                           "title": "Host language"
@@ -5143,7 +5149,7 @@
                             "__typename": "ExploreCheckboxFilterItem",
                             "text": {
                               "__typename": "TitleText",
-                              "title": "Indonesian"
+                              "title": "Spanish"
                             },
                             "badgeText": null,
                             "searchParams": {
@@ -5156,7 +5162,7 @@
                                   "key": "host_languages",
                                   "value": {
                                     "__typename": "StringValue",
-                                    "stringValue": "id"
+                                    "stringValue": "es"
                                   },
                                   "valueType": "array"
                                 }
@@ -5196,7 +5202,7 @@
                   "valueType": "STRING",
                   "value": {
                     "__typename": "ExploreFilterStateStringValue",
-                    "stringValue": "12 Polonia Ct, White Haven, PA 18661, United States"
+                    "stringValue": "918 South Leland Street unit 2, San Pedro, CA 90731, USA"
                   }
                 },
                 {
@@ -5341,7 +5347,7 @@
                   "valueType": "DOUBLE",
                   "value": {
                     "__typename": "ExploreFilterStateDoubleValue",
-                    "doubleValue": 41.014581780039535
+                    "doubleValue": 33.73686973911878
                   }
                 },
                 {
@@ -5351,7 +5357,7 @@
                   "valueType": "DOUBLE",
                   "value": {
                     "__typename": "ExploreFilterStateDoubleValue",
-                    "doubleValue": 41.01436674658937
+                    "doubleValue": 33.734924025747034
                   }
                 },
                 {
@@ -5361,7 +5367,7 @@
                   "valueType": "DOUBLE",
                   "value": {
                     "__typename": "ExploreFilterStateDoubleValue",
-                    "doubleValue": -75.81544190595048
+                    "doubleValue": -118.30032618062285
                   }
                 },
                 {
@@ -5371,7 +5377,7 @@
                   "valueType": "DOUBLE",
                   "value": {
                     "__typename": "ExploreFilterStateDoubleValue",
-                    "doubleValue": -75.81554452140006
+                    "doubleValue": -118.30147430987995
                   }
                 },
                 {
@@ -6018,15 +6024,15 @@
             "mapSearchResults": [
               {
                 "__typename": "StaySearchResult",
-                "avgRatingA11yLabel": "4.57 out of 5 average rating,  23 reviews",
-                "avgRatingLocalized": "4.57 (23)",
+                "avgRatingA11yLabel": "4.97 out of 5 average rating,  61 reviews",
+                "avgRatingLocalized": "4.97 (61)",
                 "listingParamOverrides": {
                   "__typename": "ExploreListingParamOverrides",
                   "adults": 1,
                   "categoryTag": null,
                   "causeId": null,
-                  "checkin": "2025-11-13",
-                  "checkout": "2025-11-18",
+                  "checkin": "2025-11-14",
+                  "checkout": "2025-11-19",
                   "children": 0,
                   "distanceInKm": null,
                   "highlightType": null,
@@ -6042,11 +6048,10 @@
                 "structuredDisplayPrice": {
                   "__typename": "StructuredDisplayPrice",
                   "primaryLine": {
-                    "__typename": "DiscountedDisplayPriceLine",
-                    "displayComponentType": "DISCOUNTED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م328,588 for 5 nights, originally ج.م394,672",
-                    "discountedPrice": "ج.م328,588",
-                    "originalPrice": "ج.م394,672",
+                    "__typename": "QualifiedDisplayPriceLine",
+                    "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
+                    "accessibilityLabel": "ج.م70,566 for 5 nights",
+                    "price": "ج.م70,566",
                     "qualifier": "for 5 nights",
                     "shortQualifier": null,
                     "concatQualifierLeft": false,
@@ -6064,21 +6069,15 @@
                         "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
                         "items": [
                           {
-                            "__typename": "DiscountedExplanationLineItem",
-                            "displayComponentType": "DISCOUNTED_EXPLANATION_LINE_ITEM",
-                            "description": "5 nights x ج.م65,717.46",
-                            "priceString": "ج.م328,587.28",
-                            "originalPriceString": "ج.م394,671.20",
+                            "__typename": "DefaultExplanationLineItem",
+                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
+                            "description": "5 nights x ج.م14,113.07",
+                            "priceString": "ج.م70,565.36",
                             "explanationData": null
                           }
                         ],
                         "renderBorderTop": false,
                         "collapsable": null
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationDisclaimer",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DISCLAIMER",
-                        "content": "Ara recently lowered the price for these dates (from the average rate for the past 60 nights)."
                       }
                     ]
                   },
@@ -6087,16 +6086,29 @@
                   "layout": null,
                   "displayPriceStyle": "TOTAL_ONLY"
                 },
-                "badges": [],
+                "badges": [
+                  {
+                    "__typename": "ExploreFormattedBadge",
+                    "icon": null,
+                    "loggingContext": {
+                      "__typename": "ExploreFormattedBadgeLoggingContext",
+                      "badgeType": "GUEST_FAVORITE"
+                    },
+                    "style": "LOUD_ROUNDED_PILL",
+                    "text": "Guest favorite",
+                    "textAccessibilityLabel": "Guest favorite",
+                    "textColor": "#000000"
+                  }
+                ],
                 "contextualPictures": [
                   {
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640020801",
+                    "id": "613702569",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/e79ac5db-8153-49b1-8ac1-2fb49ed12b13.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6106,10 +6118,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640022837",
+                    "id": "613703037",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/7534038a-0500-4ff6-a576-76d82b618503.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/46280c1c-6641-4080-8970-a94bbc3cb9f4.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6119,10 +6131,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1640022838",
+                    "id": "685110581",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/e9572da6-faa2-437a-87c6-bad1050d688c.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/45ee16d3-03d7-4aee-b142-d21b7671a5ce.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6132,10 +6144,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846064070",
+                    "id": "685110847",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/dcd84c95-df24-4500-89f1-c2a910074897.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/b4bb989a-1e82-4220-9d6e-30876a950037.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6145,10 +6157,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846064076",
+                    "id": "1522228685",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/4c5ca1fd-0551-48c5-b293-dba68b838122.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/003b86b4-85dc-4193-aeb5-20546c260b5f.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6158,10 +6170,10 @@
                     "__typename": "ExplorePicture",
                     "caption": null,
                     "dominantSaturatedColor": null,
-                    "id": "1846067450",
+                    "id": "1522228736",
                     "largeRo": null,
                     "originalPicture": null,
-                    "picture": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/95d917ea-1c37-482f-af70-b3a863d0a2d7.jpeg",
+                    "picture": "https://a0.muscache.com/im/pictures/a8d4404b-6224-4517-aefa-b53354c56cd9.jpg",
                     "previewEncodedPng": null,
                     "saturatedA11yDarkColor": null,
                     "scrimColor": null,
@@ -6169,11 +6181,11 @@
                   }
                 ],
                 "paymentMessages": [],
-                "title": "Home in White Haven",
-                "subtitle": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
+                "title": "Condo in San Pedro",
+                "subtitle": "Serene Harbor View Condo Escape",
                 "nameLocalized": {
                   "__typename": "UGCText",
-                  "localizedStringWithTranslationPreference": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!"
+                  "localizedStringWithTranslationPreference": "Serene Harbor View Condo Escape"
                 },
                 "propertyId": null,
                 "structuredContent": {
@@ -6184,7 +6196,7 @@
                   "mapSecondaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "Nov 13 – 18",
+                      "body": "Nov 14 – 19",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -6195,7 +6207,7 @@
                   "primaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "11 bedrooms",
+                      "body": "1 bedroom",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -6204,7 +6216,7 @@
                     },
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "15 beds",
+                      "body": "1 king bed",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -6215,7 +6227,7 @@
                   "secondaryLine": [
                     {
                       "__typename": "MainSectionMessage",
-                      "body": "Nov 13 – 18",
+                      "body": "Nov 14 – 19",
                       "bodyA11yLabel": null,
                       "bodyType": null,
                       "fontWeight": null,
@@ -6229,20 +6241,20 @@
                 "passportData": null,
                 "demandStayListing": {
                   "__typename": "DemandStayListing",
-                  "id": "RGVtYW5kU3RheUxpc3Rpbmc6ODgwNDU3NTUxNjExNTIzMjY4",
+                  "id": "RGVtYW5kU3RheUxpc3Rpbmc6Mjk5Mjg2MjU=",
                   "location": {
                     "__typename": "DemandStayListingLocation",
                     "coordinate": {
                       "__typename": "Coordinate",
-                      "latitude": 41.01449,
-                      "longitude": -75.81549
+                      "latitude": 33.73669920122322,
+                      "longitude": -118.30140572518344
                     }
                   },
                   "description": {
                     "__typename": "DemandStayListingDescription",
                     "name": {
                       "__typename": "UGCText",
-                      "localizedStringWithTranslationPreference": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!"
+                      "localizedStringWithTranslationPreference": "Serene Harbor View Condo Escape"
                     }
                   },
                   "wishlistItems": [],
@@ -6254,207 +6266,14 @@
                 "splitStaysListings": [
                   {
                     "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 16 to Nov 20, Stay 1 of 2",
-                    "checkInShortText": "Nov 16",
-                    "id": "880457551611523268",
-                    "lat": 41.01449,
+                    "accessibilityLabel": "San Pedro, Nov 13 to Nov 17, Stay 1 of 2",
+                    "checkInShortText": "Nov 13",
+                    "id": "1353877698912617389",
+                    "lat": 33.73898911975697,
                     "listingParamOverrides": {
                       "__typename": "ExploreListingParamOverrides",
                       "adults": null,
                       "categoryTag": null,
-                      "causeId": null,
-                      "checkin": "2025-11-16",
-                      "checkout": "2025-11-20",
-                      "children": null,
-                      "enableM3PrivateRoom": null,
-                      "highlightType": null,
-                      "infants": null,
-                      "pets": null,
-                      "relaxedAmenityIds": null,
-                      "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c"
-                    },
-                    "lng": -75.81549,
-                    "mapPinAccessibilityLabel": "ج.م215,845 for 7 nights, Stay 1 of 2, Nov 16 to Nov 20, less than 1 km from second stay, White Haven",
-                    "name": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
-                    "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Entire home · White Haven",
-                    "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg?im_w=720",
-                    "subtitle": "Nov 16 – 20",
-                    "tierId": 0,
-                    "title": "White Haven"
-                  },
-                  {
-                    "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 20 to Nov 23, Stay 2 of 2",
-                    "checkInShortText": "Nov 20",
-                    "id": "877425943075071335",
-                    "lat": 41.01094,
-                    "listingParamOverrides": {
-                      "__typename": "ExploreListingParamOverrides",
-                      "adults": null,
-                      "categoryTag": "Tag:8678",
-                      "causeId": null,
-                      "checkin": "2025-11-20",
-                      "checkout": "2025-11-23",
-                      "children": null,
-                      "enableM3PrivateRoom": null,
-                      "highlightType": null,
-                      "infants": null,
-                      "pets": null,
-                      "relaxedAmenityIds": null,
-                      "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c"
-                    },
-                    "lng": -75.81641,
-                    "mapPinAccessibilityLabel": "ج.م215,845 for 7 nights, Stay 2 of 2, Nov 20 to Nov 23, less than 1 km from first stay, White Haven",
-                    "name": "Restful Waterfalls BnB. Rent per room. # 3 of 3",
-                    "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Private room · White Haven",
-                    "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/airflow/Hosting-877425943075071335/original/2bed517f-79f7-4987-a7e2-81c5098a760c.jpg?im_w=720",
-                    "subtitle": "Nov 20 – 23",
-                    "tierId": 0,
-                    "title": "White Haven"
-                  }
-                ],
-                "splitStaysUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c",
-                "structuredStayDisplayPrice": {
-                  "__typename": "StructuredDisplayPrice",
-                  "primaryLine": {
-                    "__typename": "QualifiedDisplayPriceLine",
-                    "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م215,845 for 7 nights",
-                    "price": "ج.م215,845",
-                    "qualifier": "for 7 nights",
-                    "shortQualifier": null,
-                    "concatQualifierLeft": false,
-                    "trailingContent": null,
-                    "trailing": null
-                  },
-                  "secondaryLine": null,
-                  "explanationData": {
-                    "__typename": "DisplayPriceExplanationData",
-                    "title": "Price details",
-                    "subtitle": null,
-                    "priceDetails": [
-                      {
-                        "__typename": "DisplayPriceExplanationTitle",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 16 – 20"
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationLineGroup",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
-                        "items": [
-                          {
-                            "__typename": "DefaultExplanationLineItem",
-                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "4 nights x ج.م49,826.70",
-                            "priceString": "ج.م199,306.80",
-                            "explanationData": null
-                          }
-                        ],
-                        "renderBorderTop": false,
-                        "collapsable": null
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationDivider",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DIVIDER",
-                        "divider": {
-                          "__typename": "Divider",
-                          "lineStyle": "THIN",
-                          "lineWidth": "FULL_WIDTH",
-                          "lineColor": {
-                            "__typename": "Color",
-                            "dls19": "DECO",
-                            "dls19Gradient": null,
-                            "gradient": null,
-                            "hex": null,
-                            "type": "DLS_19_PALETTE"
-                          }
-                        }
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationTitle",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
-                        "content": "Stay from Nov 20 – 23"
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationLineGroup",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
-                        "items": [
-                          {
-                            "__typename": "DefaultExplanationLineItem",
-                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "3 nights x ج.م5,512.35",
-                            "priceString": "ج.م16,537.04",
-                            "explanationData": null
-                          }
-                        ],
-                        "renderBorderTop": false,
-                        "collapsable": null
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationDivider",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DIVIDER",
-                        "divider": {
-                          "__typename": "Divider",
-                          "lineStyle": "THIN",
-                          "lineWidth": "FULL_WIDTH",
-                          "lineColor": {
-                            "__typename": "Color",
-                            "dls19": "DECO",
-                            "dls19Gradient": null,
-                            "gradient": null,
-                            "hex": null,
-                            "type": "DLS_19_PALETTE"
-                          }
-                        }
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationLineGroup",
-                        "displayComponentType": null,
-                        "items": [
-                          {
-                            "__typename": "HighlightExplanationLineItem",
-                            "displayComponentType": "HIGHLIGHT_EXPLANATION_LINE_ITEM",
-                            "description": "Price for two stays",
-                            "priceString": "ج.م215,843.84",
-                            "explanationData": null,
-                            "originalPriceString": null,
-                            "accessibilityLabel": null
-                          }
-                        ],
-                        "renderBorderTop": false,
-                        "collapsable": null
-                      },
-                      {
-                        "__typename": "DisplayPriceExplanationDisclaimer",
-                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DISCLAIMER",
-                        "content": "You will book and pay for each stay separately."
-                      }
-                    ]
-                  },
-                  "explanationDataDisplayPosition": "PRIMARY_LINE",
-                  "explanationDataDisplayPriceTriggerType": null,
-                  "layout": null,
-                  "displayPriceStyle": "TOTAL_ONLY"
-                },
-                "title": "Two stays in White Haven less than 1 km apart"
-              },
-              {
-                "__typename": "ExploreSplitStaysListingItem",
-                "splitStaysListings": [
-                  {
-                    "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 13 to Nov 17, Stay 1 of 2",
-                    "checkInShortText": "Nov 13",
-                    "id": "768923757213497320",
-                    "lat": 41.01105,
-                    "listingParamOverrides": {
-                      "__typename": "ExploreListingParamOverrides",
-                      "adults": null,
-                      "categoryTag": "Tag:8678",
                       "causeId": null,
                       "checkin": "2025-11-13",
                       "checkout": "2025-11-17",
@@ -6464,25 +6283,25 @@
                       "infants": null,
                       "pets": null,
                       "relaxedAmenityIds": null,
-                      "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538"
+                      "splitStaysUuid": "f0d8e749-49dd-4360-95b2-74920d91c7d5"
                     },
-                    "lng": -75.81672,
-                    "mapPinAccessibilityLabel": "ج.م175,391 for 7 nights, Stay 1 of 2, Nov 13 to Nov 17, less than 1 km from second stay, White Haven",
-                    "name": "Restful Waterfalls BnB. Rent per room.  # 2 of 3",
+                    "lng": -118.2939860317482,
+                    "mapPinAccessibilityLabel": "ج.م69,650 for 7 nights, Stay 1 of 2, Nov 13 to Nov 17, less than 1 km from second stay, San Pedro",
+                    "name": "The Orchid, A Cozy Guesthouse",
                     "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Private room · White Haven",
+                    "pdpSubtitle": "Entire guesthouse · San Pedro",
                     "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/airflow/Hosting-768923757213497320/original/686aecf5-cd78-4776-b0d5-9ad59e027895.jpg?im_w=720",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/hosting/Hosting-1353877698912617389/original/a5ca0a3c-2369-4b52-8046-3fc561e7893e.jpeg?im_w=720",
                     "subtitle": "Nov 13 – 17",
                     "tierId": 0,
-                    "title": "White Haven"
+                    "title": "San Pedro"
                   },
                   {
                     "__typename": "SplitStaysListing",
-                    "accessibilityLabel": "White Haven, Nov 17 to Nov 20, Stay 2 of 2",
+                    "accessibilityLabel": "San Pedro, Nov 17 to Nov 20, Stay 2 of 2",
                     "checkInShortText": "Nov 17",
-                    "id": "880457551611523268",
-                    "lat": 41.01449,
+                    "id": "29928625",
+                    "lat": 33.73669920122322,
                     "listingParamOverrides": {
                       "__typename": "ExploreListingParamOverrides",
                       "adults": null,
@@ -6496,28 +6315,28 @@
                       "infants": null,
                       "pets": null,
                       "relaxedAmenityIds": null,
-                      "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538"
+                      "splitStaysUuid": "f0d8e749-49dd-4360-95b2-74920d91c7d5"
                     },
-                    "lng": -75.81549,
-                    "mapPinAccessibilityLabel": "ج.م175,391 for 7 nights, Stay 2 of 2, Nov 17 to Nov 20, less than 1 km from first stay, White Haven",
-                    "name": "Sleeps 30-(2) houses 11 BR 6.5 BA Pickleball WIFI!",
+                    "lng": -118.30140572518344,
+                    "mapPinAccessibilityLabel": "ج.م69,650 for 7 nights, Stay 2 of 2, Nov 17 to Nov 20, less than 1 km from first stay, San Pedro",
+                    "name": "Serene Harbor View Condo Escape",
                     "pdpDisplayExtensions": [],
-                    "pdpSubtitle": "Entire home · White Haven",
+                    "pdpSubtitle": "Entire condo · San Pedro",
                     "pdpUrlType": "ROOMS",
-                    "pictureUrl": "https://a0.muscache.com/im/pictures/miso/Hosting-880457551611523268/original/410c9032-9f35-4b7c-9213-325526a36e81.jpeg?im_w=720",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/e79ac5db-8153-49b1-8ac1-2fb49ed12b13.jpg?im_w=720",
                     "subtitle": "Nov 17 – 20",
                     "tierId": 0,
-                    "title": "White Haven"
+                    "title": "San Pedro"
                   }
                 ],
-                "splitStaysUuid": "eb467bb0-58a3-4867-870b-9529c0c18538",
+                "splitStaysUuid": "f0d8e749-49dd-4360-95b2-74920d91c7d5",
                 "structuredStayDisplayPrice": {
                   "__typename": "StructuredDisplayPrice",
                   "primaryLine": {
                     "__typename": "QualifiedDisplayPriceLine",
                     "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
-                    "accessibilityLabel": "ج.م175,391 for 7 nights",
-                    "price": "ج.م175,391",
+                    "accessibilityLabel": "ج.م69,650 for 7 nights",
+                    "price": "ج.م69,650",
                     "qualifier": "for 7 nights",
                     "shortQualifier": null,
                     "concatQualifierLeft": false,
@@ -6542,8 +6361,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "4 nights x ج.م4,794.15",
-                            "priceString": "ج.م19,176.61",
+                            "description": "4 nights x ج.م6,504.43",
+                            "priceString": "ج.م26,017.73",
                             "explanationData": null
                           }
                         ],
@@ -6579,8 +6398,8 @@
                           {
                             "__typename": "DefaultExplanationLineItem",
                             "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
-                            "description": "3 nights x ج.م52,071.15",
-                            "priceString": "ج.م156,213.46",
+                            "description": "3 nights x ج.م14,543.97",
+                            "priceString": "ج.م43,631.91",
                             "explanationData": null
                           }
                         ],
@@ -6612,7 +6431,7 @@
                             "__typename": "HighlightExplanationLineItem",
                             "displayComponentType": "HIGHLIGHT_EXPLANATION_LINE_ITEM",
                             "description": "Price for two stays",
-                            "priceString": "ج.م175,390.07",
+                            "priceString": "ج.م69,649.64",
                             "explanationData": null,
                             "originalPriceString": null,
                             "accessibilityLabel": null
@@ -6633,40 +6452,233 @@
                   "layout": null,
                   "displayPriceStyle": "TOTAL_ONLY"
                 },
-                "title": "Two stays in White Haven less than 1 km apart"
+                "title": "Two stays in San Pedro less than 1 km apart"
+              },
+              {
+                "__typename": "ExploreSplitStaysListingItem",
+                "splitStaysListings": [
+                  {
+                    "__typename": "SplitStaysListing",
+                    "accessibilityLabel": "San Pedro, Nov 15 to Nov 19, Stay 1 of 2",
+                    "checkInShortText": "Nov 15",
+                    "id": "1290059984101934682",
+                    "lat": 33.74167948181108,
+                    "listingParamOverrides": {
+                      "__typename": "ExploreListingParamOverrides",
+                      "adults": null,
+                      "categoryTag": null,
+                      "causeId": null,
+                      "checkin": "2025-11-15",
+                      "checkout": "2025-11-19",
+                      "children": null,
+                      "enableM3PrivateRoom": null,
+                      "highlightType": null,
+                      "infants": null,
+                      "pets": null,
+                      "relaxedAmenityIds": null,
+                      "splitStaysUuid": "aba00d5c-855c-46f1-b0ad-189b1e35210f"
+                    },
+                    "lng": -118.30044902402179,
+                    "mapPinAccessibilityLabel": "ج.م117,161 for 7 nights, Stay 1 of 2, Nov 15 to Nov 19, less than 1 km from second stay, San Pedro",
+                    "name": "Architectural Townhome w/ Views",
+                    "pdpDisplayExtensions": [],
+                    "pdpSubtitle": "Entire home · San Pedro",
+                    "pdpUrlType": "ROOMS",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/006bfba7-ef77-4acd-b9fe-a0dc150b99d5.jpg?im_w=720",
+                    "subtitle": "Nov 15 – 19",
+                    "tierId": 0,
+                    "title": "San Pedro"
+                  },
+                  {
+                    "__typename": "SplitStaysListing",
+                    "accessibilityLabel": "San Pedro, Nov 19 to Nov 22, Stay 2 of 2",
+                    "checkInShortText": "Nov 19",
+                    "id": "29928625",
+                    "lat": 33.73669920122322,
+                    "listingParamOverrides": {
+                      "__typename": "ExploreListingParamOverrides",
+                      "adults": null,
+                      "categoryTag": null,
+                      "causeId": null,
+                      "checkin": "2025-11-19",
+                      "checkout": "2025-11-22",
+                      "children": null,
+                      "enableM3PrivateRoom": null,
+                      "highlightType": null,
+                      "infants": null,
+                      "pets": null,
+                      "relaxedAmenityIds": null,
+                      "splitStaysUuid": "aba00d5c-855c-46f1-b0ad-189b1e35210f"
+                    },
+                    "lng": -118.30140572518344,
+                    "mapPinAccessibilityLabel": "ج.م117,161 for 7 nights, Stay 2 of 2, Nov 19 to Nov 22, less than 1 km from first stay, San Pedro",
+                    "name": "Serene Harbor View Condo Escape",
+                    "pdpDisplayExtensions": [],
+                    "pdpSubtitle": "Entire condo · San Pedro",
+                    "pdpUrlType": "ROOMS",
+                    "pictureUrl": "https://a0.muscache.com/im/pictures/e79ac5db-8153-49b1-8ac1-2fb49ed12b13.jpg?im_w=720",
+                    "subtitle": "Nov 19 – 22",
+                    "tierId": 0,
+                    "title": "San Pedro"
+                  }
+                ],
+                "splitStaysUuid": "aba00d5c-855c-46f1-b0ad-189b1e35210f",
+                "structuredStayDisplayPrice": {
+                  "__typename": "StructuredDisplayPrice",
+                  "primaryLine": {
+                    "__typename": "QualifiedDisplayPriceLine",
+                    "displayComponentType": "QUALIFIED_DISPLAY_PRICE_LINE",
+                    "accessibilityLabel": "ج.م117,161 for 7 nights",
+                    "price": "ج.م117,161",
+                    "qualifier": "for 7 nights",
+                    "shortQualifier": null,
+                    "concatQualifierLeft": false,
+                    "trailingContent": null,
+                    "trailing": null
+                  },
+                  "secondaryLine": null,
+                  "explanationData": {
+                    "__typename": "DisplayPriceExplanationData",
+                    "title": "Price details",
+                    "subtitle": null,
+                    "priceDetails": [
+                      {
+                        "__typename": "DisplayPriceExplanationTitle",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
+                        "content": "Stay from Nov 15 – 19"
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationLineGroup",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
+                        "items": [
+                          {
+                            "__typename": "DefaultExplanationLineItem",
+                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
+                            "description": "4 nights x ج.م18,382.07",
+                            "priceString": "ج.م73,528.29",
+                            "explanationData": null
+                          }
+                        ],
+                        "renderBorderTop": false,
+                        "collapsable": null
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationDivider",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DIVIDER",
+                        "divider": {
+                          "__typename": "Divider",
+                          "lineStyle": "THIN",
+                          "lineWidth": "FULL_WIDTH",
+                          "lineColor": {
+                            "__typename": "Color",
+                            "dls19": "DECO",
+                            "dls19Gradient": null,
+                            "gradient": null,
+                            "hex": null,
+                            "type": "DLS_19_PALETTE"
+                          }
+                        }
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationTitle",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_TITLE",
+                        "content": "Stay from Nov 19 – 22"
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationLineGroup",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_LINE_GROUP",
+                        "items": [
+                          {
+                            "__typename": "DefaultExplanationLineItem",
+                            "displayComponentType": "DEFAULT_EXPLANATION_LINE_ITEM",
+                            "description": "3 nights x ج.م14,543.97",
+                            "priceString": "ج.م43,631.91",
+                            "explanationData": null
+                          }
+                        ],
+                        "renderBorderTop": false,
+                        "collapsable": null
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationDivider",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DIVIDER",
+                        "divider": {
+                          "__typename": "Divider",
+                          "lineStyle": "THIN",
+                          "lineWidth": "FULL_WIDTH",
+                          "lineColor": {
+                            "__typename": "Color",
+                            "dls19": "DECO",
+                            "dls19Gradient": null,
+                            "gradient": null,
+                            "hex": null,
+                            "type": "DLS_19_PALETTE"
+                          }
+                        }
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationLineGroup",
+                        "displayComponentType": null,
+                        "items": [
+                          {
+                            "__typename": "HighlightExplanationLineItem",
+                            "displayComponentType": "HIGHLIGHT_EXPLANATION_LINE_ITEM",
+                            "description": "Price for two stays",
+                            "priceString": "ج.م117,160.20",
+                            "explanationData": null,
+                            "originalPriceString": null,
+                            "accessibilityLabel": null
+                          }
+                        ],
+                        "renderBorderTop": false,
+                        "collapsable": null
+                      },
+                      {
+                        "__typename": "DisplayPriceExplanationDisclaimer",
+                        "displayComponentType": "DISPLAY_PRICE_EXPLANATION_DISCLAIMER",
+                        "content": "You will book and pay for each stay separately."
+                      }
+                    ]
+                  },
+                  "explanationDataDisplayPosition": "PRIMARY_LINE",
+                  "explanationDataDisplayPriceTriggerType": null,
+                  "layout": null,
+                  "displayPriceStyle": "TOTAL_ONLY"
+                },
+                "title": "Two stays in San Pedro less than 1 km apart"
               }
             ],
             "staysInViewport": [
               {
                 "__typename": "ExploreStayMapInfo",
-                "listingId": "880457551611523268",
+                "listingId": "29928625",
                 "splitStayUuid": null,
                 "pinState": "FULL_PIN"
               },
               {
                 "__typename": "ExploreStayMapInfo",
                 "listingId": null,
-                "splitStayUuid": "bfd81f17-c52c-4af1-90ea-4ae8c9a3402c",
+                "splitStayUuid": "f0d8e749-49dd-4360-95b2-74920d91c7d5",
                 "pinState": "FULL_PIN"
               },
               {
                 "__typename": "ExploreStayMapInfo",
                 "listingId": null,
-                "splitStayUuid": "eb467bb0-58a3-4867-870b-9529c0c18538",
+                "splitStayUuid": "aba00d5c-855c-46f1-b0ad-189b1e35210f",
                 "pinState": "FULL_PIN"
               }
             ],
             "loggingMetadata": {
               "__typename": "StaysSearchLoggingMetadata",
-              "legacyLoggingBackendSearchId": "d2493446-8744-4c0d-9afa-32a1a10b4fbe",
-              "legacyLoggingSectionId": "3c9562f4-69e4-4ba5-b99a-ed6aba64069d"
+              "legacyLoggingBackendSearchId": "0c36bc96-0894-4f25-9e12-3c55bbd5d9f1",
+              "legacyLoggingSectionId": "6278e185-a802-4c97-87ce-635e596ca659"
             }
           }
         }
       }
     },
     "extensions": {
-      "traceId": "tPcazZYocids2vT8t6fJJg=="
+      "traceId": "Npcb4IYkPUEzGvxXiKJPpA=="
     }
   }
 }
