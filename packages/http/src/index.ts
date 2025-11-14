@@ -3,6 +3,11 @@ import {
   PdpJsonSerializer,
   SaveRedfinJsonFromAddressWorkflow,
   RedfinUrlFinderService,
+  RedfinHasDataService,
+  CompareListingsByAddressWorkflow,
+  AirbnbPdpExtractor,
+  RedfinPropertyExtractor,
+  MatchCalculator,
 } from "@poc/core";
 import {
   StaticAddressResolverAdapter,
@@ -44,13 +49,32 @@ const exa = new ExaAdapter(
 );
 const storage = new FileStorageAdapter(config.responsesDir);
 const redfinFinder = new RedfinUrlFinderService(exa);
+const hasDataService = new RedfinHasDataService(callWorkflow, {
+  hasDataBase: config.hasDataBase,
+  hasDataApiKey: config.hasDataApiKey,
+  defaultTimeoutMs: config.defaultTimeoutMs,
+});
 const redfinWorkflow = new SaveRedfinJsonFromAddressWorkflow(
-  callWorkflow, // reused from createCoreWorkflow()
   redfinFinder,
+  hasDataService,
   storage,
   {
-    hasDataBase: config.hasDataBase,
-    hasDataApiKey: config.hasDataApiKey,
+    defaultTimeoutMs: config.defaultTimeoutMs,
+  }
+);
+
+// Build compare workflow dependencies
+const airbnbExtractor = new AirbnbPdpExtractor();
+const redfinExtractor = new RedfinPropertyExtractor();
+const matchCalculator = new MatchCalculator();
+const compareWorkflow = new CompareListingsByAddressWorkflow(
+  workflow,
+  redfinFinder,
+  hasDataService,
+  airbnbExtractor,
+  redfinExtractor,
+  matchCalculator,
+  {
     defaultTimeoutMs: config.defaultTimeoutMs,
   }
 );
@@ -65,6 +89,10 @@ const serverContext: ServerContext = {
   },
   redfinController: {
     workflow: redfinWorkflow,
+    defaultTimeoutMs: config.defaultTimeoutMs,
+  },
+  compareController: {
+    workflow: compareWorkflow,
     defaultTimeoutMs: config.defaultTimeoutMs,
   },
 };

@@ -1,13 +1,10 @@
-import type { CallWorkflowInput, CallWorkflowResult } from "@/application/dto/call-workflow.dto";
-import { CallExternalWorkflow } from "@/application/workflows/call-external.workflow";
 import { RedfinUrlFinderService } from "@/application/services/redfin-url-finder.service";
+import { RedfinHasDataService } from "@/application/services/redfin-hasdata.service";
 import type { StoragePort } from "@/application/ports/storage.port";
 import { Result } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
 
 export interface SaveRedfinJsonFromAddressConfig {
-  hasDataBase: string;
-  hasDataApiKey: string;
   defaultTimeoutMs?: number;
 }
 
@@ -23,8 +20,8 @@ export interface SaveRedfinJsonFromAddressResult {
 
 export class SaveRedfinJsonFromAddressWorkflow {
   constructor(
-    private readonly callWorkflow: CallExternalWorkflow,
     private readonly redfinUrlFinder: RedfinUrlFinderService,
+    private readonly hasDataService: RedfinHasDataService,
     private readonly storage: StoragePort,
     private readonly config: SaveRedfinJsonFromAddressConfig
   ) {}
@@ -56,8 +53,6 @@ export class SaveRedfinJsonFromAddressWorkflow {
       return urlMatch[1];
     }
 
-    // Fallback: generate a short hash from URL
-    // Simple hash function (FNV-1a inspired)
     let hash = 0;
     for (let i = 0; i < url.length; i++) {
       const char = url.charCodeAt(i);
@@ -67,18 +62,6 @@ export class SaveRedfinJsonFromAddressWorkflow {
     return Math.abs(hash).toString(36).substring(0, 8);
   }
 
-  private buildHasDataInput(url: string, timeoutMs?: number): CallWorkflowInput {
-    return {
-      url: `${this.config.hasDataBase}/scrape/redfin/property`,
-      method: "GET",
-      headers: [
-        { name: "x-api-key", value: this.config.hasDataApiKey },
-        { name: "content-type", value: "application/json" },
-      ],
-      query: { url },
-      timeoutMs: timeoutMs ?? this.config.defaultTimeoutMs,
-    };
-  }
 
   async execute(
     input: SaveRedfinJsonFromAddressInput
@@ -114,21 +97,24 @@ export class SaveRedfinJsonFromAddressWorkflow {
         return urlResult.map((url) => ({ url, address: addr }));
       })
       .flatMap(async ({ url, address }: { url: string; address: string }) => {
-        // Call HasData API
-        const hasDataInput = this.buildHasDataInput(url, timeoutMs);
-        const result = await this.callWorkflow.execute<unknown>(hasDataInput);
+        // Call HasData API via service
+        const responseResult = await this.hasDataService.fetch(url, timeoutMs);
         
-        // Use zip to combine URL, address, and result
-        return result.map((res) => ({ url, address, result: res }));
+        // Directly use response data without artificial CallWorkflowResult shape
+        return responseResult.map((response) => ({
+          url,
+          address,
+          responseData: response.data,
+        }));
       })
-      .flatMap(async ({ url, address, result }: { url: string; address: string; result: CallWorkflowResult<unknown> }) => {
+      .flatMap(async ({ url, address, responseData }: { url: string; address: string; responseData: unknown }) => {
         // Generate city slug or fallback to safe ID
         const slug = this.deriveCitySlugFromAddress(address);
-        const safeId = this.generateSafeId(result.response.data, url);
+        const safeId = this.generateSafeId(responseData, url);
         // Only pass filename - FileStorageAdapter will prepend baseDir
         const path = slug ? `redfin_${slug}.json` : `redfin_${safeId}.json`;
         
-        const saveResult = await this.storage.saveJson(path, result.response.data);
+        const saveResult = await this.storage.saveJson(path, responseData);
         
         return saveResult.map((saved) => ({
           url,

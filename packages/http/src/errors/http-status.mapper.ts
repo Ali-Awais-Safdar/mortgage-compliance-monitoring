@@ -1,5 +1,14 @@
 import type { AppError } from "@poc/core";
 
+/**
+ * Maps application errors to HTTP status codes.
+ * 
+ * Error mappings:
+ * - InvalidInputError → 400 (e.g., "No Redfin URL found..." or invalid address)
+ * - InvalidResponseError → 502 (e.g., no listingId, no comparable fields)
+ * - TransportError → 502 (HTTP/network errors)
+ * - TimeoutError → 504 (request timeout)
+ */
 export function mapAppErrorToHttpStatus(error: AppError): number {
   switch (error.kind) {
     case "InvalidInputError":

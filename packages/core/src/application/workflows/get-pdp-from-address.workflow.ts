@@ -110,16 +110,18 @@ export class GetPdpFromAddressWorkflow {
       })
       .flatMap((stays: CallWorkflowResult<unknown>) => {
         const listingIdOpt = this.listingIdExtractor.extractFirstListingId(stays.response.data);
-        return this.listingIdOptToResult(listingIdOpt);
+        const listingIdResult = this.listingIdOptToResult(listingIdOpt);
+        return listingIdResult.map((listingId) => ({ listingId, stays }));
       })
-      .flatMap((listingId: string) => {
+      .flatMap(async ({ listingId, stays }: { listingId: string; stays: CallWorkflowResult<unknown> }) => {
         const pdpInput = this.buildPdpInput(listingId, timeoutMs);
-        return this.callWorkflow.execute<unknown>(pdpInput);
+        const pdpResult = await this.callWorkflow.execute<unknown>(pdpInput);
+        return pdpResult.map((pdp) => ({ listingId, pdp }));
       })
-      .map((pdp: CallWorkflowResult<unknown>): PdpDerivedData => {
+      .map(({ listingId, pdp }: { listingId: string; pdp: CallWorkflowResult<unknown> }): PdpDerivedData => {
         const htmlTexts = pdp.derived?.htmlTexts ?? [];
         const pdpItems = pdp.derived?.pdpItems ?? [];
-        return { htmlTexts, pdpItems };
+        return { htmlTexts, pdpItems, listingId };
       })
       .toPromise();
   }

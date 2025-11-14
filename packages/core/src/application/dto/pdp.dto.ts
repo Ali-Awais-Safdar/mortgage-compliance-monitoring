@@ -1,6 +1,7 @@
 export interface PdpDerivedData {
   htmlTexts?: string[];
   pdpItems?: Array<{ title?: string; action?: unknown }>;
+  listingId?: string;
 }
 
 export interface PdpStructuredDTO {
