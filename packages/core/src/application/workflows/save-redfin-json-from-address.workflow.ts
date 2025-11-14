@@ -29,10 +29,13 @@ export class SaveRedfinJsonFromAddressWorkflow {
     private readonly config: SaveRedfinJsonFromAddressConfig
   ) {}
 
-  /**
-   * Generates a safe ID for the filename from the response data or URL.
-   * Priority: property.propertyId > numeric ID from URL > hash of URL
-   */
+  private deriveCitySlugFromAddress(address: string): string | null {
+    const seg = address.split(",")[1]?.trim();
+    if (!seg) return null;
+    const slug = seg.toLowerCase().replace(/[^a-z0-9]+/g, "");
+    return slug || null;
+  }
+
   private generateSafeId(responseData: unknown, url: string): string {
     // Try to extract property.propertyId from response data
     if (responseData && typeof responseData === "object") {
@@ -107,21 +110,23 @@ export class SaveRedfinJsonFromAddressWorkflow {
       .mapErr((message) => ({ kind: "InvalidInputError", message } as AppError))
       .flatMap(async (addr: string) => {
         // Find Redfin URL - short-circuits if not found
-        return await this.redfinUrlFinder.findRedfinUrlForAddress(addr);
+        const urlResult = await this.redfinUrlFinder.findRedfinUrlForAddress(addr);
+        return urlResult.map((url) => ({ url, address: addr }));
       })
-      .flatMap(async (url: string) => {
+      .flatMap(async ({ url, address }: { url: string; address: string }) => {
         // Call HasData API
         const hasDataInput = this.buildHasDataInput(url, timeoutMs);
         const result = await this.callWorkflow.execute<unknown>(hasDataInput);
         
-        // Use zip to combine URL with result
-        return result.map((res) => ({ url, result: res }));
+        // Use zip to combine URL, address, and result
+        return result.map((res) => ({ url, address, result: res }));
       })
-      .flatMap(async ({ url, result }: { url: string; result: CallWorkflowResult<unknown> }) => {
-        // Generate safe ID and save JSON
+      .flatMap(async ({ url, address, result }: { url: string; address: string; result: CallWorkflowResult<unknown> }) => {
+        // Generate city slug or fallback to safe ID
+        const slug = this.deriveCitySlugFromAddress(address);
         const safeId = this.generateSafeId(result.response.data, url);
         // Only pass filename - FileStorageAdapter will prepend baseDir
-        const path = `redfin_${safeId}.json`;
+        const path = slug ? `redfin_${slug}.json` : `redfin_${safeId}.json`;
         
         const saveResult = await this.storage.saveJson(path, result.response.data);
         

@@ -1,11 +1,11 @@
 import type { GetPdpFromAddressWorkflow } from "@poc/core";
-import { PdpOutputComposer, ResponsePostprocessService } from "@poc/core";
+import { PdpJsonSerializer, ResponsePostprocessService } from "@poc/core";
 import { matchRes } from "@carbonteq/fp";
 import { mapAppErrorToHttpStatus } from "../errors/http-status.mapper";
 
 export interface PdpControllerContext {
   workflow: GetPdpFromAddressWorkflow;
-  composer: PdpOutputComposer;
+  serializer: PdpJsonSerializer;
   postprocess: ResponsePostprocessService;
   defaultTimeoutMs?: number;
 }
@@ -61,10 +61,10 @@ export async function handlePdpRequest(
   // Handle result
   return matchRes(result, {
     Ok: (derived) => {
-      const composedText = ctx.composer.compose(derived, ctx.postprocess);
-      return new Response(composedText, {
+      const dto = ctx.serializer.serialize(derived, ctx.postprocess);
+      return new Response(JSON.stringify(dto, null, 2), {
         status: 200,
-        headers: { "content-type": "text/plain" },
+        headers: { "content-type": "application/json" },
       });
     },
     Err: (error: import("@poc/core").AppError) => {

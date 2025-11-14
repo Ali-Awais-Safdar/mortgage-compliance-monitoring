@@ -1,11 +1,11 @@
 import {
-  PdpOutputComposer,
+  PdpJsonSerializer,
 } from "@poc/core";
 import { matchRes } from "@carbonteq/fp";
 import { createCoreWorkflow } from "@poc/infra";
 import { CallOptionsSchema } from "../schemas/call.schema";
 
-function deriveHtmlTextBase(outputPath?: string, overrideBase?: string, listingId?: string): string | null {
+function derivePdpJsonBase(outputPath?: string, overrideBase?: string, listingId?: string): string | null {
   if (overrideBase) return overrideBase;
   if (outputPath) return outputPath.endsWith(".json") ? outputPath.slice(0, -5) : outputPath;
   if (listingId) return `responses/pdp_${listingId}`;
@@ -44,7 +44,7 @@ export const callHandler = async (opts: Record<string, unknown>) => {
   };
 
   const { callWorkflow: workflow, postprocess } = createCoreWorkflow();
-  const composer = new PdpOutputComposer();
+  const serializer = new PdpJsonSerializer();
 
   const outcome = await workflow.execute(finalInput);
 
@@ -61,9 +61,9 @@ export const callHandler = async (opts: Record<string, unknown>) => {
 
       const listingId = finalInput.flags?.listingId;
       if (listingId && result.derived) {
-        const base = deriveHtmlTextBase(output, htmltextOutput, listingId);
+        const base = derivePdpJsonBase(output, htmltextOutput, listingId);
         if (base) {
-          const composedText = composer.compose(
+          const dto = serializer.serialize(
             {
               htmlTexts: result.derived.htmlTexts,
               pdpItems: result.derived.pdpItems,
@@ -71,16 +71,17 @@ export const callHandler = async (opts: Record<string, unknown>) => {
             postprocess
           );
 
-          if (composedText) {
-            await Bun.write(`${base}_html.clean.txt`, composedText);
+          if (dto.items.length > 0 || dto.sections.length > 0) {
+            const jsonOutput = JSON.stringify(dto, null, 2);
+            await Bun.write(`${base}_pdp.json`, jsonOutput);
             console.log(`htmlText extracted: ${result.derived.htmlTexts?.length ?? 0}`);
             console.log(`PdpSbuiBasicListItem items: ${result.derived.pdpItems?.length ?? 0}`);
-            console.log(`Clean: ${base}_html.clean.txt`);
+            console.log(`PDP JSON: ${base}_pdp.json`);
           } else {
             console.log("No htmlText or PDP items to write.");
           }
         } else {
-          console.warn("Could not resolve htmlText output base. Provide -o/--output or --htmltext-output.");
+          console.warn("Could not resolve PDP JSON output base. Provide -o/--output or --htmltext-output.");
         }
       }
     },

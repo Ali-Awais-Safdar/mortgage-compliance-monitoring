@@ -1,6 +1,6 @@
 import {
   GetPdpFromAddressWorkflow,
-  PdpOutputComposer,
+  PdpJsonSerializer,
   SaveRedfinJsonFromAddressWorkflow,
   RedfinUrlFinderService,
 } from "@poc/core";
@@ -34,7 +34,7 @@ const workflow = new GetPdpFromAddressWorkflow(
   }
 );
 
-const composer = new PdpOutputComposer();
+const serializer = new PdpJsonSerializer();
 
 // Build Redfin workflow dependencies
 const exaHttp = new FetchHttpAdapter();
@@ -59,7 +59,7 @@ const redfinWorkflow = new SaveRedfinJsonFromAddressWorkflow(
 const serverContext: ServerContext = {
   pdpController: {
     workflow,
-    composer,
+    serializer,
     postprocess,
     defaultTimeoutMs: config.defaultTimeoutMs,
   },

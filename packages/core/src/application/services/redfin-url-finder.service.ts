@@ -1,6 +1,6 @@
-import { Result, Option } from "@carbonteq/fp";
+import { Result } from "@carbonteq/fp";
 import type { AppError } from "../errors/app-error";
-import type { ExaPort, PageAddress } from "../ports/exa.port";
+import type { ExaPort } from "../ports/exa.port";
 
 // ========= Constants =========
 
@@ -94,7 +94,7 @@ const DIR_LONG2SHORT: Record<string, string> = {
   west: "W",
 };
 
-const UNIT_RE = /(?:#\s*([A-Za-z0-9\-]+)|\b(?:unit|apt|apartment|ste|suite)\s*([A-Za-z0-9\-]+))/i;
+const UNIT_RE = /(?:#\s*([A-Za-z0-9-]+)|\b(?:unit|apt|apartment|ste|suite)\s*([A-Za-z0-9-]+))/i;
 const ZIP_RE = /\b(\d{5})(?:-\d{4})?\b/;
 const REDFIN_PROP_RE = /^https?:\/\/(?:www\.)?redfin\.com\/[A-Z]{2}\/[^/]+\/.+?\/home\/\d+(?:[/?#]|$)/i;
 
@@ -189,7 +189,7 @@ function buildQueryVariants(addr: string): string[] {
 
   // keep original first line; craft #unit + Unit unit variants if present
   const baseLine = p.line.split(",")[0]?.trim() ?? "";
-  const noUnit = baseLine.replace(/(?:,?\s*(?:#|unit|apt|apartment|ste|suite)\s*[A-Za-z0-9\-]+)/i, "").trim();
+  const noUnit = baseLine.replace(/(?:,?\s*(?:#|unit|apt|apartment|ste|suite)\s*[A-Za-z0-9-]+)/i, "").trim();
 
   if (p.unit) {
     variants.add(`"${noUnit} #${p.unit}"${cityQ} ${stZip}`);
@@ -250,7 +250,8 @@ export class RedfinUrlFinderService {
     const pgCity = (page.addressLocality ?? "").trim();
     const pgState = normalizeState(page.addressRegion ?? "");
     const pgZip = (page.postalCode ?? "").trim();
-    let [pgNum, pgCore, pgUnit] = parseStreetLine(pgStreet);
+    const [pgNum, pgCore, pgUnitInitial] = parseStreetLine(pgStreet);
+    let pgUnit = pgUnitInitial;
     if (!pgUnit) {
       pgUnit = extractUnitFromStreet(pgStreet);
     }

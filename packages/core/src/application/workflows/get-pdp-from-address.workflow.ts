@@ -2,7 +2,7 @@ import type { CallWorkflowInput, CallWorkflowResult } from "@/application/dto/ca
 import type { AddressResolverPort, ResolvedSearchFlags } from "@/application/ports/address-resolver.port";
 import { CallExternalWorkflow } from "@/application/workflows/call-external.workflow";
 import { ListingIdExtractorService } from "@/application/services/listing-id-extractor.service";
-import type { PdpDerivedData } from "@/application/services/pdp-output-composer.service";
+import type { PdpDerivedData } from "@/application/dto/pdp.dto";
 import { Result, Option } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
 
