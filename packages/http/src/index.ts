@@ -3,16 +3,16 @@ import {
   PdpJsonSerializer,
   SaveRedfinJsonFromAddressWorkflow,
   RedfinUrlFinderService,
-  RedfinHasDataService,
   CompareListingsByAddressWorkflow,
-  AirbnbPdpExtractor,
   RedfinPropertyExtractor,
   MatchCalculator,
 } from "@poc/core";
 import {
   StaticAddressResolverAdapter,
   createCoreWorkflow,
-  ExaAdapter,
+  WebSearchExaAdapter,
+  AirbnbProviderAdapter,
+  HasDataAdapter,
   FileStorageAdapter,
   FetchHttpAdapter,
 } from "@poc/infra";
@@ -26,14 +26,22 @@ const config = loadConfig();
 const { callWorkflow, postprocess } = createCoreWorkflow();
 const addressResolver = new StaticAddressResolverAdapter();
 
-// Keep existing Airbnb wiring
+// Instantiate Airbnb provider
+const airbnbProvider = new AirbnbProviderAdapter(callWorkflow, {
+  airbnbSearchUrl: config.airbnbSearchUrl,
+  airbnbUrl: config.airbnbUrl,
+  airbnbSearchBody: config.airbnbSearchBody,
+  apiKey: config.apiKey,
+  defaultTimeoutMs: config.defaultTimeoutMs,
+});
+
+// Keep existing Airbnb wiring (now uses provider internally)
 const workflow = new GetPdpFromAddressWorkflow(
-  callWorkflow,
   addressResolver,
+  airbnbProvider,
+  callWorkflow,
   {
-    airbnbSearchUrl: config.airbnbSearchUrl,
     airbnbUrl: config.airbnbUrl,
-    airbnbSearchBody: config.airbnbSearchBody,
     apiKey: config.apiKey,
     defaultTimeoutMs: config.defaultTimeoutMs,
   }
@@ -41,42 +49,43 @@ const workflow = new GetPdpFromAddressWorkflow(
 
 const serializer = new PdpJsonSerializer();
 
-// Build Redfin workflow dependencies
-const exaHttp = new FetchHttpAdapter();
-const exa = new ExaAdapter(
+// Instantiate web search
+const webSearch = new WebSearchExaAdapter(
   { baseUrl: config.exaBase, apiKey: config.exaApiKey },
-  exaHttp
+  new FetchHttpAdapter()
 );
-const storage = new FileStorageAdapter(config.responsesDir);
-const redfinFinder = new RedfinUrlFinderService(exa);
-const hasDataService = new RedfinHasDataService(callWorkflow, {
-  hasDataBase: config.hasDataBase,
-  hasDataApiKey: config.hasDataApiKey,
+
+// Instantiate property content
+const propertyContent = new HasDataAdapter(new FetchHttpAdapter(), {
+  baseUrl: config.hasDataBase,
+  apiKey: config.hasDataApiKey,
   defaultTimeoutMs: config.defaultTimeoutMs,
 });
+
+// Wire Redfin finder
+const redfinFinder = new RedfinUrlFinderService(webSearch);
+
+const storage = new FileStorageAdapter(config.responsesDir);
+
+// Update redfin JSON workflow to use propertyContent
 const redfinWorkflow = new SaveRedfinJsonFromAddressWorkflow(
   redfinFinder,
-  hasDataService,
-  storage,
-  {
-    defaultTimeoutMs: config.defaultTimeoutMs,
-  }
+  propertyContent,
+  storage
 );
 
 // Build compare workflow dependencies
-const airbnbExtractor = new AirbnbPdpExtractor();
 const redfinExtractor = new RedfinPropertyExtractor();
 const matchCalculator = new MatchCalculator();
+
+// Update compare workflow to the new signature
 const compareWorkflow = new CompareListingsByAddressWorkflow(
-  workflow,
+  addressResolver,
+  airbnbProvider,
   redfinFinder,
-  hasDataService,
-  airbnbExtractor,
+  propertyContent,
   redfinExtractor,
-  matchCalculator,
-  {
-    defaultTimeoutMs: config.defaultTimeoutMs,
-  }
+  matchCalculator
 );
 
 // Create server context

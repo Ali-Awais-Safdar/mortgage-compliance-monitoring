@@ -1,12 +1,8 @@
 import { RedfinUrlFinderService } from "@/application/services/redfin-url-finder.service";
-import { RedfinHasDataService } from "@/application/services/redfin-hasdata.service";
+import type { PropertyJsonFetchPort } from "@/application/ports/property-content.port";
 import type { StoragePort } from "@/application/ports/storage.port";
 import { Result } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
-
-export interface SaveRedfinJsonFromAddressConfig {
-  defaultTimeoutMs?: number;
-}
 
 export interface SaveRedfinJsonFromAddressInput {
   address: string;
@@ -21,9 +17,8 @@ export interface SaveRedfinJsonFromAddressResult {
 export class SaveRedfinJsonFromAddressWorkflow {
   constructor(
     private readonly redfinUrlFinder: RedfinUrlFinderService,
-    private readonly hasDataService: RedfinHasDataService,
-    private readonly storage: StoragePort,
-    private readonly config: SaveRedfinJsonFromAddressConfig
+    private readonly propertyContent: PropertyJsonFetchPort,
+    private readonly storage: StoragePort
   ) {}
 
   private deriveCitySlugFromAddress(address: string): string | null {
@@ -67,7 +62,7 @@ export class SaveRedfinJsonFromAddressWorkflow {
     input: SaveRedfinJsonFromAddressInput
   ): Promise<Result<SaveRedfinJsonFromAddressResult, AppError>> {
     const address = input.address.trim();
-    const timeoutMs = input.timeoutMs ?? this.config.defaultTimeoutMs;
+    const timeoutMs = input.timeoutMs;
 
     return Result.Ok(address)
       .validate([
@@ -97,14 +92,12 @@ export class SaveRedfinJsonFromAddressWorkflow {
         return urlResult.map((url) => ({ url, address: addr }));
       })
       .flatMap(async ({ url, address }: { url: string; address: string }) => {
-        // Call HasData API via service
-        const responseResult = await this.hasDataService.fetch(url, timeoutMs);
-        
-        // Directly use response data without artificial CallWorkflowResult shape
-        return responseResult.map((response) => ({
+        // Fetch JSON via PropertyJsonFetchPort
+        const jsonRes = await this.propertyContent.fetchJson(url, timeoutMs);
+        return jsonRes.map((json) => ({
           url,
           address,
-          responseData: response.data,
+          responseData: json,
         }));
       })
       .flatMap(async ({ url, address, responseData }: { url: string; address: string; responseData: unknown }) => {

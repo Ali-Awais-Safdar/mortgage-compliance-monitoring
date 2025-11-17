@@ -1,15 +1,11 @@
-import { GetPdpFromAddressWorkflow } from "@/application/workflows/get-pdp-from-address.workflow";
+import type { AddressResolverPort } from "@/application/ports/address-resolver.port";
+import type { ShortTermRentalProviderPort, RentalPropertyDetails } from "@/application/ports/short-term-rental.port";
+import type { PropertyJsonFetchPort } from "@/application/ports/property-content.port";
 import { RedfinUrlFinderService } from "@/application/services/redfin-url-finder.service";
-import { RedfinHasDataService } from "@/application/services/redfin-hasdata.service";
-import { AirbnbPdpExtractor } from "@/application/services/airbnb-pdp-extractor.service";
 import { RedfinPropertyExtractor } from "@/application/services/redfin-property-extractor.service";
 import { MatchCalculator } from "@/application/services/match-calculator.service";
 import { Result } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
-
-export interface CompareListingsByAddressConfig {
-  defaultTimeoutMs?: number;
-}
 
 export interface CompareListingsByAddressInput {
   address: string;
@@ -25,20 +21,19 @@ export interface CompareListingsByAddressResult {
 
 export class CompareListingsByAddressWorkflow {
   constructor(
-    private readonly pdpWorkflow: GetPdpFromAddressWorkflow,
+    private readonly addressResolver: AddressResolverPort,
+    private readonly shortTermProvider: ShortTermRentalProviderPort,
     private readonly redfinFinder: RedfinUrlFinderService,
-    private readonly hasData: RedfinHasDataService,
-    private readonly airbnbExtractor: AirbnbPdpExtractor,
+    private readonly propertyContent: PropertyJsonFetchPort,
     private readonly redfinExtractor: RedfinPropertyExtractor,
-    private readonly matcher: MatchCalculator,
-    private readonly config: CompareListingsByAddressConfig
+    private readonly matcher: MatchCalculator
   ) {}
 
   async execute(
     input: CompareListingsByAddressInput
   ): Promise<Result<CompareListingsByAddressResult, AppError>> {
     const address = input.address.trim();
-    const timeoutMs = input.timeoutMs ?? this.config.defaultTimeoutMs;
+    const timeoutMs = input.timeoutMs;
 
     return Result.Ok(address)
       .validate([
@@ -63,55 +58,46 @@ export class CompareListingsByAddressWorkflow {
       })
       .mapErr((message) => ({ kind: "InvalidInputError", message } as AppError))
       .flatMap(async (addr: string) => {
-        // Fetch PDP data
-        const pdpResult = await this.pdpWorkflow.execute({ address: addr, timeoutMs });
-        return pdpResult;
+        // Resolve address to search flags
+        const resolveResult = await Promise.resolve(this.addressResolver.resolve(addr));
+        return resolveResult;
       })
-      .flatMap((pdp) => {
-        // Explicitly check for listingId
-        if (!pdp.listingId) {
-          return Result.Err({
-            kind: "InvalidResponseError",
-            message: "No listingId found in PDP response",
-          } as AppError);
-        }
-
-        // Extract Airbnb data
-        const airbnbData = this.airbnbExtractor.extract(pdp);
-
-        return Result.Ok({
-          listingId: pdp.listingId,
-          airbnbData,
-        });
+      .flatMap(async (flags) => {
+        // Find listing ID via short-term rental provider
+        const listingIdResult = await this.shortTermProvider.findListingId(flags, timeoutMs);
+        return listingIdResult;
       })
-      .flatMap(async ({ listingId, airbnbData }) => {
+      .flatMap(async (listingId: string) => {
+        // Get Airbnb property details (includes bedrooms, baths, url)
+        const airbnbResult = await this.shortTermProvider.getDetails(listingId, timeoutMs);
+        return airbnbResult;
+      })
+      .flatMap(async (airbnb: RentalPropertyDetails) => {
         // Find Redfin URL
         const urlResult = await this.redfinFinder.findRedfinUrlForAddress(address);
-        return urlResult.map((redfinUrl) => ({
-          listingId,
-          airbnbData,
+        return urlResult.map((redfinUrl: string) => ({
+          airbnb,
           redfinUrl,
         }));
       })
-      .flatMap(async ({ listingId, airbnbData, redfinUrl }) => {
+      .flatMap(async ({ airbnb, redfinUrl }: { airbnb: RentalPropertyDetails; redfinUrl: string }) => {
         // Fetch Redfin JSON
-        const jsonResult = await this.hasData.fetch(redfinUrl, timeoutMs);
-        return jsonResult.map((response) => ({
-          listingId,
-          airbnbData,
+        const jsonResult = await this.propertyContent.fetchJson(redfinUrl, timeoutMs);
+        return jsonResult.map((redfinJson: unknown) => ({
+          airbnb,
           redfinUrl,
-          redfinJson: response.data,
+          redfinJson,
         }));
       })
-      .flatMap(({ listingId, airbnbData, redfinUrl, redfinJson }) => {
+      .flatMap(({ airbnb, redfinUrl, redfinJson }: { airbnb: RentalPropertyDetails; redfinUrl: string; redfinJson: unknown }) => {
         // Extract Redfin data
         const redfinData = this.redfinExtractor.extract(redfinJson);
 
         // Compute matches
         const matchResult = this.matcher.calcMatch(
-          airbnbData.bedrooms,
+          airbnb.bedrooms,
           redfinData.beds,
-          airbnbData.baths,
+          airbnb.baths,
           redfinData.baths
         );
 
@@ -123,9 +109,6 @@ export class CompareListingsByAddressWorkflow {
           } as AppError);
         }
 
-        // Build Airbnb URL
-        const airbnbUrl = `https://www.airbnb.com/rooms/${listingId}`;
-
         // Return the DTO
         return Result.Ok({
           matchPercentage: matchResult.percentage,
@@ -134,16 +117,16 @@ export class CompareListingsByAddressWorkflow {
             baths: matchResult.bathsMatch,
           },
           airbnb: {
-            url: airbnbUrl,
-            bedrooms: airbnbData.bedrooms,
-            baths: airbnbData.baths,
+            url: airbnb.url,
+            bedrooms: airbnb.bedrooms,
+            baths: airbnb.baths,
           },
           redfin: {
             url: redfinUrl,
             beds: redfinData.beds,
             baths: redfinData.baths,
           },
-        });
+        } satisfies CompareListingsByAddressResult);
       })
       .toPromise();
   }

@@ -1,15 +1,13 @@
 import type { CallWorkflowInput, CallWorkflowResult } from "@/application/dto/call-workflow.dto";
-import type { AddressResolverPort, ResolvedSearchFlags } from "@/application/ports/address-resolver.port";
+import type { AddressResolverPort } from "@/application/ports/address-resolver.port";
+import type { ShortTermRentalProviderPort } from "@/application/ports/short-term-rental.port";
 import { CallExternalWorkflow } from "@/application/workflows/call-external.workflow";
-import { ListingIdExtractorService } from "@/application/services/listing-id-extractor.service";
 import type { PdpDerivedData } from "@/application/dto/pdp.dto";
-import { Result, Option } from "@carbonteq/fp";
+import { Result } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
 
 export interface GetPdpFromAddressConfig {
-  airbnbSearchUrl: string;
   airbnbUrl: string;
-  airbnbSearchBody: unknown;
   apiKey: string;
   defaultTimeoutMs?: number;
 }
@@ -20,37 +18,12 @@ export interface GetPdpFromAddressInput {
 }
 
 export class GetPdpFromAddressWorkflow {
-  private readonly listingIdExtractor: ListingIdExtractorService;
-
   constructor(
-    private readonly callWorkflow: CallExternalWorkflow,
     private readonly addressResolver: AddressResolverPort,
+    private readonly shortTermProvider: ShortTermRentalProviderPort,
+    private readonly callWorkflow: CallExternalWorkflow,
     private readonly config: GetPdpFromAddressConfig
-  ) {
-    this.listingIdExtractor = new ListingIdExtractorService();
-  }
-
-  private buildStaysInput(flags: ResolvedSearchFlags, timeoutMs?: number): CallWorkflowInput {
-    return {
-      url: this.config.airbnbSearchUrl,
-      method: "POST",
-      headers: [
-        { name: "x-airbnb-api-key", value: this.config.apiKey },
-        { name: "content-type", value: "application/json" },
-      ],
-      body: this.config.airbnbSearchBody,
-      flags: {
-        bbox: flags.bbox,
-        zoomLevel: flags.zoomLevel,
-        queryAddress: flags.queryAddress,
-        refinementPath: flags.refinementPath,
-        searchByMap: flags.searchByMap,
-        poiPlace: flags.poiPlace,
-        poiAcp: flags.poiAcp,
-      },
-      timeoutMs: timeoutMs ?? this.config.defaultTimeoutMs,
-    };
-  }
+  ) {}
 
   private buildPdpInput(listingId: string, timeoutMs?: number): CallWorkflowInput {
     return {
@@ -62,16 +35,6 @@ export class GetPdpFromAddressWorkflow {
       },
       timeoutMs: timeoutMs ?? this.config.defaultTimeoutMs,
     };
-  }
-
-  private listingIdOptToResult(opt: Option<string>): Result<string, AppError> {
-    if (opt.isNone()) {
-      return Result.Err({
-        kind: "InvalidResponseError",
-        message: "No listingId found in staysInViewport",
-      } as AppError);
-    }
-    return Result.Ok(opt.unwrap());
   }
 
   async execute(input: GetPdpFromAddressInput): Promise<Result<PdpDerivedData, AppError>> {
@@ -101,22 +64,20 @@ export class GetPdpFromAddressWorkflow {
       })
       .mapErr((message) => ({ kind: "InvalidInputError", message } as AppError))
       .flatMap(async (addr: string) => {
+        // Resolve address to search flags
         const resolveResult = await Promise.resolve(this.addressResolver.resolve(addr));
         return resolveResult;
       })
-      .flatMap((flags: ResolvedSearchFlags) => {
-        const staysInput = this.buildStaysInput(flags, timeoutMs);
-        return this.callWorkflow.execute<unknown>(staysInput);
+      .flatMap(async (flags) => {
+        // Find listing ID via short-term rental provider
+        const listingIdResult = await this.shortTermProvider.findListingId(flags, timeoutMs);
+        return listingIdResult;
       })
-      .flatMap((stays: CallWorkflowResult<unknown>) => {
-        const listingIdOpt = this.listingIdExtractor.extractFirstListingId(stays.response.data);
-        const listingIdResult = this.listingIdOptToResult(listingIdOpt);
-        return listingIdResult.map((listingId) => ({ listingId, stays }));
-      })
-      .flatMap(async ({ listingId, stays }: { listingId: string; stays: CallWorkflowResult<unknown> }) => {
+      .flatMap(async (listingId: string) => {
+        // Get PDP data using CallExternalWorkflow directly to access derived data
         const pdpInput = this.buildPdpInput(listingId, timeoutMs);
         const pdpResult = await this.callWorkflow.execute<unknown>(pdpInput);
-        return pdpResult.map((pdp) => ({ listingId, pdp }));
+        return pdpResult.map((pdp: CallWorkflowResult<unknown>) => ({ listingId, pdp }));
       })
       .map(({ listingId, pdp }: { listingId: string; pdp: CallWorkflowResult<unknown> }): PdpDerivedData => {
         const htmlTexts = pdp.derived?.htmlTexts ?? [];

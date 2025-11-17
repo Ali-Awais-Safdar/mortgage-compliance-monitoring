@@ -1,6 +1,6 @@
 import { Result } from "@carbonteq/fp";
 import type { AppError } from "../errors/app-error";
-import type { ExaPort } from "../ports/exa.port";
+import type { WebSearchPort, SearchResultItem } from "../ports/search.port";
 
 // ========= Constants =========
 
@@ -110,11 +110,6 @@ interface ParsedAddress {
   core: string;
 }
 
-// Individual search result item (from ExaSearchResult.results array)
-type ExaSearchResultItem = {
-  url?: string;
-  id?: string;
-};
 
 // ========= Helper Functions =========
 
@@ -228,10 +223,10 @@ function extractUnitFromStreet(street: string): string {
 // ========= Service Class =========
 
 export class RedfinUrlFinderService {
-  constructor(private readonly exa: ExaPort) {}
+  constructor(private readonly search: WebSearchPort) {}
 
   private async validateCandidate(url: string, inputAddr: string): Promise<boolean> {
-    const pageResult = await this.exa.fetchPageAddress(url);
+    const pageResult = await this.search.fetchPageAddress(url);
     
     if (pageResult.isErr()) {
       return false;
@@ -291,9 +286,9 @@ export class RedfinUrlFinderService {
     return true;
   }
 
-  private async chooseRedfinUrl(results: ExaSearchResultItem[], address: string): Promise<string | null> {
+  private async chooseRedfinUrl(results: SearchResultItem[], address: string): Promise<string | null> {
     for (const r of results) {
-      const url = r.url ?? r.id ?? "";
+      const url = r.url;
       if (!looksLikeRedfinProperty(url)) {
         continue;
       }
@@ -340,11 +335,11 @@ export class RedfinUrlFinderService {
 
     const variants = buildQueryVariants(address);
 
-    // Pass 1: keyword (precise)
+    // Pass 1: exact (precise)
     for (const q of variants) {
-      const searchResult = await this.exa.search({
+      const searchResult = await this.search.search({
         query: q,
-        type: "keyword",
+        mode: "exact",
         numResults: perQueryResults,
         includeDomains: ["redfin.com"],
       });
@@ -359,11 +354,11 @@ export class RedfinUrlFinderService {
       }
     }
 
-    // Pass 2: auto (recall)
+    // Pass 2: broad (recall)
     for (const q of variants) {
-      const searchResult = await this.exa.search({
+      const searchResult = await this.search.search({
         query: q,
-        type: "auto",
+        mode: "broad",
         numResults: perQueryResults,
         includeDomains: ["redfin.com"],
       });

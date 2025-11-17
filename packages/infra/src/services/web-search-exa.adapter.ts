@@ -1,30 +1,33 @@
 import { Result, Option } from "@carbonteq/fp";
-import type { ExaPort, ExaSearchResult, PageAddress, ExaSearchType } from "@poc/core";
+import type { WebSearchPort, SearchMode, SearchResultItem, PageAddress } from "@poc/core";
 import type { HttpPort } from "@poc/core";
 import type { AppError } from "@poc/core";
 
-export interface ExaAdapterConfig {
+export interface WebSearchExaAdapterConfig {
   baseUrl: string;
   apiKey: string;
 }
 
-export class ExaAdapter implements ExaPort {
+export class WebSearchExaAdapter implements WebSearchPort {
   constructor(
-    private readonly config: ExaAdapterConfig,
+    private readonly config: WebSearchExaAdapterConfig,
     private readonly http: HttpPort
   ) {}
 
-  async search(params: {
+  async search(input: {
     query: string;
-    type: ExaSearchType;
+    mode: SearchMode;
     numResults?: number;
     includeDomains?: string[];
-  }): Promise<Result<ExaSearchResult, AppError>> {
+  }): Promise<Result<{ results: SearchResultItem[] }, AppError>> {
+    // Map SearchMode to Exa type
+    const exaType = input.mode === "exact" ? "keyword" : "auto";
+
     const body = {
-      query: params.query,
-      type: params.type,
-      numResults: params.numResults ?? 10,
-      includeDomains: params.includeDomains ?? ["redfin.com"],
+      query: input.query,
+      type: exaType,
+      numResults: input.numResults ?? 10,
+      includeDomains: input.includeDomains ?? ["redfin.com"],
       text: false,
     };
 
@@ -52,8 +55,14 @@ export class ExaAdapter implements ExaPort {
       } as AppError);
     }
 
+    // Map Exa results to SearchResultItem (only url, not id)
+    const results: SearchResultItem[] = (data.results ?? [])
+      .map((item) => item.url ?? item.id)
+      .filter((url): url is string => url != null && url.length > 0)
+      .map((url) => ({ url }));
+
     return Result.Ok({
-      results: data.results ?? [],
+      results,
     });
   }
 
@@ -87,7 +96,7 @@ export class ExaAdapter implements ExaPort {
         { name: "content-type", value: "application/json" },
       ],
       body,
-      timeoutMs: 90000, // 90 seconds as per Python code
+      timeoutMs: 90000,
     });
 
     if (response.isErr()) {
