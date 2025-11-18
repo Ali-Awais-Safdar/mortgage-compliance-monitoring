@@ -61,35 +61,14 @@ export class SaveRedfinJsonFromAddressWorkflow {
   async execute(
     input: SaveRedfinJsonFromAddressInput
   ): Promise<Result<SaveRedfinJsonFromAddressResult, AppError>> {
-    const address = input.address.trim();
+    const address = input.address; // already validated by HTTP boundary
     const timeoutMs = input.timeoutMs;
 
-    return Result.Ok(address)
-      .validate([
-        (addr: string) => {
-          if (!addr || addr.length === 0) {
-            return Result.Err({
-              kind: "InvalidInputError",
-              message: "Address cannot be empty",
-            } as AppError);
-          }
-          return Result.Ok(addr);
-        },
-      ])
-      .mapErr((errs: AppError | AppError[]) => {
-        const fallback = "Invalid address";
-        if (Array.isArray(errs)) {
-          return errs
-            .map((e) => e.message ?? fallback)
-            .join("; ");
-        }
-        return errs.message ?? fallback;
-      })
-      .mapErr((message) => ({ kind: "InvalidInputError", message } as AppError))
-      .flatMap(async (addr: string) => {
+    return Result.Ok({ address })
+      .flatMap(async ({ address }) => {
         // Find Redfin URL - short-circuits if not found
-        const urlResult = await this.redfinUrlFinder.findRedfinUrlForAddress(addr, 10, timeoutMs);
-        return urlResult.map((url) => ({ url, address: addr }));
+        const urlResult = await this.redfinUrlFinder.findRedfinUrlForAddress(address, 10, timeoutMs);
+        return urlResult.map((url) => ({ url, address }));
       })
       .flatMap(async ({ url, address }: { url: string; address: string }) => {
         // Fetch JSON via PropertyJsonFetchPort

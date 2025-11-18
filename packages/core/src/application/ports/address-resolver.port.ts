@@ -1,15 +1,6 @@
 import type { Result } from "@carbonteq/fp";
 import type { AppError } from "../errors/app-error";
-
-export interface ResolvedSearchFlags {
-  bbox: string;
-  zoomLevel?: number;
-  queryAddress?: string;
-  refinementPath?: string;
-  searchByMap?: boolean;
-  poiPlace?: string;
-  poiAcp?: string;
-}
+import type { ResolvedSearchFlags } from "@/domain/value-objects/search-flags.vo";
 
 export interface AddressResolverPort {
   resolve(

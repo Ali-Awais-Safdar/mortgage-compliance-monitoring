@@ -1,13 +1,13 @@
 import { Option } from "@carbonteq/fp";
-import type { PropertyDetailsDTO } from "@/application/dto/compare.dto";
+import type { PropertyDetails } from "@/domain/value-objects/property-details.vo";
 
 export class RedfinPropertyExtractor {
   /**
    * Extract property details from HasData Redfin JSON.
    * Safely navigates the JSON structure to find property fields.
-   * Returns PropertyDetailsDTO with only whitelisted keys.
+   * Returns PropertyDetails with only whitelisted keys.
    */
-  public extract(json: unknown): PropertyDetailsDTO {
+  public extract(json: unknown): PropertyDetails {
     const property = this.getProperty(json);
     if (!property) {
       // Return minimal object with required address fields
@@ -67,7 +67,7 @@ export class RedfinPropertyExtractor {
     return null;
   }
 
-  private extractAddress(property: Record<string, unknown>): PropertyDetailsDTO["address"] {
+  private extractAddress(property: Record<string, unknown>): PropertyDetails["address"] {
     try {
       const address = property.address;
       if (address && typeof address === "object" && address !== null && !Array.isArray(address)) {

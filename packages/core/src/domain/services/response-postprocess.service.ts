@@ -1,4 +1,4 @@
-import { walkJson } from "@/application/utils/json-walk";
+import { walkJson } from "@/domain/utils/json-walk";
 
 type AnyJson = unknown;
 

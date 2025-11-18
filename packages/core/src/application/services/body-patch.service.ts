@@ -6,6 +6,11 @@ import {
   setAtPath,
   coercePreservingType,
 } from "@/application/utils/json-path";
+import { Result } from "@carbonteq/fp";
+import type { AppError } from "@/application/errors/app-error";
+import type { BoundingBox } from "@/domain/value-objects/bounding-box.vo";
+import { parseBoundingBox } from "@/domain/value-objects/bounding-box.vo";
+import { mapBoundingBoxErrorToAppError } from "@/application/utils/domain-error.mapper";
 
 type RawParam = { filterName: string; filterValues: string[] };
 
@@ -86,28 +91,32 @@ export class BodyPatchService {
     setAtPath(body, path, finalValue);
   }
 
-  public applyBaselineOverrides(body: JsonRecord, flags: CallWorkflowInput["flags"] = {}): void {
+  public applyBaselineOverrides(body: JsonRecord, flags: CallWorkflowInput["flags"] = {}): Result<void, AppError> {
     if (!flags) {
-      return;
+      return Result.Ok(undefined);
     }
 
     const { staysSearchRequest, staysMapSearchRequestV2 } = this.ensureVariables(body);
 
     if (flags.bbox) {
-      const segments = flags.bbox
-        .split(",")
-        .map((segment: string) => segment.trim())
-        .filter((segment: string) => segment.length > 0);
-
-      if (segments.length !== 4) {
-        throw new Error(`Invalid bbox format. Expected "neLat,neLng,swLat,swLng", got: ${flags.bbox}`);
+      // For CLI calls: bbox might be a string, parse it if needed
+      let bbox: BoundingBox;
+      if (typeof flags.bbox === "string") {
+        // Parse string bbox (for CLI calls) - return error if invalid
+        const bboxResult = parseBoundingBox(flags.bbox);
+        if (bboxResult.isErr()) {
+          return Result.Err(mapBoundingBoxErrorToAppError(bboxResult.unwrapErr()));
+        }
+        bbox = bboxResult.unwrap();
+      } else {
+        bbox = flags.bbox;
       }
 
-      const [neLat, neLng, swLat, swLng] = segments as [string, string, string, string];
-      this.patchRawParams(body, "neLat", Number.parseFloat(neLat));
-      this.patchRawParams(body, "neLng", Number.parseFloat(neLng));
-      this.patchRawParams(body, "swLat", Number.parseFloat(swLat));
-      this.patchRawParams(body, "swLng", Number.parseFloat(swLng));
+      const [neLat, neLng, swLat, swLng] = bbox;
+      this.patchRawParams(body, "neLat", neLat);
+      this.patchRawParams(body, "neLng", neLng);
+      this.patchRawParams(body, "swLat", swLat);
+      this.patchRawParams(body, "swLng", swLng);
     }
 
     if (flags.poiPlace) {
@@ -130,26 +139,31 @@ export class BodyPatchService {
     (staysSearchRequest as JsonRecord)["maxMapItems"] = 9999;
     (staysSearchRequest as JsonRecord)["skipHydrationListingIds"] = [] as string[];
     (staysMapSearchRequestV2 as JsonRecord)["skipHydrationListingIds"] = [] as string[];
+
+    return Result.Ok(undefined);
   }
 
   public prepareBody(
     body: unknown,
     flags: CallWorkflowInput["flags"],
     overrides: Array<{ path: string; value: unknown }> = []
-  ): unknown {
+  ): Result<unknown, AppError> {
     if (!isJsonRecord(body)) {
-      return body;
+      return Result.Ok(body);
     }
 
     if (flags) {
-      this.applyBaselineOverrides(body, flags);
+      const overrideResult = this.applyBaselineOverrides(body, flags);
+      if (overrideResult.isErr()) {
+        return overrideResult.map(() => body);
+      }
     }
 
     for (const override of overrides) {
       this.applyBodyOverride(body, override.path, override.value);
     }
 
-    return body;
+    return Result.Ok(body);
   }
 }
 

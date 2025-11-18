@@ -11,7 +11,7 @@ export class MatchCalculator {
    * Calculate match between Airbnb and Redfin property data.
    * 
    * Rules:
-   * - Bedrooms: strict equality (airbnbBedrooms === redfinBeds)
+   * - Bedrooms: tolerance ±1 (Math.abs(airbnbBedrooms - redfinBeds) <= 1)
    * - Baths: tolerance ±0.5 (Math.abs(airbnbBaths - redfinBaths) <= 0.5)
    * 
    * Percentage calculation:
@@ -31,7 +31,7 @@ export class MatchCalculator {
 
     // Compare bedrooms if both values are present
     if (airbnbBedrooms != null && redfinBeds != null) {
-      bedroomsMatch = airbnbBedrooms === redfinBeds;
+      bedroomsMatch = Math.abs(airbnbBedrooms - redfinBeds) <= 1;
       comparisons.push({ matched: bedroomsMatch });
     }
 

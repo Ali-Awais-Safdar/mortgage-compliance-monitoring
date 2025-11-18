@@ -1,4 +1,5 @@
 import type { ApiResponseDTO, Header } from "./request.dto";
+import type { BoundingBox } from "@/domain/value-objects/bounding-box.vo";
 
 export interface CallWorkflowInput {
   url: string;
@@ -9,7 +10,7 @@ export interface CallWorkflowInput {
   timeoutMs?: number;
   flags?: {
     listingId?: string;
-    bbox?: string;
+    bbox?: BoundingBox | string;
     poiPlace?: string;
     poiAcp?: string;
     queryAddress?: string;

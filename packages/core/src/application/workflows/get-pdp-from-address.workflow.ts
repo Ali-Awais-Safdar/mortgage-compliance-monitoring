@@ -1,10 +1,12 @@
-import type { CallWorkflowInput, CallWorkflowResult } from "@/application/dto/call-workflow.dto";
+import type { CallWorkflowResult } from "@/application/dto/call-workflow.dto";
 import type { AddressResolverPort } from "@/application/ports/address-resolver.port";
 import type { ShortTermRentalProviderPort } from "@/application/ports/short-term-rental.port";
 import { CallExternalWorkflow } from "@/application/workflows/call-external.workflow";
-import type { PdpDerivedData } from "@/application/dto/pdp.dto";
+import type { PdpDerivedData } from "@/domain/value-objects/pdp-derived.vo";
 import { Result } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
+import { buildPdpInput } from "@/application/services/pdp-input.builder";
+import { aggregateErrorsToInvalidResponse } from "@/application/utils/app-error.helpers";
 
 export interface GetPdpFromAddressConfig {
   airbnbUrl: string;
@@ -25,49 +27,14 @@ export class GetPdpFromAddressWorkflow {
     private readonly config: GetPdpFromAddressConfig
   ) {}
 
-  private buildPdpInput(listingId: string, timeoutMs?: number): CallWorkflowInput {
-    return {
-      url: this.config.airbnbUrl,
-      method: "GET",
-      headers: [{ name: "x-airbnb-api-key", value: this.config.apiKey }],
-      flags: {
-        listingId,
-      },
-      timeoutMs: timeoutMs ?? this.config.defaultTimeoutMs,
-    };
-  }
-
   async execute(input: GetPdpFromAddressInput): Promise<Result<PdpDerivedData[], AppError>> {
-    const address = input.address.trim();
+    const address = input.address; // already validated by HTTP boundary
     const timeoutMs = input.timeoutMs ?? this.config.defaultTimeoutMs;
 
-    return Result.Ok(address)
-      .validate([
-        (addr: string) => {
-          if (!addr || addr.length === 0) {
-            return Result.Err({
-              kind: "InvalidInputError",
-              message: "Address cannot be empty",
-            } as AppError);
-          }
-          return Result.Ok(addr);
-        },
-      ])
-      .mapErr((errs: AppError | AppError[]) => {
-        const fallback = "Invalid address";
-        if (Array.isArray(errs)) {
-          return errs
-            .map((e) => e.message ?? fallback)
-            .join("; ");
-        }
-        return errs.message ?? fallback;
-      })
-      .mapErr((message) => ({ kind: "InvalidInputError", message } as AppError))
-      .flatMap(async (addr: string) => {
-        // Resolve address to search flags
-        const resolveResult = await Promise.resolve(this.addressResolver.resolve(addr));
-        return resolveResult;
-      })
+    // Resolve address to search flags
+    const resolveResult = await Promise.resolve(this.addressResolver.resolve(address));
+    
+    return resolveResult
       .flatMap(async (flags) => {
         // Find all listing IDs via short-term rental provider
         const listingIdsResult = await this.shortTermProvider.findListingIds(flags, timeoutMs);
@@ -76,7 +43,7 @@ export class GetPdpFromAddressWorkflow {
       .flatMap(async (listingIds: string[]) => {
         // Fetch PDP data for all listing IDs in parallel
         const pdpPromises = listingIds.map(async (listingId: string) => {
-          const pdpInput = this.buildPdpInput(listingId, timeoutMs);
+          const pdpInput = buildPdpInput(this.config, listingId, timeoutMs);
           const pdpResult = await this.callWorkflow.execute<unknown>(pdpInput);
           return pdpResult.map((pdp: CallWorkflowResult<unknown>): PdpDerivedData => {
             const htmlTexts = pdp.derived?.htmlTexts ?? [];
@@ -90,16 +57,7 @@ export class GetPdpFromAddressWorkflow {
 
         const aggregated = Result.all(...pdpResults);
 
-        // Map errors to aggregated InvalidResponseError with joined messages
-        return aggregated.mapErr((errs: AppError | AppError[]) => {
-          const errorMessages = (Array.isArray(errs) ? errs : [errs])
-            .map((e) => e.message ?? "Unknown error")
-            .join("; ");
-          return {
-            kind: "InvalidResponseError",
-            message: errorMessages,
-          } as AppError;
-        });
+        return aggregated.mapErr(aggregateErrorsToInvalidResponse);
       })
       .toPromise();
   }

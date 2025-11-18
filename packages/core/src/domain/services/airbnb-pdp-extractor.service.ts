@@ -1,6 +1,6 @@
 import { Option } from "@carbonteq/fp";
-import type { PdpDerivedData } from "@/application/dto/pdp.dto";
-import { ResponsePostprocessService } from "@/application/services/response-postprocess.service";
+import type { PdpDerivedData } from "@/domain/value-objects/pdp-derived.vo";
+import { ResponsePostprocessService } from "@/domain/services/response-postprocess.service";
 
 export interface ExtractedAirbnbData {
   bedrooms?: number;
@@ -8,11 +8,7 @@ export interface ExtractedAirbnbData {
 }
 
 export class AirbnbPdpExtractor {
-  private readonly postprocess: ResponsePostprocessService;
-
-  constructor() {
-    this.postprocess = new ResponsePostprocessService();
-  }
+  constructor(private readonly postprocess: ResponsePostprocessService) {}
 
   /**
    * Extract bedrooms and baths from PDP derived data.

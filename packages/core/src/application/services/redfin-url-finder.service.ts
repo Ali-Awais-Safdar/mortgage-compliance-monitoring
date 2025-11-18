@@ -305,35 +305,7 @@ export class RedfinUrlFinderService {
     perQueryResults: number = 10,
     timeoutMs?: number,
   ): Promise<Result<string, AppError>> {
-    // Validate input
-    const validationResult = await Result.Ok(address)
-      .validate([
-        (addr: string) => {
-          if (!addr || addr.trim().length === 0) {
-            return Result.Err({
-              kind: "InvalidInputError",
-              message: "Address cannot be empty",
-            } as AppError);
-          }
-          return Result.Ok(addr);
-        },
-      ])
-      .mapErr((errs: AppError | AppError[]) => {
-        const fallback = "Invalid address";
-        if (Array.isArray(errs)) {
-          return errs
-            .map((e) => e.message ?? fallback)
-            .join("; ");
-        }
-        return errs.message ?? fallback;
-      })
-      .mapErr((message) => ({ kind: "InvalidInputError", message } as AppError))
-      .toPromise();
-
-    if (validationResult.isErr()) {
-      return validationResult;
-    }
-
+    // Address is already validated by HTTP boundary
     const variants = buildQueryVariants(address);
     let hadSuccessfulSearch = false;
     let lastErr: AppError | null = null;

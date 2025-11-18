@@ -1,18 +1,21 @@
-import type { AddressResolverPort, ResolvedSearchFlags } from "@/application/ports/address-resolver.port";
+import type { AddressResolverPort } from "@/application/ports/address-resolver.port";
+import type { ResolvedSearchFlags } from "@/domain/value-objects/search-flags.vo";
 import type { ShortTermRentalProviderPort } from "@/application/ports/short-term-rental.port";
 import type { PropertyJsonFetchPort } from "@/application/ports/property-content.port";
 import { RedfinUrlFinderService } from "@/application/services/redfin-url-finder.service";
-import { RedfinPropertyExtractor } from "@/application/services/redfin-property-extractor.service";
-import { MatchCalculator } from "@/application/services/match-calculator.service";
-import { AirbnbPdpExtractor } from "@/application/services/airbnb-pdp-extractor.service";
+import { RedfinPropertyExtractor } from "@/domain/services/redfin-property-extractor.service";
+import { MatchCalculator } from "@/domain/services/match-calculator.service";
+import { AirbnbPdpExtractor } from "@/domain/services/airbnb-pdp-extractor.service";
 import { PdpJsonSerializer } from "@/application/services/pdp-json-serializer.service";
-import { ResponsePostprocessService } from "@/application/services/response-postprocess.service";
+import { ResponsePostprocessService } from "@/domain/services/response-postprocess.service";
 import { CallExternalWorkflow } from "@/application/workflows/call-external.workflow";
-import type { CallWorkflowInput } from "@/application/dto/call-workflow.dto";
+import { buildPdpInput } from "@/application/services/pdp-input.builder";
 import type { CompareResponseDTO, CompareListingDetailDTO } from "@/application/dto/compare.dto";
-import type { PdpDerivedData, PdpListingDetailsDTO } from "@/application/dto/pdp.dto";
+import type { PdpListingDetailsDTO } from "@/application/dto/pdp.dto";
+import type { PdpDerivedData } from "@/domain/value-objects/pdp-derived.vo";
 import { Result } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
+import { aggregateErrorsToInvalidResponse } from "@/application/utils/app-error.helpers";
 
 export interface CompareListingsByAddressInput {
   address: string;
@@ -43,45 +46,24 @@ export class CompareListingsByAddressWorkflow {
   async execute(
     input: CompareListingsByAddressInput
   ): Promise<Result<CompareResponseDTO, AppError>> {
-    const address = input.address.trim();
+    const address = input.address;
     const timeoutMs = input.timeoutMs ?? this.config.defaultTimeoutMs;
 
-    return Result.Ok(address)
-      .validate([
-        (addr: string) => {
-          if (!addr || addr.length === 0) {
-            return Result.Err({
-              kind: "InvalidInputError",
-              message: "Address cannot be empty",
-            } as AppError);
-          }
-          return Result.Ok(addr);
-        },
-      ])
-      .mapErr((errs: AppError | AppError[]) => {
-        const fallback = "Invalid address";
-        if (Array.isArray(errs)) {
-          return errs
-            .map((e) => e.message ?? fallback)
-            .join("; ");
-        }
-        return errs.message ?? fallback;
-      })
-      .mapErr((message) => ({ kind: "InvalidInputError", message } as AppError))
-      .flatMap(async (addr: string) => {
+    return Result.Ok({ address })
+      .flatMap(async ({ address }) => {
         // Resolve address to search flags (capture bbox for later)
-        const resolveResult = await Promise.resolve(this.addressResolver.resolve(addr));
-        return resolveResult;
+        const resolveResult = await Promise.resolve(this.addressResolver.resolve(address));
+        return resolveResult.map((flags) => ({ flags, address }));
       })
-      .flatMap(async (flags) => {
+      .flatMap(async ({ flags, address }) => {
         // Find all listing IDs via short-term rental provider
         const listingIdsResult = await this.shortTermProvider.findListingIds(flags, timeoutMs);
-        return listingIdsResult.map((listingIds) => ({ listingIds, flags }));
+        return listingIdsResult.map((listingIds) => ({ listingIds, flags, address }));
       })
-      .flatMap(async ({ listingIds, flags }) => {
+      .flatMap(async ({ listingIds, flags, address }) => {
         // Fetch PDP data for all listing IDs in parallel
         const pdpPromises = listingIds.map(async (listingId: string) => {
-          const pdpInput = this.buildPdpInput(listingId, timeoutMs);
+          const pdpInput = buildPdpInput(this.config, listingId, timeoutMs);
           const pdpResult = await this.callWorkflow.execute<unknown>(pdpInput);
           return pdpResult.map((result) => {
             const derived: PdpDerivedData = {
@@ -102,17 +84,11 @@ export class CompareListingsByAddressWorkflow {
         const pdpResults = await Promise.all(pdpPromises);
         const aggregated = Result.all(...pdpResults);
 
-        return aggregated.mapErr((errs: AppError | AppError[]) => {
-          const errorMessages = (Array.isArray(errs) ? errs : [errs])
-            .map((e) => e.message ?? "Unknown error")
-            .join("; ");
-          return {
-            kind: "InvalidResponseError",
-            message: errorMessages,
-          } as AppError;
-        }).map((listings: Array<{ listing: PdpListingDetailsDTO; numeric: { bedrooms?: number; baths?: number } }>) => ({ listings, flags }));
+        return aggregated
+          .mapErr(aggregateErrorsToInvalidResponse)
+          .map((listings: Array<{ listing: PdpListingDetailsDTO; numeric: { bedrooms?: number; baths?: number } }>) => ({ listings, flags, address }));
       })
-      .flatMap(async ({ listings, flags }) => {
+      .flatMap(async ({ listings, flags, address }) => {
         // Fetch Redfin data
         const urlResult = await this.redfinFinder.findRedfinUrlForAddress(address, 10, timeoutMs);
         return urlResult.flatMap(async (redfinUrl: string) => {
@@ -163,53 +139,14 @@ export class CompareListingsByAddressWorkflow {
           basis: ["listingDetails.matchPercentage"],
         };
 
-        // Parse bbox string to tuple [neLat, neLng, swLat, swLng]
-        const bbox = this.parseBbox(flags.bbox);
-        if (!bbox) {
-          return Result.Err({
-            kind: "InvalidInputError",
-            message: "Invalid bbox format",
-          } as AppError);
-        }
-
         return Result.Ok({
           propertyDetails,
-          bbox,
+          bbox: flags.bbox,
           confidenceScore,
           listingDetails,
         } as CompareResponseDTO);
       })
       .toPromise();
-  }
-
-  private buildPdpInput(listingId: string, timeoutMs?: number): CallWorkflowInput {
-    return {
-      url: this.config.airbnbUrl,
-      method: "GET",
-      headers: [{ name: "x-airbnb-api-key", value: this.config.apiKey }],
-      flags: {
-        listingId,
-      },
-      timeoutMs: timeoutMs ?? this.config.defaultTimeoutMs,
-    };
-  }
-
-  private parseBbox(bboxString: string): [number, number, number, number] | null {
-    try {
-      const parts = bboxString.split(",").map((s) => s.trim());
-      if (parts.length !== 4) {
-        return null;
-      }
-
-      const numbers = parts.map((s) => Number.parseFloat(s));
-      if (numbers.some((n) => Number.isNaN(n))) {
-        return null;
-      }
-
-      return [numbers[0], numbers[1], numbers[2], numbers[3]] as [number, number, number, number];
-    } catch {
-      return null;
-    }
   }
 }
 

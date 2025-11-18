@@ -190,7 +190,14 @@ const RawCallOptionsSchema = z.object({
   output: z.string().optional(),
   htmltextOutput: z.string().optional(),
   bodyOverride: BodyOverrideSchema,
-  listingId: z.string().optional(),
+  listingId: z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (val === undefined) return undefined;
+      const trimmed = val.trim();
+      return trimmed.length > 0 ? trimmed : undefined;
+    }),
   bbox: z.string().optional(),
   poiPlace: z.string().optional(),
   poiAcp: z.string().optional(),

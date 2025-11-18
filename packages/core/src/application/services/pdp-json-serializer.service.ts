@@ -1,13 +1,10 @@
-import type { PdpDerivedData, PdpListingDetailsDTO } from "@/application/dto/pdp.dto";
-import { ResponsePostprocessService } from "@/application/services/response-postprocess.service";
+import type { PdpListingDetailsDTO } from "@/application/dto/pdp.dto";
+import type { PdpDerivedData } from "@/domain/value-objects/pdp-derived.vo";
+import { ResponsePostprocessService } from "@/domain/services/response-postprocess.service";
 
 /**
  * Serializes PDP derived data into structured JSON format.
  * Single, reusable formatting point for HTTP and CLI presentation layers.
- * 
- * Extracts guests, bedrooms, beds, baths from pdpItems titles.
- * Builds description from cleaned and concatenated htmlTexts.
- * Includes lat/lng coordinates if available.
  */
 export class PdpJsonSerializer {
   public serialize(derived: PdpDerivedData, postprocess: ResponsePostprocessService): PdpListingDetailsDTO {

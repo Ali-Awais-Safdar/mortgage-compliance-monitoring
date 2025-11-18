@@ -76,7 +76,7 @@ const redfinWorkflow = new SaveRedfinJsonFromAddressWorkflow(
 );
 
 // Build compare workflow dependencies
-const pdpExtractor = new AirbnbPdpExtractor();
+const pdpExtractor = new AirbnbPdpExtractor(postprocess);
 const redfinExtractor = new RedfinPropertyExtractor();
 const matchCalculator = new MatchCalculator();
 
