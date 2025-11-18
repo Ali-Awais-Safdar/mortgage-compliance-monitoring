@@ -25,6 +25,8 @@ export interface CallWorkflowResult<T = unknown> {
   derived?: {
     htmlTexts?: string[];
     pdpItems?: Array<{ title?: string; action?: unknown }>;
+    lat?: number;
+    lng?: number;
   };
 }
 

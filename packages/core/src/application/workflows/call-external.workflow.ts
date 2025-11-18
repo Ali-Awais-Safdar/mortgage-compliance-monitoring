@@ -64,6 +64,8 @@ export class CallExternalWorkflow {
     type DerivedData = {
       htmlTexts: string[];
       pdpItems: Array<{ title?: string; action?: unknown }>;
+      lat?: number;
+      lng?: number;
     };
 
     const enriched = response

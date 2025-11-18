@@ -25,6 +25,12 @@ export class HasDataAdapter implements PropertyJsonFetchPort {
       timeoutMs: timeoutMs ?? this.config.defaultTimeoutMs,
     });
 
+    if (res.isErr()) {
+      const err = res.unwrapErr();
+      console.error("[HasData fetchJson] error", { url, kind: err.kind, message: err.message });
+      return res;
+    }
+
     return res.map((r) => r.data);
   }
 }

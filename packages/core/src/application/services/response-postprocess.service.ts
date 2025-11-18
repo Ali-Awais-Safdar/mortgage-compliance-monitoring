@@ -74,19 +74,48 @@ export class ResponsePostprocessService {
     return result;
   }
 
+  private extractLocationCoordinates(root: AnyJson): { lat?: number; lng?: number } {
+    for (const obj of walkJson(root)) {
+      if (obj && typeof obj === "object" && !Array.isArray(obj)) {
+        const typed = obj as Record<string, unknown>;
+        if (typed.__typename === "LocationSection") {
+          const lat = typed.lat;
+          const lng = typed.lng;
+
+          // Validate that both lat and lng are numeric
+          if (
+            typeof lat === "number" &&
+            !Number.isNaN(lat) &&
+            typeof lng === "number" &&
+            !Number.isNaN(lng)
+          ) {
+            return { lat, lng };
+          }
+        }
+      }
+    }
+
+    return {};
+  }
+
   public extractDerived<T>(responseBody: T): {
     htmlTexts: string[];
     pdpItems: Array<{ title?: string; action?: unknown }>;
+    lat?: number;
+    lng?: number;
   } {
     const htmlTexts = this.collectHtmlText(responseBody);
     const pdpItems = this.collectPdpSbuiBasicListItems(responseBody).map(({ title, action }) => ({
       title,
       action,
     }));
+    const { lat, lng } = this.extractLocationCoordinates(responseBody);
 
     return {
       htmlTexts,
       pdpItems,
+      lat,
+      lng,
     };
   }
 }

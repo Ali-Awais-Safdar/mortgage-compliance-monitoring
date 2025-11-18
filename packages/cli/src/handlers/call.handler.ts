@@ -1,5 +1,6 @@
 import {
   PdpJsonSerializer,
+  type PdpDerivedData,
 } from "@poc/core";
 import { matchRes } from "@carbonteq/fp";
 import { createCoreWorkflow } from "@poc/infra";
@@ -63,16 +64,19 @@ export const callHandler = async (opts: Record<string, unknown>) => {
       if (listingId && result.derived) {
         const base = derivePdpJsonBase(output, htmltextOutput, listingId);
         if (base) {
-          const dto = serializer.serialize(
-            {
-              htmlTexts: result.derived.htmlTexts,
-              pdpItems: result.derived.pdpItems,
-            },
-            postprocess
-          );
+          const derivedData: PdpDerivedData = {
+            htmlTexts: result.derived.htmlTexts,
+            pdpItems: result.derived.pdpItems,
+            lat: (result.derived as { lat?: number }).lat,
+            lng: (result.derived as { lng?: number }).lng,
+          };
+          const dto = serializer.serialize(derivedData, postprocess);
 
-          if (dto.items.length > 0 || dto.sections.length > 0) {
-            const jsonOutput = JSON.stringify(dto, null, 2);
+          // Check if we have any meaningful data to write
+          const hasData = dto.guests || dto.bedrooms || dto.beds || dto.baths || dto.description || dto.lat || dto.lng;
+          if (hasData) {
+            // Wrap in array as expected by the file format (even for a single listingId)
+            const jsonOutput = JSON.stringify([dto], null, 2);
             await Bun.write(`${base}_pdp.json`, jsonOutput);
             console.log(`htmlText extracted: ${result.derived.htmlTexts?.length ?? 0}`);
             console.log(`PdpSbuiBasicListItem items: ${result.derived.pdpItems?.length ?? 0}`);

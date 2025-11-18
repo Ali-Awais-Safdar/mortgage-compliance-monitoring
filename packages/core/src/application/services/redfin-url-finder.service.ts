@@ -302,7 +302,8 @@ export class RedfinUrlFinderService {
 
   async findRedfinUrlForAddress(
     address: string,
-    perQueryResults: number = 10
+    perQueryResults: number = 10,
+    timeoutMs?: number,
   ): Promise<Result<string, AppError>> {
     // Validate input
     const validationResult = await Result.Ok(address)
@@ -334,6 +335,8 @@ export class RedfinUrlFinderService {
     }
 
     const variants = buildQueryVariants(address);
+    let hadSuccessfulSearch = false;
+    let lastErr: AppError | null = null;
 
     // Pass 1: exact (precise)
     for (const q of variants) {
@@ -342,12 +345,15 @@ export class RedfinUrlFinderService {
         mode: "exact",
         numResults: perQueryResults,
         includeDomains: ["redfin.com"],
+        timeoutMs,
       });
 
       if (searchResult.isErr()) {
-        continue; // Try next variant
+        lastErr = searchResult.unwrapErr();
+        continue;
       }
 
+      hadSuccessfulSearch = true;
       const chosen = await this.chooseRedfinUrl(searchResult.unwrap().results, address);
       if (chosen) {
         return Result.Ok(chosen);
@@ -361,20 +367,30 @@ export class RedfinUrlFinderService {
         mode: "broad",
         numResults: perQueryResults,
         includeDomains: ["redfin.com"],
+        timeoutMs,
       });
 
       if (searchResult.isErr()) {
-        continue; // Try next variant
+        lastErr = searchResult.unwrapErr();
+        continue;
       }
 
+      hadSuccessfulSearch = true;
       const chosen = await this.chooseRedfinUrl(searchResult.unwrap().results, address);
       if (chosen) {
         return Result.Ok(chosen);
       }
     }
 
+    if (!hadSuccessfulSearch && lastErr) {
+      // propagate the external failure (TimeoutError / TransportError / InvalidResponseError)
+      return Result.Err(lastErr);
+    }
+
+    // We did get search results, but no candidate URL validated
+    console.warn("[RedfinUrlFinder] no valid URL found", { address });
     return Result.Err({
-      kind: "InvalidInputError",
+      kind: "InvalidResponseError",
       message: "No Redfin URL found for the given address",
     } as AppError);
   }

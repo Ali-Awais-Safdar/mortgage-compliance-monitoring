@@ -23,18 +23,18 @@ export async function registerRoutes(
     });
   }
 
-  // PDP HTML route
-  if (path === "/pdp-html" && req.method === "POST") {
+  // PDP HTML route (GET-only)
+  if (path === "/pdp-html" && req.method === "GET") {
     return await handlePdpRequest(req, ctx.pdpController);
   }
 
-  // Redfin JSON route
-  if (path === "/redfin-json" && req.method === "POST") {
+  // Redfin JSON route (GET-only)
+  if (path === "/redfin-json" && req.method === "GET") {
     return await handleRedfinJsonRequest(req, ctx.redfinController);
   }
 
-  // Compare listings route
-  if (path === "/compare" && req.method === "POST") {
+  // Compare listings route (GET-only)
+  if (path === "/compare" && req.method === "GET") {
     return await handleCompareRequest(req, ctx.compareController);
   }
 

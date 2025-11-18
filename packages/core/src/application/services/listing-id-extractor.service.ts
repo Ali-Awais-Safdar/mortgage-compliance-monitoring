@@ -9,7 +9,10 @@ interface ExploreStayMapInfo {
 }
 
 export class ListingIdExtractorService {
-  public extractFirstListingId(root: AnyJson): Option<string> {
+  public extractListingIds(root: AnyJson): Option<string[]> {
+    const seen = new Set<string>();
+    const ids: string[] = [];
+
     for (const obj of walkJson(root)) {
       if (obj && typeof obj === "object" && !Array.isArray(obj)) {
         const candidate = (obj as Record<string, unknown>)["staysInViewport"];
@@ -18,7 +21,11 @@ export class ListingIdExtractorService {
             if (item && typeof item === "object" && !Array.isArray(item)) {
               const mapInfo = item as ExploreStayMapInfo;
               if (mapInfo.listingId != null && typeof mapInfo.listingId === "string") {
-                return Option.Some(mapInfo.listingId);
+                // Deduplicate while preserving order
+                if (!seen.has(mapInfo.listingId)) {
+                  seen.add(mapInfo.listingId);
+                  ids.push(mapInfo.listingId);
+                }
               }
             }
           }
@@ -26,7 +33,7 @@ export class ListingIdExtractorService {
       }
     }
 
-    return Option.None;
+    return ids.length > 0 ? Option.Some(ids) : Option.None;
   }
 }
 

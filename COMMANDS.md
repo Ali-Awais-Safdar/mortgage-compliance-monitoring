@@ -16,7 +16,7 @@ bun packages/cli/src/index.ts call -u "$AIRBNB_URL" -q locale=de -q currency=USD
 
 bun packages/cli/src/index.ts call -u "$AIRBNB_URL" --listing-id 880457551611523268 -H "x-airbnb-api-key: $AIRBNB_API_KEY" -o responses/pdp_whitehaven.json
 
-**Note:** When using `--listing-id`, the CLI will also generate `<base>_pdp.json` containing structured PDP data (items + cleaned sections) as auxiliary output alongside the raw response JSON specified with `-o`.
+**Note:** When using `--listing-id`, the CLI will also generate `<base>_pdp.json` containing an array of listingDetails objects (guests, bedrooms, beds, baths, description, lat, lng, propertyDetailPlatform) as auxiliary output alongside the raw response JSON specified with `-o`.
 
 # Stays Search (Listings)
 

@@ -88,7 +88,7 @@ export class SaveRedfinJsonFromAddressWorkflow {
       .mapErr((message) => ({ kind: "InvalidInputError", message } as AppError))
       .flatMap(async (addr: string) => {
         // Find Redfin URL - short-circuits if not found
-        const urlResult = await this.redfinUrlFinder.findRedfinUrlForAddress(addr);
+        const urlResult = await this.redfinUrlFinder.findRedfinUrlForAddress(addr, 10, timeoutMs);
         return urlResult.map((url) => ({ url, address: addr }));
       })
       .flatMap(async ({ url, address }: { url: string; address: string }) => {

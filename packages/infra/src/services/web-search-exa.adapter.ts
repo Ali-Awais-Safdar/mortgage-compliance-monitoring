@@ -19,6 +19,7 @@ export class WebSearchExaAdapter implements WebSearchPort {
     mode: SearchMode;
     numResults?: number;
     includeDomains?: string[];
+    timeoutMs?: number;
   }): Promise<Result<{ results: SearchResultItem[] }, AppError>> {
     // Map SearchMode to Exa type
     const exaType = input.mode === "exact" ? "keyword" : "auto";
@@ -41,9 +42,12 @@ export class WebSearchExaAdapter implements WebSearchPort {
         { name: "content-type", value: "application/json" },
       ],
       body,
+      timeoutMs: input.timeoutMs,
     });
 
     if (response.isErr()) {
+      const err = response.unwrapErr();
+      console.error("[Exa search] error", { query: input.query, mode: input.mode, kind: err.kind, message: err.message });
       return response;
     }
 
@@ -100,6 +104,8 @@ export class WebSearchExaAdapter implements WebSearchPort {
     });
 
     if (response.isErr()) {
+      const err = response.unwrapErr();
+      console.error("[Exa fetchPageAddress] error", { url, kind: err.kind, message: err.message });
       return response;
     }
 

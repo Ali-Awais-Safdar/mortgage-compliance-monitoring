@@ -1,6 +1,7 @@
 export * from "./application/dto/request.dto";
 export * from "./application/dto/call-workflow.dto";
 export * from "./application/dto/pdp.dto";
+export * from "./application/dto/compare.dto";
 export * from "./application/services/body-patch.service";
 export * from "./application/services/url-patch.service";
 export * from "./application/services/response-postprocess.service";

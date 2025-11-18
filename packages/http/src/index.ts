@@ -6,6 +6,7 @@ import {
   CompareListingsByAddressWorkflow,
   RedfinPropertyExtractor,
   MatchCalculator,
+  AirbnbPdpExtractor,
 } from "@poc/core";
 import {
   StaticAddressResolverAdapter,
@@ -75,6 +76,7 @@ const redfinWorkflow = new SaveRedfinJsonFromAddressWorkflow(
 );
 
 // Build compare workflow dependencies
+const pdpExtractor = new AirbnbPdpExtractor();
 const redfinExtractor = new RedfinPropertyExtractor();
 const matchCalculator = new MatchCalculator();
 
@@ -82,6 +84,15 @@ const matchCalculator = new MatchCalculator();
 const compareWorkflow = new CompareListingsByAddressWorkflow(
   addressResolver,
   airbnbProvider,
+  callWorkflow,
+  serializer,
+  postprocess,
+  {
+    airbnbUrl: config.airbnbUrl,
+    apiKey: config.apiKey,
+    defaultTimeoutMs: config.defaultTimeoutMs,
+  },
+  pdpExtractor,
   redfinFinder,
   propertyContent,
   redfinExtractor,
@@ -109,8 +120,16 @@ const serverContext: ServerContext = {
 // Start Bun server
 console.log(`Starting server on port ${config.port}...`);
 
+const defaultTimeoutMs = config.defaultTimeoutMs ?? 10000;
+// convert to seconds, add a small buffer, and clamp to 255
+const idleTimeoutSeconds = Math.min(
+  255,
+  Math.ceil(defaultTimeoutMs / 1000) + 5,
+);
+
 Bun.serve({
   port: config.port,
+  idleTimeout: idleTimeoutSeconds,
   async fetch(req: Request): Promise<Response> {
     const response = await registerRoutes(req, serverContext);
     if (response) {

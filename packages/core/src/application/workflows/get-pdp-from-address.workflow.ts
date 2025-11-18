@@ -37,7 +37,7 @@ export class GetPdpFromAddressWorkflow {
     };
   }
 
-  async execute(input: GetPdpFromAddressInput): Promise<Result<PdpDerivedData, AppError>> {
+  async execute(input: GetPdpFromAddressInput): Promise<Result<PdpDerivedData[], AppError>> {
     const address = input.address.trim();
     const timeoutMs = input.timeoutMs ?? this.config.defaultTimeoutMs;
 
@@ -69,20 +69,37 @@ export class GetPdpFromAddressWorkflow {
         return resolveResult;
       })
       .flatMap(async (flags) => {
-        // Find listing ID via short-term rental provider
-        const listingIdResult = await this.shortTermProvider.findListingId(flags, timeoutMs);
-        return listingIdResult;
+        // Find all listing IDs via short-term rental provider
+        const listingIdsResult = await this.shortTermProvider.findListingIds(flags, timeoutMs);
+        return listingIdsResult;
       })
-      .flatMap(async (listingId: string) => {
-        // Get PDP data using CallExternalWorkflow directly to access derived data
-        const pdpInput = this.buildPdpInput(listingId, timeoutMs);
-        const pdpResult = await this.callWorkflow.execute<unknown>(pdpInput);
-        return pdpResult.map((pdp: CallWorkflowResult<unknown>) => ({ listingId, pdp }));
-      })
-      .map(({ listingId, pdp }: { listingId: string; pdp: CallWorkflowResult<unknown> }): PdpDerivedData => {
-        const htmlTexts = pdp.derived?.htmlTexts ?? [];
-        const pdpItems = pdp.derived?.pdpItems ?? [];
-        return { htmlTexts, pdpItems, listingId };
+      .flatMap(async (listingIds: string[]) => {
+        // Fetch PDP data for all listing IDs in parallel
+        const pdpPromises = listingIds.map(async (listingId: string) => {
+          const pdpInput = this.buildPdpInput(listingId, timeoutMs);
+          const pdpResult = await this.callWorkflow.execute<unknown>(pdpInput);
+          return pdpResult.map((pdp: CallWorkflowResult<unknown>): PdpDerivedData => {
+            const htmlTexts = pdp.derived?.htmlTexts ?? [];
+            const pdpItems = pdp.derived?.pdpItems ?? [];
+            return { htmlTexts, pdpItems, listingId };
+          });
+        });
+
+        // Wait for all PDP requests to complete, then aggregate with Result.all
+        const pdpResults = await Promise.all(pdpPromises);
+
+        const aggregated = Result.all(...pdpResults);
+
+        // Map errors to aggregated InvalidResponseError with joined messages
+        return aggregated.mapErr((errs: AppError | AppError[]) => {
+          const errorMessages = (Array.isArray(errs) ? errs : [errs])
+            .map((e) => e.message ?? "Unknown error")
+            .join("; ");
+          return {
+            kind: "InvalidResponseError",
+            message: errorMessages,
+          } as AppError;
+        });
       })
       .toPromise();
   }

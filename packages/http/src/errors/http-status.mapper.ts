@@ -5,7 +5,7 @@ import type { AppError } from "@poc/core";
  * 
  * Error mappings:
  * - InvalidInputError → 400 (e.g., "No Redfin URL found..." or invalid address)
- * - InvalidResponseError → 502 (e.g., no listingId, no comparable fields)
+ * - InvalidResponseError → 502 (e.g., no listingIds, no comparable fields)
  * - TransportError → 502 (HTTP/network errors)
  * - TimeoutError → 504 (request timeout)
  */

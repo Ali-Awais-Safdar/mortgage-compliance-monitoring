@@ -20,6 +20,7 @@ export interface WebSearchPort {
     mode: SearchMode;
     numResults?: number;
     includeDomains?: string[];
+    timeoutMs?: number;
   }): Promise<Result<{ results: SearchResultItem[] }, AppError>>;
 
   fetchPageAddress(url: string): Promise<Result<Option<PageAddress>, AppError>>;
