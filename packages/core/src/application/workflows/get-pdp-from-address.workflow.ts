@@ -1,12 +1,11 @@
 import type { CallWorkflowResult } from "@/application/dto/call-workflow.dto";
-import type { AddressResolverPort } from "@/application/ports/address-resolver.port";
-import type { ShortTermRentalProviderPort } from "@/application/ports/short-term-rental.port";
 import { CallExternalWorkflow } from "@/application/workflows/call-external.workflow";
 import type { PdpDerivedData } from "@/domain/value-objects/pdp-derived.vo";
 import { Result } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
 import { buildPdpInput } from "@/application/services/pdp-input.builder";
 import { aggregateErrorsToInvalidResponse } from "@/application/utils/app-error.helpers";
+import { DeterministicViewportSearchService } from "@/application/services/deterministic-viewport-search.service";
 
 export interface GetPdpFromAddressConfig {
   airbnbUrl: string;
@@ -21,8 +20,7 @@ export interface GetPdpFromAddressInput {
 
 export class GetPdpFromAddressWorkflow {
   constructor(
-    private readonly addressResolver: AddressResolverPort,
-    private readonly shortTermProvider: ShortTermRentalProviderPort,
+    private readonly viewportSearch: DeterministicViewportSearchService,
     private readonly callWorkflow: CallExternalWorkflow,
     private readonly config: GetPdpFromAddressConfig
   ) {}
@@ -31,16 +29,23 @@ export class GetPdpFromAddressWorkflow {
     const address = input.address; // already validated by HTTP boundary
     const timeoutMs = input.timeoutMs ?? this.config.defaultTimeoutMs;
 
-    // Resolve address to search flags
-    const resolveResult = await Promise.resolve(this.addressResolver.resolve(address));
+    // Find listings using deterministic viewport search service
+    const listingsRes = await this.viewportSearch.findListingsFromAddress(address, timeoutMs);
     
-    return resolveResult
-      .flatMap(async (flags) => {
-        // Find all listing IDs via short-term rental provider
-        const listingIdsResult = await this.shortTermProvider.findListingIds(flags, timeoutMs);
-        return listingIdsResult;
-      })
-      .flatMap(async (listingIds: string[]) => {
+    // Log viewport metadata for visibility into which strategy was used
+    if (listingsRes.isOk()) {
+      const { viewportMeta } = listingsRes.unwrap();
+      console.log("[Viewport] strategy used", {
+        address,
+        strategy: viewportMeta.strategy,
+        widthMeters: viewportMeta.widthMeters,
+        heightMeters: viewportMeta.heightMeters,
+        safetyMeters: viewportMeta.safetyMeters,
+      });
+    }
+    
+    return listingsRes
+      .flatMap(async ({ listingIds }) => {
         // Fetch PDP data for all listing IDs in parallel
         const pdpPromises = listingIds.map(async (listingId: string) => {
           const pdpInput = buildPdpInput(this.config, listingId, timeoutMs);

@@ -7,15 +7,16 @@ import {
   RedfinPropertyExtractor,
   MatchCalculator,
   AirbnbPdpExtractor,
+  DeterministicViewportSearchService,
 } from "@poc/core";
 import {
-  StaticAddressResolverAdapter,
   createCoreWorkflow,
   WebSearchExaAdapter,
   AirbnbProviderAdapter,
   HasDataAdapter,
   FileStorageAdapter,
   FetchHttpAdapter,
+  LocationIqGeocodingAdapter,
 } from "@poc/infra";
 import { loadConfig } from "./config/env.config";
 import { registerRoutes, type ServerContext } from "./routes/routes";
@@ -25,7 +26,16 @@ const config = loadConfig();
 
 // Build dependencies using factory
 const { callWorkflow, postprocess } = createCoreWorkflow();
-const addressResolver = new StaticAddressResolverAdapter();
+
+// Instantiate HTTP adapter for LocationIQ
+const httpAdapter = new FetchHttpAdapter();
+
+// Instantiate LocationIQ geocoding adapter
+const geocoder = new LocationIqGeocodingAdapter(httpAdapter, {
+  baseUrl: config.locationIqBase,
+  apiKey: config.locationIqKey,
+  defaultTimeoutMs: config.defaultTimeoutMs,
+});
 
 // Instantiate Airbnb provider
 const airbnbProvider = new AirbnbProviderAdapter(callWorkflow, {
@@ -36,10 +46,15 @@ const airbnbProvider = new AirbnbProviderAdapter(callWorkflow, {
   defaultTimeoutMs: config.defaultTimeoutMs,
 });
 
-// Keep existing Airbnb wiring (now uses provider internally)
+// Instantiate deterministic viewport search service
+const viewportSearch = new DeterministicViewportSearchService(
+  geocoder,
+  airbnbProvider
+);
+
+// Instantiate PDP workflow using deterministic viewport search
 const workflow = new GetPdpFromAddressWorkflow(
-  addressResolver,
-  airbnbProvider,
+  viewportSearch,
   callWorkflow,
   {
     airbnbUrl: config.airbnbUrl,
@@ -52,7 +67,11 @@ const serializer = new PdpJsonSerializer();
 
 // Instantiate web search
 const webSearch = new WebSearchExaAdapter(
-  { baseUrl: config.exaBase, apiKey: config.exaApiKey },
+  {
+    baseUrl: config.exaBase,
+    apiKey: config.exaApiKey,
+    defaultTimeoutMs: config.defaultTimeoutMs,
+  },
   new FetchHttpAdapter()
 );
 
@@ -80,10 +99,9 @@ const pdpExtractor = new AirbnbPdpExtractor(postprocess);
 const redfinExtractor = new RedfinPropertyExtractor();
 const matchCalculator = new MatchCalculator();
 
-// Update compare workflow to the new signature
+// Update compare workflow to use deterministic viewport search
 const compareWorkflow = new CompareListingsByAddressWorkflow(
-  addressResolver,
-  airbnbProvider,
+  viewportSearch,
   callWorkflow,
   serializer,
   postprocess,
@@ -120,11 +138,11 @@ const serverContext: ServerContext = {
 // Start Bun server
 console.log(`Starting server on port ${config.port}...`);
 
-const defaultTimeoutMs = config.defaultTimeoutMs ?? 10000;
-// convert to seconds, add a small buffer, and clamp to 255
+const defaultTimeoutMs = config.defaultTimeoutMs ?? 20000;
+
 const idleTimeoutSeconds = Math.min(
   255,
-  Math.ceil(defaultTimeoutMs / 1000) + 5,
+  Math.ceil(defaultTimeoutMs / 1000) + 15, // small cushion
 );
 
 Bun.serve({

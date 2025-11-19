@@ -46,11 +46,7 @@ export class AirbnbProviderAdapter implements ShortTermRentalProviderPort {
 
     return res
       .map((wf) => this.listingIdExtractor.extractListingIds(wf.response.data))
-      .flatMap((opt) =>
-        opt.isSome()
-          ? Result.Ok(opt.unwrap())
-          : Result.Err({ kind: "InvalidResponseError", message: "No listingIds found" } as AppError)
-      );
+      .map((opt) => (opt.isSome() ? opt.unwrap() : []));
   }
 }
 

@@ -1,6 +1,3 @@
-import type { AddressResolverPort } from "@/application/ports/address-resolver.port";
-import type { ResolvedSearchFlags } from "@/domain/value-objects/search-flags.vo";
-import type { ShortTermRentalProviderPort } from "@/application/ports/short-term-rental.port";
 import type { PropertyJsonFetchPort } from "@/application/ports/property-content.port";
 import { RedfinUrlFinderService } from "@/application/services/redfin-url-finder.service";
 import { RedfinPropertyExtractor } from "@/domain/services/redfin-property-extractor.service";
@@ -16,6 +13,8 @@ import type { PdpDerivedData } from "@/domain/value-objects/pdp-derived.vo";
 import { Result } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
 import { aggregateErrorsToInvalidResponse } from "@/application/utils/app-error.helpers";
+import { DeterministicViewportSearchService } from "@/application/services/deterministic-viewport-search.service";
+import type { BoundingBox } from "@/domain/value-objects/bounding-box.vo";
 
 export interface CompareListingsByAddressInput {
   address: string;
@@ -30,8 +29,7 @@ export interface CompareListingsByAddressConfig {
 
 export class CompareListingsByAddressWorkflow {
   constructor(
-    private readonly addressResolver: AddressResolverPort,
-    private readonly shortTermProvider: ShortTermRentalProviderPort,
+    private readonly viewportSearch: DeterministicViewportSearchService,
     private readonly callWorkflow: CallExternalWorkflow,
     private readonly serializer: PdpJsonSerializer,
     private readonly postprocess: ResponsePostprocessService,
@@ -51,16 +49,24 @@ export class CompareListingsByAddressWorkflow {
 
     return Result.Ok({ address })
       .flatMap(async ({ address }) => {
-        // Resolve address to search flags (capture bbox for later)
-        const resolveResult = await Promise.resolve(this.addressResolver.resolve(address));
-        return resolveResult.map((flags) => ({ flags, address }));
+        // Find listings using deterministic viewport search service
+        const listingsRes = await this.viewportSearch.findListingsFromAddress(address, timeoutMs);
+        
+        // Log viewport metadata for visibility into which strategy was used
+        if (listingsRes.isOk()) {
+          const { viewportMeta } = listingsRes.unwrap();
+          console.log("[Viewport] strategy used", {
+            address,
+            strategy: viewportMeta.strategy,
+            widthMeters: viewportMeta.widthMeters,
+            heightMeters: viewportMeta.heightMeters,
+            safetyMeters: viewportMeta.safetyMeters,
+          });
+        }
+        
+        return listingsRes.map(({ listingIds, bbox }) => ({ listingIds, bbox, address }));
       })
-      .flatMap(async ({ flags, address }) => {
-        // Find all listing IDs via short-term rental provider
-        const listingIdsResult = await this.shortTermProvider.findListingIds(flags, timeoutMs);
-        return listingIdsResult.map((listingIds) => ({ listingIds, flags, address }));
-      })
-      .flatMap(async ({ listingIds, flags, address }) => {
+      .flatMap(async ({ listingIds, bbox, address }) => {
         // Fetch PDP data for all listing IDs in parallel
         const pdpPromises = listingIds.map(async (listingId: string) => {
           const pdpInput = buildPdpInput(this.config, listingId, timeoutMs);
@@ -86,21 +92,21 @@ export class CompareListingsByAddressWorkflow {
 
         return aggregated
           .mapErr(aggregateErrorsToInvalidResponse)
-          .map((listings: Array<{ listing: PdpListingDetailsDTO; numeric: { bedrooms?: number; baths?: number } }>) => ({ listings, flags, address }));
+          .map((listings: Array<{ listing: PdpListingDetailsDTO; numeric: { bedrooms?: number; baths?: number } }>) => ({ listings, bbox, address }));
       })
-      .flatMap(async ({ listings, flags, address }) => {
+      .flatMap(async ({ listings, bbox, address }) => {
         // Fetch Redfin data
         const urlResult = await this.redfinFinder.findRedfinUrlForAddress(address, 10, timeoutMs);
         return urlResult.flatMap(async (redfinUrl: string) => {
           const jsonResult = await this.propertyContent.fetchJson(redfinUrl, timeoutMs);
           return jsonResult.map((redfinJson: unknown) => ({
             listings,
-            flags,
+            bbox,
             redfinJson,
           }));
         });
       })
-      .flatMap(async ({ listings, flags, redfinJson }: { listings: Array<{ listing: PdpListingDetailsDTO; numeric: { bedrooms?: number; baths?: number } }>; flags: ResolvedSearchFlags; redfinJson: unknown }) => {
+      .flatMap(async ({ listings, bbox, redfinJson }: { listings: Array<{ listing: PdpListingDetailsDTO; numeric: { bedrooms?: number; baths?: number } }>; bbox: BoundingBox; redfinJson: unknown }) => {
         // Extract Redfin property details
         const propertyDetails = this.redfinExtractor.extract(redfinJson);
 
@@ -141,7 +147,7 @@ export class CompareListingsByAddressWorkflow {
 
         return Result.Ok({
           propertyDetails,
-          bbox: flags.bbox,
+          bbox,
           confidenceScore,
           listingDetails,
         } as CompareResponseDTO);

@@ -6,6 +6,7 @@ import type { AppError } from "@poc/core";
 export interface WebSearchExaAdapterConfig {
   baseUrl: string;
   apiKey: string;
+  defaultTimeoutMs?: number;
 }
 
 export class WebSearchExaAdapter implements WebSearchPort {
@@ -100,7 +101,7 @@ export class WebSearchExaAdapter implements WebSearchPort {
         { name: "content-type", value: "application/json" },
       ],
       body,
-      timeoutMs: 90000,
+      timeoutMs: this.config.defaultTimeoutMs,
     });
 
     if (response.isErr()) {

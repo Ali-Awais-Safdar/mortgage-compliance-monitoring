@@ -8,5 +8,10 @@ export type AddressError = {
   message: string;
 };
 
-export type DomainError = BoundingBoxParseError | AddressError;
+export type GeoPointError = {
+  _tag: "GeoPointError";
+  message: string;
+};
+
+export type DomainError = BoundingBoxParseError | AddressError | GeoPointError;
 

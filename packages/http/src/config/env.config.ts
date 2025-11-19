@@ -12,6 +12,8 @@ export interface HttpServerConfig {
   hasDataApiKey: string;
   hasDataBase: string;
   responsesDir: string;
+  locationIqBase: string;
+  locationIqKey: string;
 }
 
 function requireEnv(name: string): string {
@@ -45,7 +47,7 @@ export function loadConfig(): HttpServerConfig {
     process.exit(1);
   }
 
-  const defaultTimeoutMs = parseOptionalInt("DEFAULT_TIMEOUT_MS", 10000);
+  const defaultTimeoutMs = parseOptionalInt("DEFAULT_TIMEOUT_MS", 20000);
   const port = parseOptionalInt("PORT", 3000);
 
   // Exa API configuration
@@ -59,6 +61,10 @@ export function loadConfig(): HttpServerConfig {
   // Storage configuration
   const responsesDir = readEnv("RESPONSES_DIR") ?? "responses";
 
+  // LocationIQ configuration
+  const locationIqBase = readEnv("LOCATIONIQ_BASE") ?? "https://us1.locationiq.com/v1/search";
+  const locationIqKey = requireEnv("LOCATIONIQ_API_KEY");
+
   return {
     airbnbSearchUrl,
     airbnbUrl,
@@ -71,6 +77,8 @@ export function loadConfig(): HttpServerConfig {
     hasDataApiKey,
     hasDataBase,
     responsesDir,
+    locationIqBase,
+    locationIqKey,
   };
 }
 
