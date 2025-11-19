@@ -14,6 +14,10 @@ export interface HttpServerConfig {
   responsesDir: string;
   locationIqBase: string;
   locationIqKey: string;
+  pdpMaxConcurrency: number;
+  pdpMaxRetries: number;
+  pdpBaseDelayMs: number;
+  pdpJitterFactor: number;
 }
 
 function requireEnv(name: string): string {
@@ -65,6 +69,19 @@ export function loadConfig(): HttpServerConfig {
   const locationIqBase = readEnv("LOCATIONIQ_BASE") ?? "https://us1.locationiq.com/v1/search";
   const locationIqKey = requireEnv("LOCATIONIQ_API_KEY");
 
+  // PDP Batch Fetch configuration
+  const pdpMaxConcurrency = parseOptionalInt("PDP_MAX_CONCURRENCY", 3);
+  const pdpMaxRetries = parseOptionalInt("PDP_MAX_RETRIES", 4);
+  const pdpBaseDelayMs = parseOptionalInt("PDP_BASE_DELAY_MS", 500);
+  const pdpJitterFactorStr = readEnv("PDP_JITTER_FACTOR");
+  let pdpJitterFactor = pdpJitterFactorStr
+    ? Number.parseFloat(pdpJitterFactorStr)
+    : 0.2;
+  if (Number.isNaN(pdpJitterFactor) || pdpJitterFactor < 0 || pdpJitterFactor > 1) {
+    console.warn(`WARNING: PDP_JITTER_FACTOR must be between 0 and 1, using default 0.2`);
+    pdpJitterFactor = 0.2;
+  }
+
   return {
     airbnbSearchUrl,
     airbnbUrl,
@@ -79,6 +96,10 @@ export function loadConfig(): HttpServerConfig {
     responsesDir,
     locationIqBase,
     locationIqKey,
+    pdpMaxConcurrency,
+    pdpMaxRetries,
+    pdpBaseDelayMs,
+    pdpJitterFactor,
   };
 }
 

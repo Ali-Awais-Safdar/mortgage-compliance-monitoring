@@ -8,6 +8,7 @@ export * from "./application/services/deterministic-viewport-search.service";
 export * from "./domain/services/response-postprocess.service";
 export * from "./domain/services/listing-id-extractor.service";
 export * from "./application/services/pdp-json-serializer.service";
+export * from "./application/services/pdp-batch-fetch.service";
 export * from "./application/services/redfin-url-finder.service";
 export * from "./domain/services/airbnb-pdp-extractor.service";
 export * from "./domain/services/redfin-property-extractor.service";

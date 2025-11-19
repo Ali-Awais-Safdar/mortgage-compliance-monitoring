@@ -32,6 +32,7 @@ export class FetchHttpAdapter implements HttpPort {
         return Result.Err({
           kind: "InvalidResponseError",
           message: `HTTP ${res.status} ${res.statusText}`,
+          statusCode: res.status,
         });
       }
 

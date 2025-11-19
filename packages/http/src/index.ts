@@ -8,6 +8,7 @@ import {
   MatchCalculator,
   AirbnbPdpExtractor,
   DeterministicViewportSearchService,
+  PdpBatchFetchService,
 } from "@poc/core";
 import {
   createCoreWorkflow,
@@ -52,13 +53,22 @@ const viewportSearch = new DeterministicViewportSearchService(
   airbnbProvider
 );
 
+// Instantiate PDP batch fetch service with retry and concurrency control
+const pdpBatchService = new PdpBatchFetchService(callWorkflow, {
+  airbnbUrl: config.airbnbUrl,
+  apiKey: config.apiKey,
+  defaultTimeoutMs: config.defaultTimeoutMs,
+  maxConcurrency: config.pdpMaxConcurrency,
+  maxRetries: config.pdpMaxRetries,
+  baseDelayMs: config.pdpBaseDelayMs,
+  jitterFactor: config.pdpJitterFactor,
+});
+
 // Instantiate PDP workflow using deterministic viewport search
 const workflow = new GetPdpFromAddressWorkflow(
   viewportSearch,
-  callWorkflow,
+  pdpBatchService,
   {
-    airbnbUrl: config.airbnbUrl,
-    apiKey: config.apiKey,
     defaultTimeoutMs: config.defaultTimeoutMs,
   }
 );
@@ -102,12 +112,10 @@ const matchCalculator = new MatchCalculator();
 // Update compare workflow to use deterministic viewport search
 const compareWorkflow = new CompareListingsByAddressWorkflow(
   viewportSearch,
-  callWorkflow,
+  pdpBatchService,
   serializer,
   postprocess,
   {
-    airbnbUrl: config.airbnbUrl,
-    apiKey: config.apiKey,
     defaultTimeoutMs: config.defaultTimeoutMs,
   },
   pdpExtractor,

@@ -5,14 +5,11 @@ import { MatchCalculator } from "@/domain/services/match-calculator.service";
 import { AirbnbPdpExtractor } from "@/domain/services/airbnb-pdp-extractor.service";
 import { PdpJsonSerializer } from "@/application/services/pdp-json-serializer.service";
 import { ResponsePostprocessService } from "@/domain/services/response-postprocess.service";
-import { CallExternalWorkflow } from "@/application/workflows/call-external.workflow";
-import { buildPdpInput } from "@/application/services/pdp-input.builder";
+import { PdpBatchFetchService } from "@/application/services/pdp-batch-fetch.service";
 import type { CompareResponseDTO, CompareListingDetailDTO } from "@/application/dto/compare.dto";
 import type { PdpListingDetailsDTO } from "@/application/dto/pdp.dto";
-import type { PdpDerivedData } from "@/domain/value-objects/pdp-derived.vo";
 import { Result } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
-import { aggregateErrorsToInvalidResponse } from "@/application/utils/app-error.helpers";
 import { DeterministicViewportSearchService } from "@/application/services/deterministic-viewport-search.service";
 import type { BoundingBox } from "@/domain/value-objects/bounding-box.vo";
 
@@ -22,15 +19,13 @@ export interface CompareListingsByAddressInput {
 }
 
 export interface CompareListingsByAddressConfig {
-  airbnbUrl: string;
-  apiKey: string;
   defaultTimeoutMs?: number;
 }
 
 export class CompareListingsByAddressWorkflow {
   constructor(
     private readonly viewportSearch: DeterministicViewportSearchService,
-    private readonly callWorkflow: CallExternalWorkflow,
+    private readonly pdpBatch: PdpBatchFetchService,
     private readonly serializer: PdpJsonSerializer,
     private readonly postprocess: ResponsePostprocessService,
     private readonly config: CompareListingsByAddressConfig,
@@ -67,17 +62,10 @@ export class CompareListingsByAddressWorkflow {
         return listingsRes.map(({ listingIds, bbox }) => ({ listingIds, bbox, address }));
       })
       .flatMap(async ({ listingIds, bbox, address }) => {
-        // Fetch PDP data for all listing IDs in parallel
-        const pdpPromises = listingIds.map(async (listingId: string) => {
-          const pdpInput = buildPdpInput(this.config, listingId, timeoutMs);
-          const pdpResult = await this.callWorkflow.execute<unknown>(pdpInput);
-          return pdpResult.map((result) => {
-            const derived: PdpDerivedData = {
-              htmlTexts: result.derived?.htmlTexts,
-              pdpItems: result.derived?.pdpItems,
-              lat: result.derived?.lat,
-              lng: result.derived?.lng,
-            };
+        // Fetch PDP data using batch service with retry and concurrency control
+        const derivedRes = await this.pdpBatch.fetchDerivedForListingIds(listingIds, timeoutMs);
+        return derivedRes.map((derivedList) => {
+          const listings = derivedList.map((derived) => {
             const listing = this.serializer.serialize(derived, this.postprocess);
             const numeric = this.pdpExtractor.extract(derived);
             return {
@@ -85,14 +73,8 @@ export class CompareListingsByAddressWorkflow {
               numeric: { bedrooms: numeric.bedrooms, baths: numeric.baths },
             };
           });
+          return { listings, bbox, address };
         });
-
-        const pdpResults = await Promise.all(pdpPromises);
-        const aggregated = Result.all(...pdpResults);
-
-        return aggregated
-          .mapErr(aggregateErrorsToInvalidResponse)
-          .map((listings: Array<{ listing: PdpListingDetailsDTO; numeric: { bedrooms?: number; baths?: number } }>) => ({ listings, bbox, address }));
       })
       .flatMap(async ({ listings, bbox, address }) => {
         // Fetch Redfin data
