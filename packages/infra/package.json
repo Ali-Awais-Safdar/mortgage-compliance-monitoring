@@ -7,7 +7,6 @@
   "exports": { ".": "./src/index.ts" },
   "dependencies": {
     "@poc/core": "workspace:*",
-    "@carbonteq/fp": "latest",
-    "undici": "^6.19.8"
+    "@carbonteq/fp": "latest"
   }
 }
