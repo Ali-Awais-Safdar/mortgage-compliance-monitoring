@@ -18,6 +18,8 @@ import {
   FileStorageAdapter,
   FetchHttpAdapter,
   LocationIqGeocodingAdapter,
+  NovadaProxyHttpAdapter,
+  type NovadaProxyConfig,
 } from "@poc/infra";
 import { loadConfig } from "./config/env.config";
 import { registerRoutes, type ServerContext } from "./routes/routes";
@@ -25,8 +27,46 @@ import { registerRoutes, type ServerContext } from "./routes/routes";
 // Load configuration (validates env vars and fails fast if missing)
 const config = loadConfig();
 
-// Build dependencies using factory
-const { callWorkflow, postprocess } = createCoreWorkflow();
+function buildNovadaProxyConfig(): NovadaProxyConfig {
+  if (
+    !config.novadaProxyHost ||
+    !config.novadaProxyPort ||
+    !config.novadaProxyUsername ||
+    !config.novadaProxyPassword
+  ) {
+    throw new Error("Novada proxy is enabled but credentials are missing");
+  }
+
+  return {
+    host: config.novadaProxyHost,
+    port: config.novadaProxyPort,
+    username: config.novadaProxyUsername,
+    password: config.novadaProxyPassword,
+    country: config.novadaCountry,
+    state: config.novadaState,
+    city: config.novadaCity,
+    asn: config.novadaAsn,
+  };
+}
+
+// Build outbound HTTP adapter (proxy-aware if enabled)
+const novadaConfig = config.novadaProxyEnabled ? buildNovadaProxyConfig() : undefined;
+const outboundHttp = novadaConfig ? new NovadaProxyHttpAdapter(novadaConfig) : new FetchHttpAdapter();
+
+// Log proxy status for observability
+if (config.novadaProxyEnabled) {
+  console.log(
+    `[Novada Proxy] Enabled - Host: ${config.novadaProxyHost}:${config.novadaProxyPort}, ` +
+      `Targeting: ${[config.novadaCountry, config.novadaState, config.novadaCity, config.novadaAsn]
+        .filter(Boolean)
+        .join(", ") || "any location"}`
+  );
+} else {
+  console.log("[Novada Proxy] Disabled - Using direct connections");
+}
+
+// Build dependencies using factory with proxy-aware HTTP adapter
+const { callWorkflow, postprocess } = createCoreWorkflow({ http: outboundHttp });
 
 // Instantiate HTTP adapter for LocationIQ
 const httpAdapter = new FetchHttpAdapter();
@@ -150,7 +190,7 @@ const defaultTimeoutMs = config.defaultTimeoutMs ?? 20000;
 
 const idleTimeoutSeconds = Math.min(
   255,
-  Math.ceil(defaultTimeoutMs / 1000) + 15, // small cushion
+  Math.ceil(defaultTimeoutMs / 1000) + 30, // small cushion
 );
 
 Bun.serve({

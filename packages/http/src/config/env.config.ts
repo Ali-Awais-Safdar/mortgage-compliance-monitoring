@@ -18,6 +18,15 @@ export interface HttpServerConfig {
   pdpMaxRetries: number;
   pdpBaseDelayMs: number;
   pdpJitterFactor: number;
+  novadaProxyEnabled: boolean;
+  novadaProxyHost?: string;
+  novadaProxyPort?: number;
+  novadaProxyUsername?: string;
+  novadaProxyPassword?: string;
+  novadaCountry?: string;
+  novadaState?: string;
+  novadaCity?: string;
+  novadaAsn?: string;
 }
 
 function requireEnv(name: string): string {
@@ -34,6 +43,13 @@ function parseOptionalInt(name: string, defaultValue: number): number {
   if (!value) return defaultValue;
   const parsed = Number.parseInt(value, 10);
   return !Number.isNaN(parsed) ? parsed : defaultValue;
+}
+
+function parseOptionalBoolean(name: string, defaultValue: boolean): boolean {
+  const value = readEnv(name);
+  if (!value) return defaultValue;
+  const normalized = value.toLowerCase().trim();
+  return normalized === "true" || normalized === "1" || normalized === "yes";
 }
 
 export function loadConfig(): HttpServerConfig {
@@ -82,6 +98,32 @@ export function loadConfig(): HttpServerConfig {
     pdpJitterFactor = 0.2;
   }
 
+  // Novada proxy configuration
+  const novadaProxyEnabled = parseOptionalBoolean("NOVADA_PROXY_ENABLED", false);
+  let novadaProxyHost: string | undefined;
+  let novadaProxyPort: number | undefined;
+  let novadaProxyUsername: string | undefined;
+  let novadaProxyPassword: string | undefined;
+
+  if (novadaProxyEnabled) {
+    novadaProxyHost = requireEnv("NOVADA_PROXY_HOST");
+    const portStr = requireEnv("NOVADA_PROXY_PORT");
+    const port = Number.parseInt(portStr, 10);
+    if (Number.isNaN(port) || port < 1 || port > 65535) {
+      console.error("ERROR: NOVADA_PROXY_PORT must be a valid port number (1-65535)");
+      process.exit(1);
+    }
+    novadaProxyPort = port;
+    novadaProxyUsername = requireEnv("NOVADA_PROXY_USERNAME");
+    novadaProxyPassword = requireEnv("NOVADA_PROXY_PASSWORD");
+  }
+
+  // Optional Novada targeting parameters
+  const novadaCountry = readEnv("NOVADA_COUNTRY");
+  const novadaState = readEnv("NOVADA_STATE");
+  const novadaCity = readEnv("NOVADA_CITY");
+  const novadaAsn = readEnv("NOVADA_ASN");
+
   return {
     airbnbSearchUrl,
     airbnbUrl,
@@ -100,6 +142,15 @@ export function loadConfig(): HttpServerConfig {
     pdpMaxRetries,
     pdpBaseDelayMs,
     pdpJitterFactor,
+    novadaProxyEnabled,
+    novadaProxyHost,
+    novadaProxyPort,
+    novadaProxyUsername,
+    novadaProxyPassword,
+    novadaCountry,
+    novadaState,
+    novadaCity,
+    novadaAsn,
   };
 }
 

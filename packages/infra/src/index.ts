@@ -1,4 +1,5 @@
 export * from "./services/fetch-http.adapter";
+export * from "./services/novada-proxy-http.adapter";
 export * from "./config/env";
 export * from "./services/encoding.adapter";
 export * from "./services/web-search-exa.adapter";

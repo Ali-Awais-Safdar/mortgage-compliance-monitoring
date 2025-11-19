@@ -3,6 +3,14 @@ import type { AppError, ApiRequestDTO, ApiResponseDTO, HttpPort } from "@poc/cor
 import { toAppError } from "../errors/error-adapter";
 
 export class FetchHttpAdapter implements HttpPort {
+  /**
+   * Performs the actual HTTP fetch request. This method can be overridden
+   * by subclasses to add proxy support or other custom behavior.
+   */
+  protected async doFetch(url: URL, init: RequestInit): Promise<Response> {
+    return fetch(url, init);
+  }
+
   async request<T = unknown>(input: ApiRequestDTO): Promise<Result<ApiResponseDTO<T>, AppError>> {
     try {
       const url = new URL(input.url);
@@ -21,7 +29,7 @@ export class FetchHttpAdapter implements HttpPort {
       const method = input.method ?? "GET";
       const body = method === "GET" ? undefined : (input.body ? JSON.stringify(input.body) : undefined);
 
-      const res = await fetch(url, {
+      const res = await this.doFetch(url, {
         method,
         headers,
         body,
