@@ -12,14 +12,66 @@ import { Result } from "@carbonteq/fp";
 import type { AppError } from "@/application/errors/app-error";
 import { DeterministicViewportSearchService } from "@/application/services/deterministic-viewport-search.service";
 import type { BoundingBox } from "@/domain/value-objects/bounding-box.vo";
+import type { PropertyDetails } from "@/domain/value-objects/property-details.vo";
 
 export interface CompareListingsByAddressInput {
   address: string;
   timeoutMs?: number;
 }
 
+export type CompareDebugEvent =
+  | {
+      type: "viewport-resolved";
+      payload: {
+        address: string;
+        bbox: BoundingBox;
+        listingIds: string[];
+        strategy: string;
+      };
+    }
+  | {
+      type: "pdp-derived";
+      payload: {
+        address: string;
+        listingCount: number;
+      };
+    }
+  | {
+      type: "airbnb-listings";
+      payload: {
+        address: string;
+        listings: Array<{
+          bedrooms?: number;
+          baths?: number;
+        }>;
+      };
+    }
+  | {
+      type: "redfin-url";
+      payload: {
+        address: string;
+        redfinUrl: string | null;
+      };
+    }
+  | {
+      type: "property-details";
+      payload: {
+        address: string;
+        propertyDetails: PropertyDetails;
+      };
+    }
+  | {
+      type: "final-match";
+      payload: {
+        address: string;
+        listings: number;
+        bestMatch?: number;
+      };
+    };
+
 export interface CompareListingsByAddressConfig {
   defaultTimeoutMs?: number;
+  debugLog?: (event: CompareDebugEvent) => void;
 }
 
 export class CompareListingsByAddressWorkflow {
@@ -46,25 +98,35 @@ export class CompareListingsByAddressWorkflow {
       .flatMap(async ({ address }) => {
         // Find listings using deterministic viewport search service
         const listingsRes = await this.viewportSearch.findListingsFromAddress(address, timeoutMs);
-        
-        // Log viewport metadata for visibility into which strategy was used
+
         if (listingsRes.isOk()) {
-          const { viewportMeta } = listingsRes.unwrap();
-          console.log("[Viewport] strategy used", {
-            address,
-            strategy: viewportMeta.strategy,
-            widthMeters: viewportMeta.widthMeters,
-            heightMeters: viewportMeta.heightMeters,
-            safetyMeters: viewportMeta.safetyMeters,
+          const { viewportMeta, listingIds, bbox } = listingsRes.unwrap();
+
+          this.config.debugLog?.({
+            type: "viewport-resolved",
+            payload: {
+              address,
+              bbox,
+              listingIds,
+              strategy: viewportMeta.strategy,
+            },
           });
         }
-        
+
         return listingsRes.map(({ listingIds, bbox }) => ({ listingIds, bbox, address }));
       })
       .flatMap(async ({ listingIds, bbox, address }) => {
         // Fetch PDP data using batch service with retry and concurrency control
         const derivedRes = await this.pdpBatch.fetchDerivedForListingIds(listingIds, timeoutMs);
         return derivedRes.map((derivedList) => {
+          this.config.debugLog?.({
+            type: "pdp-derived",
+            payload: {
+              address,
+              listingCount: derivedList.length,
+            },
+          });
+
           const listings = derivedList.map((derived) => {
             const listing = this.serializer.serialize(derived, this.postprocess);
             const numeric = this.pdpExtractor.extract(derived);
@@ -73,6 +135,14 @@ export class CompareListingsByAddressWorkflow {
               numeric: { bedrooms: numeric.bedrooms, baths: numeric.baths },
             };
           });
+
+          this.config.debugLog?.({
+            type: "airbnb-listings",
+            payload: {
+              address,
+              listings: listings.map(({ numeric }) => numeric),
+            },
+          });
           return { listings, bbox, address };
         });
       })
@@ -80,17 +150,34 @@ export class CompareListingsByAddressWorkflow {
         // Fetch Redfin data
         const urlResult = await this.redfinFinder.findRedfinUrlForAddress(address, 10, timeoutMs);
         return urlResult.flatMap(async (redfinUrl: string) => {
+          this.config.debugLog?.({
+            type: "redfin-url",
+            payload: {
+              address,
+              redfinUrl,
+            },
+          });
+
           const jsonResult = await this.propertyContent.fetchJson(redfinUrl, timeoutMs);
           return jsonResult.map((redfinJson: unknown) => ({
             listings,
             bbox,
             redfinJson,
+            address,
           }));
         });
       })
-      .flatMap(async ({ listings, bbox, redfinJson }: { listings: Array<{ listing: PdpListingDetailsDTO; numeric: { bedrooms?: number; baths?: number } }>; bbox: BoundingBox; redfinJson: unknown }) => {
+      .flatMap(async ({ listings, bbox, redfinJson, address }: { listings: Array<{ listing: PdpListingDetailsDTO; numeric: { bedrooms?: number; baths?: number } }>; bbox: BoundingBox; redfinJson: unknown; address: string }) => {
         // Extract Redfin property details
         const propertyDetails = this.redfinExtractor.extract(redfinJson);
+
+        this.config.debugLog?.({
+          type: "property-details",
+          payload: {
+            address,
+            propertyDetails,
+          },
+        });
 
         // Compute matchPercentage for each listing and build listingDetails
         const listingDetails: CompareListingDetailDTO[] = [];
@@ -126,6 +213,20 @@ export class CompareListingsByAddressWorkflow {
           scale: "0-100" as const,
           basis: ["listingDetails.matchPercentage"],
         };
+
+        const bestMatch = listingDetails.reduce(
+          (acc, listing) => (listing.matchPercentage > acc ? listing.matchPercentage : acc),
+          0
+        );
+
+        this.config.debugLog?.({
+          type: "final-match",
+          payload: {
+            address,
+            listings: listingDetails.length,
+            bestMatch,
+          },
+        });
 
         return Result.Ok({
           propertyDetails,

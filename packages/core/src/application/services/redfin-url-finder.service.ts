@@ -258,10 +258,7 @@ export class RedfinUrlFinderService {
     if (inp.num !== pgNum) return false;
     if (inp.core !== pgCore) return false;
 
-    // City/state if both present
-    if (inp.city && pgCity && inp.city.trim().toLowerCase() !== pgCity.toLowerCase()) {
-      return false;
-    }
+    // State if both present
     if (inp.state && pgState && normalizeState(inp.state) !== pgState) {
       return false;
     }

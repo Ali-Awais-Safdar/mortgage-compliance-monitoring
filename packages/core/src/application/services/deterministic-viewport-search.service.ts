@@ -31,8 +31,8 @@ export interface ListingsFromAddressResult {
 export class DeterministicViewportSearchService {
   // Primary meters-based viewport constants
   private static readonly PRIMARY_METERS_SPEC: MeterBoxSpec = {
-    widthMeters: 350,
-    heightMeters: 250,
+    widthMeters: 120,
+    heightMeters: 90,
     safetyMeters: 10,
   };
 
@@ -45,8 +45,8 @@ export class DeterministicViewportSearchService {
   // Zoom-based fallback viewport constants
   private static readonly FALLBACK_ZOOM_SPEC: ZoomViewportSpec = {
     zoom: 17,
-    widthPx: 400,
-    heightPx: 300,
+    widthPx: 320,
+    heightPx: 240,
     safetyMeters: 10,
   };
 
