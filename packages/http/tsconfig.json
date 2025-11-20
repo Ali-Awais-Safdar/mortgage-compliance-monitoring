@@ -8,7 +8,7 @@
       "@poc/infra": ["../infra/src", "../infra/src/index.ts"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "test"],
   "references": [{ "path": "../core" }]
 }
 

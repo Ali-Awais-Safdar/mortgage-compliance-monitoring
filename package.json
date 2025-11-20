@@ -21,6 +21,7 @@
     "typecheck": "tsc -b packages/core packages/infra packages/cli packages/http",
     "lint": "eslint packages/**/*.ts",
     "lint:fix": "eslint packages/**/*.ts --fix",
-    "cli": "packages/cli/src/index.ts --help"
+    "cli": "packages/cli/src/index.ts --help",
+    "test": "bun test"
   }
 }
